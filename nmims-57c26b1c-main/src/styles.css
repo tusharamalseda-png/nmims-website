@@ -1,0 +1,156 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Poppins", "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
+  --color-whatsapp: var(--whatsapp);
+  --color-surface-soft: var(--surface-soft);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.18 0.04 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.04 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.04 260);
+  --primary: #FF6C4A;
+  --primary-foreground: oklch(0.99 0.01 260);
+  --primary-glow: #ff8a5c;
+  --secondary: oklch(0.97 0.01 260);
+  --secondary-foreground: #3F3083;
+  --muted: oklch(0.97 0.01 260);
+  --muted-foreground: oklch(0.48 0.03 260);
+  --accent: oklch(0.78 0.14 70);
+  --accent-foreground: oklch(0.2 0.05 60);
+  --gold: oklch(0.78 0.14 70);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.92 0.01 260);
+  --input: oklch(0.92 0.01 260);
+  --ring: #FF6C4A;
+  --whatsapp: oklch(0.66 0.17 150);
+  --surface-soft: oklch(0.97 0.015 305);
+  --gradient-primary: linear-gradient(135deg, #FF6C4A, #ff8a5c);
+  --gradient-hero: linear-gradient(135deg, #1f1b2e 0%, #2a2440 55%, #3a2f55 100%);
+  --gradient-gold: linear-gradient(135deg, oklch(0.82 0.14 75), oklch(0.7 0.16 60));
+  --shadow-elegant: 0 20px 50px -20px rgba(255, 108, 74, 0.35);
+  --shadow-card: 0 8px 30px -12px rgba(63, 48, 131, 0.18);
+  --shadow-glow: 0 0 60px rgba(255, 108, 74, 0.4);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    line-height: 1.25;
+  }
+}
+
+@utility disclaimer-ticker {
+  width: 100%;
+  overflow: hidden;
+}
+
+@utility disclaimer-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: disclaimer-ticker-scroll 26s linear infinite;
+}
+
+.disclaimer-ticker:hover .disclaimer-ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes disclaimer-ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@utility glass-card {
+  background: color-mix(in oklab, white 80%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid color-mix(in oklab, white 60%, transparent);
+  box-shadow: var(--shadow-elegant);
+}
+
+@utility gradient-primary {
+  background-image: var(--gradient-primary);
+}
+
+@utility gradient-hero {
+  background-image: var(--gradient-hero);
+}
+
+@utility gradient-gold {
+  background-image: var(--gradient-gold);
+}
+
+@utility shadow-elegant {
+  box-shadow: var(--shadow-elegant);
+}
+
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility text-gradient {
+  background-image: var(--gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility hide-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
