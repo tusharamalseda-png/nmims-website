@@ -219,7 +219,7 @@ function TrackRecord() {
   const items = [
     { n: 2018, s: "", l: "Authorized Partner Since" },
     { n: 15, s: "+", l: "Years Counselling Experience" },
-    { n: 20000, s: "+", l: "Student Admission" },
+    { n: 2000, s: "+", l: "Student Admission" },
     { n: 1, s: ":10", l: "Counsellor-to-Student Ratio" },
   ];
   return (
