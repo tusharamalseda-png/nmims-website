@@ -259,7 +259,7 @@ export function Footer() {
             <div className="disclaimer-ticker-track">
               {[0, 1].map((k) => (
                 <span key={k} className="whitespace-nowrap pr-[70px] text-xs leading-relaxed text-white/60" aria-hidden={k === 1}>
-                  <strong className="text-white/80">Disclaimer:</strong> We are an Affiliate Enquiry Partner (AEP) for NMIMS CDOE. Our role is limited to providing verified program information and assisting students with the application process. All admissions, academic decisions, program delivery, examinations, and certifications are solely handled and governed by NMIMS CDOE.
+                  <strong className="text-white/80">Disclaimer:</strong> cdoe.info is owned and operated by RH Academy, an Affiliate Enquiry Partner (AEP) for NMIMS Centre for Distance and Online Education (NMIMS CDOE). We provide enquiry assistance only. Admissions, fee collection, academics, examinations, results, and certification are solely managed by NMIMS CDOE.
                 </span>
               ))}
             </div>

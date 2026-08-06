@@ -282,7 +282,7 @@ function Hero() {
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold backdrop-blur ring-1 ring-white/20">
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#ef4444]" />
-            UGC Approved · Admissions Open 2026
+            UGC Entitled · Admissions Open 2026
           </span>
           <h1 className="mt-4 font-serif text-3xl font-extrabold leading-[1.15] sm:text-4xl lg:text-[40px]">
             <span className="whitespace-nowrap">NMIMS ONLINE</span>
@@ -292,14 +292,14 @@ function Hero() {
           </h1>
           <p className="mt-2 text-lg font-bold text-white/95 sm:text-xl">One Degree, Unlimited Opportunities</p>
           <p className="mt-2 max-w-xl text-sm text-white/75 sm:text-base">
-            Advance your career with NMIMS Online - offering UGC Approved Online MBA, Online BBA & Online BCom programs for students, freshers and working professionals across INDIA.
+            Advance your career with NMIMS Online - offering UGC Entitled Online MBA, Online BBA & Online BCom programs for students, freshers and working professionals across INDIA.
           </p>
 
           <ul className="mt-6 grid max-w-lg gap-2.5 sm:grid-cols-2">
             {[
               { icon: Video, t: "Live Interactive Lectures" },
-              { icon: ShieldCheck, t: "UGC Approved Degree" },
-              { icon: Briefcase, t: "Career Services" },
+              { icon: ShieldCheck, t: "UGC Entitled Courses" },
+              { icon: Briefcase, t: "Career Services Modules" },
               { icon: Clock, t: "Flexible Learning" },
             ].map(({ icon: Icon, t }) => (
               <li key={t} className="flex items-center gap-2.5 text-sm font-semibold text-white/95">
@@ -341,7 +341,7 @@ function Hero() {
       {/* trust strip */}
       <div className="relative border-t border-white/10 bg-black/20 py-3 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-2 px-4 text-xs font-semibold text-white/80 sm:gap-x-10 sm:text-sm">
-          <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#fbbf24]" /> UGC Approved</span>
+          <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#fbbf24]" /> UGC Entitled</span>
           <span className="flex items-center gap-2"><Award className="h-4 w-4 text-[#fbbf24]" /> NAAC A++</span>
           <span className="flex items-center gap-2"><Star className="h-4 w-4 fill-[#fbbf24] text-[#fbbf24]" /> 4.8/5 · 12,000+ learners</span>
           <span className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-[#fbbf24]" /> 200+ cities across India</span>
@@ -354,7 +354,7 @@ function Hero() {
 /* ---------- CAREER GROWTH ---------- */
 function CareerGrowth() {
   const items = [
-    { icon: TrendingUp, t: "Career Growth", d: "Average 60% salary hike reported by graduates within 12 months." },
+    { icon: TrendingUp, t: "Career Growth", d: "Average 25% salary hike reported by graduates within 12 months." },
     { icon: Award, t: "Industry Recognition", d: "Degree recognised by leading employers and government bodies." },
     { icon: Clock, t: "Flexible Learning", d: "Study evenings & weekends without pausing your career." },
     { icon: Sparkles, t: "Skill Development", d: "Industry-aligned electives, projects and capstone with mentors." },
@@ -374,7 +374,7 @@ function CareerGrowth() {
                 <TrendingUp className="h-5 w-5 text-accent-foreground" />
               </span>
               <div>
-                <p className="text-2xl font-extrabold text-foreground">+60%</p>
+                <p className="text-2xl font-extrabold text-foreground">+25%</p>
                 <p className="text-xs text-muted-foreground">Avg. salary growth</p>
               </div>
             </div>
@@ -859,7 +859,7 @@ function Footer() {
             <div className="disclaimer-ticker-track">
               {[0, 1].map((k) => (
                 <span key={k} className="whitespace-nowrap pr-[70px] text-xs leading-relaxed text-white/60" aria-hidden={k === 1}>
-                  <strong className="text-white/80">Disclaimer:</strong> We are an Affiliate Enquiry Partner (AEP) for NMIMS CDOE. Our role is limited to providing verified program information and assisting students with the application process. All admissions, academic decisions, program delivery, examinations, and certifications are solely handled and governed by NMIMS CDOE.
+                  <strong className="text-white/80">Disclaimer:</strong> cdoe.info is owned and operated by RH Academy, an Affiliate Enquiry Partner (AEP) for NMIMS Centre for Distance and Online Education (NMIMS CDOE). We provide enquiry assistance only. Admissions, fee collection, academics, examinations, results, and certification are solely managed by NMIMS CDOE.
                 </span>
               ))}
             </div>

@@ -44,9 +44,9 @@ export const Route = createFileRoute("/about")({
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "NMIMS Online",
-          description: "An Authorized NMIMS CDOE Enquiry Partner (AEP) - an independent education counselling business, not NMIMS University or NMIMS CDOE itself - providing free admission counselling for NMIMS CDOE's online degree programs across Gujarat since 2018.",
+          description: "An Affiliate Enquiry Partner (AEP) for NMIMS CDOE - an independent education counselling business, not NMIMS University or NMIMS CDOE itself - providing admission counselling for NMIMS CDOE's online degree programs across India since 2018.",
           foundingDate: "2018",
-          areaServed: gujaratCities.map((c) => ({ "@type": "City", name: c })),
+          areaServed: presenceCities.map((c) => ({ "@type": "City", name: c })),
         }),
       },
       {
@@ -68,7 +68,10 @@ export const Route = createFileRoute("/about")({
 
 const waMessage = "Hi, I'd like to know more about NMIMS Online and how you help with NMIMS CDOE admissions.";
 
-const gujaratCities = ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Gandhidham", "Bhuj", "Kutch", "Bharuch", "Navsari", "Vapi"];
+const presenceCities = [
+  "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Gandhinagar", "Bhavnagar", "Jamnagar", "Anand",
+  "Mumbai", "Pune", "Bengaluru", "Hyderabad", "Delhi (NCR)", "Chennai", "Kolkata", "Jaipur", "Lucknow", "Chandigarh", "Indore", "Nagpur",
+];
 
 const personas = [
   { icon: GraduationCap, t: "Fresh Graduates", d: "Starting a career and looking for a recognised degree that opens doors from day one." },
@@ -89,12 +92,16 @@ const whyChoose = [
 ];
 
 const faqItems = [
-  { q: "Is NMIMS Online the official NMIMS CDOE website?", a: "No. We are an Authorized NMIMS CDOE Enquiry Partner (AEP) - an independent counselling business, not NMIMS University or NMIMS CDOE itself. Admissions, academics, examinations and certification are solely managed by NMIMS CDOE; our role is limited to counselling, enquiry assistance and application support." },
-  { q: "Do I have to pay any fee for your counselling services?", a: "No. Our counselling, admission guidance and application support are completely free for students. You only ever pay the official programme fee directly towards NMIMS CDOE." },
-  { q: "Which cities in Gujarat do you serve?", a: "Ahmedabad, Surat, Vadodara, Rajkot, Gandhidham, Bhuj, Kutch, Bharuch, Navsari and Vapi." },
-  { q: "Since when have you been an NMIMS CDOE Enquiry Partner?", a: "We've been an Authorized NMIMS CDOE Enquiry Partner since 2018, counselling students and working professionals across Gujarat." },
-  { q: "What exactly do you help with, and what does NMIMS CDOE handle?", a: "We help with enquiry guidance, documentation, application submission, fee and EMI guidance, ABC ID/DEB ID setup, and post-admission support. Programme delivery, examinations, evaluation and certification are solely handled and governed by NMIMS CDOE - we have no role in those." },
-  { q: "Is my enquiry registered with NMIMS CDOE, or only with you?", a: "As an authorised partner, your enquiry is registered directly with NMIMS CDOE, so your admission stays fully recognised and traceable through official channels - not just noted on our end." },
+  { q: "What is an Affiliate Enquiry Partner (AEP)?", a: "An Affiliate Enquiry Partner (AEP) is an authorized partner that provides information about the programs offered by NMIMS Centre for Distance and Online Education (CDOE) and assists prospective students with admission-related enquiries." },
+  { q: "What services does an AEP provide?", a: "An AEP helps students understand program details, eligibility criteria, specializations, fee structure, admission process, and available payment options, enabling them to make informed decisions." },
+  { q: "Does the AEP conduct admissions?", a: "No. Admissions are processed and approved solely by NMIMS CDOE. The AEP only assists students with the application process and admission-related guidance." },
+  { q: "Can the AEP approve or reject my application?", a: "No. Application review, document verification, and admission approval are the exclusive responsibility of NMIMS CDOE." },
+  { q: "Can the AEP guarantee admission?", a: "No. Admission is subject to the eligibility criteria, document verification, and approval by NMIMS CDOE." },
+  { q: "Can I contact the AEP after taking admission?", a: "Yes. The AEP can continue to assist you with general guidance and direct you to the appropriate NMIMS CDOE support channels whenever required." },
+  { q: "Does the AEP conduct classes or examinations?", a: "No. Academic delivery, live lectures, recorded sessions, examinations, evaluation, and results are entirely managed by NMIMS CDOE." },
+  { q: "Can the AEP resolve academic or examination-related issues?", a: "The AEP can guide students on the appropriate process or support channel, but all academic, examination, result, and student service matters are handled by NMIMS CDOE." },
+  { q: "Does the AEP issue degrees or certificates?", a: "No. Degrees, diplomas, certificates, transcripts, and other academic documents are issued solely by NMIMS CDOE." },
+  { q: "Why should I apply through an AEP?", a: "An AEP provides personalized guidance, helps you understand the available programs, answers your admission-related questions, and supports you throughout the pre-admission process, making your application journey smoother and more informed." },
 ];
 
 function AboutPage() {
@@ -146,19 +153,19 @@ function Hero() {
           <h1 className="mt-5 font-serif text-3xl font-extrabold leading-[1.15] sm:text-4xl lg:text-[44px]">
             Your NMIMS CDOE Affiliate Enquiry Partner,
             <span className="mt-1 block bg-[linear-gradient(135deg,#ef4444,#f97316)] bg-clip-text text-transparent">
-              In Gujarat Since 2018
+              Since 2018
             </span>
           </h1>
           <p className="mt-4 max-w-xl text-sm text-white/80 sm:text-base">
-            We sell no degree of our own - we sell honest guidance. Free, personalised counselling for NMIMS CDOE's UGC-DEB approved online degrees, with a 1:10 counsellor-to-student ratio and support that runs from your first enquiry to graduation.
+            Over the years, we have provided career counselling to 20,000+ aspiring learners across India, helping them make informed decisions about their higher education and career goals.
           </p>
 
           <ul className="mt-6 grid max-w-lg gap-2.5 sm:grid-cols-2">
             {[
-              { icon: ShieldCheck, t: "Authorized Enquiry Partner" },
-              { icon: Wallet, t: "Free Counselling, Always" },
+              { icon: ShieldCheck, t: "Affiliate Enquiry Partner" },
+              { icon: Wallet, t: "Free Counselling" },
               { icon: Handshake, t: "1:10 Counsellor Ratio" },
-              { icon: MapPin, t: "10 Cities Across Gujarat" },
+              { icon: MapPin, t: "PAN India" },
             ].map(({ icon: Icon, t }) => (
               <li key={t} className="flex items-center gap-2.5 text-sm font-semibold text-white/95">
                 <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#ef4444]/20 ring-1 ring-[#ef4444]/40">
@@ -200,7 +207,7 @@ function Hero() {
           <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#fbbf24]" /> Authorized AEP Since 2018</span>
           <span className="flex items-center gap-2"><Award className="h-4 w-4 text-[#fbbf24]" /> Represents a NAAC A++ University</span>
           <span className="flex items-center gap-2"><Star className="h-4 w-4 fill-[#fbbf24] text-[#fbbf24]" /> Zero Cost to Students</span>
-          <span className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-[#fbbf24]" /> 10 Cities Across Gujarat</span>
+          <span className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-[#fbbf24]" /> PAN India</span>
         </div>
       </div>
     </section>
@@ -212,7 +219,7 @@ function TrackRecord() {
   const items = [
     { n: 2018, s: "", l: "Authorized Partner Since" },
     { n: 15, s: "+", l: "Years Counselling Experience" },
-    { n: 10, s: "", l: "Gujarat Cities Served" },
+    { n: 20000, s: "+", l: "Student Admission" },
     { n: 1, s: ":10", l: "Counsellor-to-Student Ratio" },
   ];
   return (
@@ -237,17 +244,23 @@ function TrackRecord() {
 function OurStory() {
   return (
     <section className="bg-surface-soft py-16 sm:py-24">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Our Story" title="We sell guidance, not a degree" />
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <SectionTitle eyebrow="Our Story" title="Guidance You Can Trust, Since 2018" />
         <div className="mt-8 space-y-4 text-muted-foreground">
           <p>
-            Since 2018, we've worked as an Authorized NMIMS CDOE Enquiry Partner (AEP), counselling students and working professionals across Gujarat - Ahmedabad, Surat, Vadodara, Rajkot, Gandhidham, Bhuj, Kutch, Bharuch, Navsari and Vapi - through the process of enrolling in NMIMS CDOE's UGC-DEB approved online degree programmes.
+            We have been working as an Affiliate Enquiry Partner (AEP) for NMIMS Centre for Distance and Online Education (CDOE) since 2018.
           </p>
           <p>
-            We don't award the degree, run the classes, or conduct the exams - NMIMS CDOE does all of that. What we do is sit with a fresh graduate, a working professional weighing an MBA against their job, or a family-business owner deciding between BBA and B.Com, and help them make that decision with complete, honest information: real fees, real eligibility, real timelines - no pressure, no hidden cost.
+            Over the years, we have provided career counselling to more than 20,000 aspiring learners across India, helping them understand their higher education options and make informed decisions. We are proud that 2,000+ students have trusted us and chosen to begin or advance their academic journey through the programs offered by NMIMS CDOE.
           </p>
           <p>
-            Our team brings 15+ years of combined counselling experience to that conversation, and we deliberately keep our counsellor-to-student ratio close to 1:10 so that guidance stays personal rather than turning into a call-centre script. That support doesn't end at admission - we stay reachable for documentation, fee and EMI queries, ABC ID/DEB ID setup, and academic process questions all the way through to graduation.
+            We assist prospective students by providing complete information about the programs offered by NMIMS CDOE, including eligibility, curriculum, specializations, fee structure, and the admission process. Our goal is to help every learner make an informed decision based on their educational and career aspirations.
+          </p>
+          <p>
+            As an Affiliate Enquiry Partner (AEP) of NMIMS CDOE, our role is limited to displaying and explaining the programs offered by NMIMS CDOE and guiding students through the admission enquiry process.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">Please Note:</strong> Counselling, admission decisions, document verification, program delivery, learning management, examinations, evaluation, and the award of degrees or certificates are solely managed by NMIMS Centre for Distance and Online Education (CDOE). As an Affiliate Enquiry Partner, we do not have any role in these academic or administrative processes.
           </p>
         </div>
       </div>
@@ -309,11 +322,16 @@ function WhyChooseUs() {
 
 /* ---------- CITY PRESENCE ---------- */
 function CityPresence() {
-  const track = [...gujaratCities, ...gujaratCities];
+  const track = [...presenceCities, ...presenceCities];
   return (
     <section className="py-16 text-center sm:py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Our Presence" title="A counsellor in your city - not a call centre" subtitle="We counsel students across 10 major cities in Gujarat, in person and online." />
+        <SectionTitle eyebrow="Our Presence" title="Serving Students Across India" />
+      </div>
+      <div className="mx-auto mt-4 max-w-5xl px-4 sm:px-6 lg:px-8">
+        <p className="text-base text-muted-foreground">
+          We counsel students from major cities across India through phone, video consultations, and online support, ensuring every learner receives personalized assistance throughout the admission enquiry process.
+        </p>
       </div>
       <div className="mt-10 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
         <div className="flex w-max animate-[city-scroll-about_28s_linear_infinite] gap-4 hover:[animation-play-state:paused]">
@@ -377,45 +395,50 @@ function AboutUniversity() {
 /* ---------- OUR ROLE, CLEARLY EXPLAINED ---------- */
 function OurRole() {
   const weHelp = [
-    "Understanding programmes, specialisations, fees and eligibility",
-    "Completing registration and gathering the right documents",
-    "Fee, EMI and payment-plan guidance",
-    "ABC ID and DEB ID setup - a common admission drop-off point",
-    "Staying in touch after enrolment for process and academic queries",
+    { t: "Program Information & Career Guidance", d: "Provides accurate information about NMIMS CDOE programs, eligibility, specializations, fee structure, and career opportunities." },
+    { t: "Admission Enquiry Assistance", d: "Guides prospective students through the application process and assists them in understanding the admission requirements." },
+    { t: "Pre-Admission Support", d: "Helps students resolve admission-related queries and offers guidance until the application is submitted to NMIMS CDOE." },
+    { t: "Independent Facilitation", d: "Acts only as an Affiliate Enquiry Partner. Admissions, document verification, academic delivery, examinations, evaluation, certification, and student services are solely managed by NMIMS CDOE." },
   ];
   const nmimsHandles = [
-    "Admission approval and student verification",
-    "Programme delivery - live classes, recorded lectures, LMS access",
-    "Examinations, evaluation and results",
-    "Certification and degree issuance",
+    { t: "Admissions & Document Verification", d: "Reviews applications, verifies documents, and confirms student admissions." },
+    { t: "Academic Delivery", d: "Conducts live and recorded lectures, provides LMS access, study material, and academic support." },
+    { t: "Examinations & Evaluation", d: "Manages examination scheduling, online proctoring, assessment, result declaration, and re-evaluation processes." },
+    { t: "Certification & Student Services", d: "Issues degrees/certificates, provides academic support, and handles all official student-related services throughout the program." },
   ];
   return (
     <section className="py-16 sm:py-24" id="our-role">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionTitle eyebrow="Transparency" title="Our role, clearly explained" subtitle="We believe a trustworthy admission partner is upfront about exactly where its role starts and ends." />
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          <div className="rounded-3xl border border-border bg-card p-8 shadow-card">
+          <div className="grid grid-rows-subgrid gap-y-6 rounded-3xl border border-border bg-card p-8 shadow-card sm:row-span-5">
             <h3 className="flex items-center gap-2 text-lg font-extrabold text-foreground">
               <Handshake className="h-5 w-5 text-primary" /> What We Help With
             </h3>
-            <ul className="mt-5 space-y-3">
+            <ul className="grid grid-rows-subgrid gap-y-4 sm:row-span-4">
               {weHelp.map((e) => (
-                <li key={e} className="flex gap-3 text-sm text-muted-foreground">
+                <li key={e.t} className="flex gap-3 text-sm text-muted-foreground">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#3F3083]" />
-                  {e}
+                  <span>
+                    <span className="block font-bold text-foreground">{e.t}</span>
+                    {e.d}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-3xl border border-border bg-card p-8 shadow-card">
+          <div className="grid grid-rows-subgrid gap-y-6 rounded-3xl border border-border bg-card p-8 shadow-card sm:row-span-5">
             <h3 className="flex items-center gap-2 text-lg font-extrabold text-foreground">
               <FileSearch className="h-5 w-5 text-primary" /> What NMIMS CDOE Handles
             </h3>
-            <ul className="mt-5 space-y-3">
+            <ul className="grid grid-rows-subgrid gap-y-4 sm:row-span-4">
               {nmimsHandles.map((e) => (
-                <li key={e} className="flex gap-3 text-sm text-muted-foreground">
+                <li key={e.t} className="flex gap-3 text-sm text-muted-foreground">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  {e}
+                  <span>
+                    <span className="block font-bold text-foreground">{e.t}</span>
+                    {e.d}
+                  </span>
                 </li>
               ))}
             </ul>
