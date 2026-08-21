@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { useLoaderData } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X, Phone, MessageCircle, ArrowRight } from "lucide-react";
+import { ChevronDown, Menu, X, Phone, MessageCircle, ArrowRight, Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 
 /**
  * Shared site chrome (Header / Footer / floating WhatsApp / mobile CTA bar).
@@ -9,19 +10,25 @@ import { ChevronDown, Menu, X, Phone, MessageCircle, ArrowRight } from "lucide-r
  * New pages should import from here instead of redefining their own chrome.
  */
 
-export const PHONE = "+919876543210";
-export const WA = "919876543210";
+export const PHONE = "+917069181188";
+export const PHONE_SECONDARY = "+919924266322";
+export const WA = "917069181188";
 export const waLink = (message: string) => `https://wa.me/${WA}?text=${encodeURIComponent(message)}`;
 export const telLink = `tel:${PHONE}`;
 // TODO: replace with the real Calendly event link once available
 export const CALENDLY_LINK = "https://calendly.com/nmims-online/counseling";
-// TODO: replace with the real business contact email once available
-export const EMAIL = "info@nmimsonline.in";
-// TODO: replace with the real office address once available
-export const OFFICE_ADDRESS = "304, Sunrise Business Hub, C.G. Road, Navrangpura, Ahmedabad - 380009, Gujarat, India";
+export const EMAIL = "ncdoe-026@nmims.edu";
+export const OFFICE_ADDRESS = "503, Sukhsagar Complex, Next to hotel fortune landmark, Ashram road, Ahmedabad, 380013";
 export const OFFICE_HOURS = [
   ["Monday - Saturday", "9:30 AM - 7:00 PM"],
   ["Sunday", "By appointment only"],
+];
+
+// Cities we counsel students from — shared across every page that shows a
+// city list (About Us, Contact Us) so they never drift out of sync.
+export const PRESENCE_CITIES = [
+  "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Gandhinagar", "Bhavnagar", "Jamnagar", "Anand",
+  "Mumbai", "Pune", "Bengaluru", "Hyderabad", "Delhi (NCR)", "Chennai", "Kolkata", "Jaipur", "Lucknow", "Chandigarh", "Indore", "Nagpur",
 ];
 
 export const programMenuItems = [
@@ -32,7 +39,37 @@ export const programMenuItems = [
   { label: "Certificate Course", href: "/programs/online-certificate" },
 ];
 
+const DEFAULT_FOOTER_LINKS = [
+  { label: "Home", url: "/" },
+  { label: "About us", url: "/about" },
+  { label: "Programs", url: "/programs" },
+  { label: "Blog", url: "/blog" },
+  { label: "Contact Us", url: "/contact-us" },
+];
+
+const DEFAULT_DISCLAIMER =
+  "cdoe.info is owned and operated by RH Academy, an Affiliate Enquiry Partner (AEP) for NMIMS Centre for Distance and Online Education (NMIMS CDOE). We provide enquiry assistance only. Admissions, fee collection, academics, examinations, results, and certification are solely managed by NMIMS CDOE.";
+
+// Site-wide settings + nav are loaded once, at the root route — every page
+// gets them for free without redeclaring a loader. Falls back to the
+// hardcoded defaults above if the DB row is empty (fresh install, etc).
+function useSiteChrome() {
+  const data = useLoaderData({ from: "__root__" });
+  const settings = data?.settings ?? null;
+  const navItems = data?.navItems ?? [];
+  const footerLinks = navItems.filter((n) => n.location === "footer" && !n.parentId);
+  return {
+    logoUrl: settings?.logoUrl || "/images/nmimslogo.webp",
+    phone: settings?.contactPhone || PHONE,
+    email: settings?.contactEmail || EMAIL,
+    disclaimer: settings?.disclaimerText || DEFAULT_DISCLAIMER,
+    footerLinks: footerLinks.length > 0 ? footerLinks : DEFAULT_FOOTER_LINKS,
+    socialLinks: settings?.socialLinks ?? {},
+  };
+}
+
 export function Header({ activeProgram }: { activeProgram?: string }) {
+  const { logoUrl } = useSiteChrome();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false);
@@ -59,7 +96,7 @@ export function Header({ activeProgram }: { activeProgram?: string }) {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <a href="/" className="flex shrink-0 items-center">
           <img
-            src="/images/nmimslogo.webp"
+            src={logoUrl}
             alt="NMIMS Centre for Distance and Online Education"
             className="h-10 w-auto sm:h-12"
           />
@@ -205,14 +242,23 @@ export function Header({ activeProgram }: { activeProgram?: string }) {
   );
 }
 
+const SOCIAL_ICONS: Record<string, typeof Facebook> = {
+  facebook: Facebook,
+  instagram: Instagram,
+  linkedin: Linkedin,
+  youtube: Youtube,
+};
+
 export function Footer() {
+  const { logoUrl, phone, email, disclaimer, footerLinks, socialLinks } = useSiteChrome();
+  const socialEntries = Object.entries(socialLinks).filter(([platform, url]) => url && SOCIAL_ICONS[platform]);
   return (
     <footer className="bg-foreground pb-28 pt-16 text-white/80 sm:pb-16">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-5 lg:px-8">
         <div className="lg:col-span-2">
           <a href="/" className="inline-flex items-center rounded-lg bg-white px-3 py-2">
             <img
-              src="/images/nmimslogo.webp"
+              src={logoUrl}
               alt="NMIMS Centre for Distance and Online Education"
               className="h-8 w-auto"
             />
@@ -221,18 +267,35 @@ export function Footer() {
             NMIMS Centre for Distance and Online Education (CDOE) is one of India's leading institutions for flexible, career-focused online education, offering UGC-entitled online degrees for working professionals.
           </p>
           <div className="mt-5 space-y-2 text-sm">
-            <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-[color:var(--gold)]" /> {PHONE}</p>
-            <p className="flex items-center gap-2"><MessageCircle className="h-4 w-4 text-[color:var(--gold)]" /> Chat with us on WhatsApp</p>
+            <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-[color:var(--gold)]" /> {phone}, {PHONE_SECONDARY}</p>
+            {email && <p className="flex items-center gap-2"><MessageCircle className="h-4 w-4 text-[color:var(--gold)]" /> {email}</p>}
           </div>
+          {socialEntries.length > 0 && (
+            <div className="mt-5 flex items-center gap-3">
+              {socialEntries.map(([platform, url]) => {
+                const Icon = SOCIAL_ICONS[platform];
+                return (
+                  <a
+                    key={platform}
+                    href={url}
+                    target="_blank"
+                    rel="noopener"
+                    aria-label={platform}
+                    className="grid h-8 w-8 place-items-center rounded-full bg-white/10 text-white/80 transition hover:bg-[color:var(--gold)] hover:text-foreground"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                );
+              })}
+            </div>
+          )}
         </div>
         <div>
           <p className="text-sm font-bold text-white">Quick Links</p>
           <ul className="mt-3 space-y-2 text-sm">
-            <li><a href="/" className="hover:text-[color:var(--gold)]">Home</a></li>
-            <li><a href="/about" className="hover:text-[color:var(--gold)]">About us</a></li>
-            <li><a href="/programs" className="hover:text-[color:var(--gold)]">Programs</a></li>
-            <li><a href="/blog" className="hover:text-[color:var(--gold)]">Blog</a></li>
-            <li><a href="/contact-us" className="hover:text-[color:var(--gold)]">Contact Us</a></li>
+            {footerLinks.map((l) => (
+              <li key={l.label}><a href={l.url} className="hover:text-[color:var(--gold)]">{l.label}</a></li>
+            ))}
           </ul>
         </div>
         <div>
@@ -246,10 +309,10 @@ export function Footer() {
         <div>
           <p className="text-sm font-bold text-white">Legal</p>
           <ul className="mt-3 space-y-2 text-sm">
-            <li><a href="#" className="hover:text-[color:var(--gold)]">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-[color:var(--gold)]">Terms of Service</a></li>
-            <li><a href="#" className="hover:text-[color:var(--gold)]">Disclaimer</a></li>
-            <li><a href="#" className="hover:text-[color:var(--gold)]">Refund Policy</a></li>
+            <li><a href="/privacy-policy" className="hover:text-[color:var(--gold)]">Privacy Policy</a></li>
+            <li><a href="/terms-of-service" className="hover:text-[color:var(--gold)]">Terms of Service</a></li>
+            <li><a href="/disclaimer" className="hover:text-[color:var(--gold)]">Disclaimer</a></li>
+            <li><a href="/refund-policy" className="hover:text-[color:var(--gold)]">Refund Policy</a></li>
           </ul>
         </div>
       </div>
@@ -259,7 +322,7 @@ export function Footer() {
             <div className="disclaimer-ticker-track">
               {[0, 1].map((k) => (
                 <span key={k} className="whitespace-nowrap pr-[70px] text-xs leading-relaxed text-white/60" aria-hidden={k === 1}>
-                  <strong className="text-white/80">Disclaimer:</strong> cdoe.info is owned and operated by RH Academy, an Affiliate Enquiry Partner (AEP) for NMIMS Centre for Distance and Online Education (NMIMS CDOE). We provide enquiry assistance only. Admissions, fee collection, academics, examinations, results, and certification are solely managed by NMIMS CDOE.
+                  <strong className="text-white/80">Disclaimer:</strong> {disclaimer}
                 </span>
               ))}
             </div>

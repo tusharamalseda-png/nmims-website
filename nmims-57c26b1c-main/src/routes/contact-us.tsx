@@ -1,28 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Phone, MessageCircle, Mail, MapPin, Clock, ArrowRight,
-  ChevronDown, CalendarCheck, Building2, ShieldCheck,
+  CalendarCheck, Building2, ShieldCheck,
 } from "lucide-react";
 import { EnquiryForm } from "@/components/landing/EnquiryForm";
 import {
   Header, Footer, FloatingWA, MobileCTABar, SectionTitle,
-  telLink, waLink, CALENDLY_LINK, PHONE, EMAIL, OFFICE_ADDRESS, OFFICE_HOURS,
+  telLink, waLink, CALENDLY_LINK, PHONE, EMAIL, OFFICE_ADDRESS, OFFICE_HOURS, PRESENCE_CITIES,
 } from "@/components/layout/SiteChrome";
+import { getPageFn } from "@/backend/pages/actions";
+import { buildSeoHead } from "@/lib/seo-head";
+
+const FALLBACK_SEO = {
+  slug: "contact-us",
+  title: "Contact Us",
+  metaTitle: "Contact Us | NMIMS Online - Free Counselling for NMIMS CDOE Admissions",
+  metaDescription: "Get in touch with NMIMS Online for free NMIMS CDOE admission counselling - call, WhatsApp, email, or visit our Ahmedabad office. Serving students across India since 2018.",
+  canonicalUrl: "/contact-us",
+  ogImage: null as string | null,
+  status: "published" as const,
+};
 
 export const Route = createFileRoute("/contact-us")({
-  head: () => ({
-    meta: [
-      { title: "Contact Us | NMIMS Online - Free Counselling for NMIMS CDOE Admissions" },
-      { name: "description", content: "Get in touch with NMIMS Online for free NMIMS CDOE admission counselling - call, WhatsApp, email, or visit our Ahmedabad office. Serving students across Gujarat since 2018." },
-      { property: "og:title", content: "Contact NMIMS Online - Free NMIMS CDOE Admission Counselling" },
-      { property: "og:description", content: "Call, WhatsApp, email or visit us for free NMIMS CDOE admission counselling across Gujarat." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/contact-us" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/contact-us" }],
+  loader: async () => {
+    const page = await getPageFn({ data: { slug: "contact-us" } });
+    return { seo: page ?? FALLBACK_SEO };
+  },
+  head: ({ loaderData }) => {
+    const seo = loaderData?.seo ?? FALLBACK_SEO;
+    const { meta, links } = buildSeoHead(seo, { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: FALLBACK_SEO.canonicalUrl });
+    return {
+    meta,
+    links,
     scripts: [
       {
         type: "application/ld+json",
@@ -44,28 +54,16 @@ export const Route = createFileRoute("/contact-us")({
           telephone: PHONE,
           email: EMAIL,
           address: { "@type": "PostalAddress", streetAddress: OFFICE_ADDRESS, addressCountry: "IN" },
-          areaServed: gujaratCities.map((c) => ({ "@type": "City", name: c })),
-        }),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqItems.map((f) => ({
-            "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
-          })),
+          areaServed: PRESENCE_CITIES.map((c) => ({ "@type": "City", name: c })),
         }),
       },
     ],
-  }),
+    };
+  },
   component: ContactUsPage,
 });
 
 const waMessage = "Hi, I'd like to get in touch about NMIMS CDOE admissions.";
-const gujaratCities = ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Gandhidham", "Bhuj", "Kutch", "Bharuch", "Navsari", "Vapi"];
 
 const quickContacts = [
   { icon: Phone, t: "Call Us", v: PHONE, d: "Speak directly to a counsellor.", href: telLink, cta: "Call Now" },
@@ -74,14 +72,6 @@ const quickContacts = [
   { icon: CalendarCheck, t: "Book a Session", v: "Free info session", d: "Talk to us over a video call.", href: CALENDLY_LINK, cta: "Schedule Call", external: true },
 ];
 
-const faqItems = [
-  { q: "What are your office hours?", a: "We're available Monday to Saturday, 9:30 AM to 7:00 PM. Sundays are by appointment only - message us on WhatsApp to schedule one." },
-  { q: "Do you have a physical office I can visit?", a: "Yes, our office is in Ahmedabad, Gujarat. That said, most students never need to visit in person - our counsellors handle enquiries, documentation and follow-ups over call, WhatsApp and video sessions for students across all 10 cities we serve." },
-  { q: "How quickly will you respond to my enquiry?", a: "Most enquiries submitted during office hours receive a callback or WhatsApp response the same day. Outside office hours, expect a response by the next working day." },
-  { q: "Is there any fee for the initial consultation?", a: "No. Our counselling, admission guidance and application support are completely free for students - you only ever pay the official programme fee directly to NMIMS CDOE." },
-  { q: "Which cities do you have counsellors in?", a: "Ahmedabad, Surat, Vadodara, Rajkot, Gandhidham, Bhuj, Kutch, Bharuch, Navsari and Vapi." },
-  { q: "Can I schedule a video call instead of visiting the office?", a: "Yes. Use the \"Book a Session\" option to schedule a free info session over video call at a time that works for you." },
-];
 
 function ContactUsPage() {
   return (
@@ -92,7 +82,6 @@ function ContactUsPage() {
         <QuickContacts />
         <OfficeAndCities />
         <SendMessage />
-        <FAQ />
       </main>
       <Footer />
       <FloatingWA message={waMessage} />
@@ -120,29 +109,47 @@ function Hero() {
             We reply the same working day
           </span>
           <h1 className="mt-5 font-serif text-3xl font-extrabold leading-[1.15] sm:text-4xl lg:text-[44px]">
-            Talk to a Real Counsellor,
+            Talk to our Counsellor,
             <span className="mt-1 block bg-[linear-gradient(135deg,#ef4444,#f97316)] bg-clip-text text-transparent">
-              Free of Cost
+              Get Program Brochure Instantly
             </span>
           </h1>
           <p className="mt-4 max-w-xl text-sm text-white/80 sm:text-base">
-            Call, WhatsApp, email or book a free video session - whichever's easiest for you. No pressure, no hidden fees, just honest guidance on NMIMS CDOE admissions.
+            Call, WhatsApp, email or book a free video session - whichever's easiest for you.
           </p>
 
           <ul className="mt-6 grid max-w-lg gap-2.5 sm:grid-cols-2">
             {[
-              { icon: Phone, t: PHONE },
-              { icon: MessageCircle, t: "Chat on WhatsApp" },
-              { icon: Mail, t: EMAIL },
-              { icon: MapPin, t: "Ahmedabad, Gujarat" },
-            ].map(({ icon: Icon, t }) => (
-              <li key={t} className="flex items-center gap-2.5 text-sm font-semibold text-white/95">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#ef4444]/20 ring-1 ring-[#ef4444]/40">
-                  <Icon className="h-3.5 w-3.5 text-[#fca5a5]" />
-                </span>
-                {t}
-              </li>
-            ))}
+              { icon: Phone, t: PHONE, href: telLink },
+              { icon: MessageCircle, t: "Chat on WhatsApp", href: waLink(waMessage), external: true },
+              { icon: Mail, t: EMAIL, href: `mailto:${EMAIL}` },
+              { icon: MapPin, t: "Across India" },
+            ].map(({ icon: Icon, t, href, external }) => {
+              const inner = (
+                <>
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#ef4444]/20 ring-1 ring-[#ef4444]/40">
+                    <Icon className="h-3.5 w-3.5 text-[#fca5a5]" />
+                  </span>
+                  {t}
+                </>
+              );
+              return (
+                <li key={t} className="flex items-center gap-2.5 text-sm font-semibold text-white/95">
+                  {href ? (
+                    <a
+                      href={href}
+                      target={external ? "_blank" : undefined}
+                      rel={external ? "noopener" : undefined}
+                      className="flex items-center gap-2.5 transition hover:text-[#fca5a5]"
+                    >
+                      {inner}
+                    </a>
+                  ) : (
+                    inner
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </motion.div>
 
@@ -196,7 +203,7 @@ function QuickContacts() {
 
 /* ---------- OFFICE & CITIES ---------- */
 function OfficeAndCities() {
-  const track = [...gujaratCities, ...gujaratCities];
+  const track = [...PRESENCE_CITIES, ...PRESENCE_CITIES];
   return (
     <section className="bg-surface-soft py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -207,13 +214,23 @@ function OfficeAndCities() {
               <Building2 className="h-5 w-5 text-primary" /> Head Office
             </h3>
             <p className="mt-4 flex gap-3 text-sm text-muted-foreground">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {OFFICE_ADDRESS}
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(OFFICE_ADDRESS)}`}
+                target="_blank"
+                rel="noopener"
+                className="transition hover:text-primary"
+              >
+                {OFFICE_ADDRESS}
+              </a>
             </p>
             <p className="mt-3 flex gap-3 text-sm text-muted-foreground">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {PHONE}
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <a href={telLink} className="transition hover:text-primary">{PHONE}</a>
             </p>
             <p className="mt-3 flex gap-3 text-sm text-muted-foreground">
-              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {EMAIL}
+              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <a href={`mailto:${EMAIL}`} className="transition hover:text-primary">{EMAIL}</a>
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-card p-8 shadow-card">
@@ -238,7 +255,7 @@ function OfficeAndCities() {
 
         <div className="mt-14 text-center">
           <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
-            We counsel students across 10 major cities in Gujarat, in person and online.
+            We counsel students across the globe.
           </p>
         </div>
         <div className="mt-8 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
@@ -269,40 +286,6 @@ function SendMessage() {
         <SectionTitle eyebrow="Send a Message" title="Prefer to write it down?" subtitle="Fill this in and a counsellor will call you back - usually the same working day." />
         <div className="mt-10">
           <EnquiryForm compact showMessage />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- FAQ ---------- */
-function FAQ() {
-  const [open, setOpen] = useState<number | null>(0);
-  return (
-    <section className="bg-surface-soft py-16 sm:py-24" id="faq">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Frequently Asked Questions" title="Before you reach out" />
-        <div className="mt-12 space-y-3">
-          {faqItems.map((it, i) => (
-            <div key={i} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                className="flex w-full items-center justify-between gap-4 p-5 text-left"
-                aria-expanded={open === i}
-              >
-                <span className="font-bold text-foreground">{it.q}</span>
-                <ChevronDown className={`h-5 w-5 shrink-0 text-primary transition-transform ${open === i ? "rotate-180" : ""}`} />
-              </button>
-              <motion.div
-                initial={false}
-                animate={{ height: open === i ? "auto" : 0, opacity: open === i ? 1 : 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.a}</p>
-              </motion.div>
-            </div>
-          ))}
         </div>
       </div>
     </section>

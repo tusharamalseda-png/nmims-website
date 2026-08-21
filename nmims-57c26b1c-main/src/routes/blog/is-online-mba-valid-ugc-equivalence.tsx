@@ -8,19 +8,25 @@ import {
 import {
   Header, Footer, FloatingWA, MobileCTABar, telLink, waLink,
 } from "@/components/layout/SiteChrome";
+import { getBlogPostFn } from "@/backend/blog/actions";
+import { buildSeoHead } from "@/lib/seo-head";
+
+const FALLBACK_SEO = {
+  metaTitle: "Is an Online MBA Valid in India? UGC Equivalence Rules Explained (2026)",
+  metaDescription: "UGC Regulation 22 treats degrees earned through Open, Distance and Online mode as equivalent to conventional-mode degrees. Here's what that means for an NMIMS CDOE Online MBA, and how to verify any online degree before enrolling.",
+};
 
 export const Route = createFileRoute("/blog/is-online-mba-valid-ugc-equivalence")({
-  head: () => ({
-    meta: [
-      { title: "Is an Online MBA Valid in India? UGC Equivalence Rules Explained (2026)" },
-      { name: "description", content: "UGC Regulation 22 treats degrees earned through Open, Distance and Online mode as equivalent to conventional-mode degrees. Here's what that means for an NMIMS CDOE Online MBA, and how to verify any online degree before enrolling." },
-      { property: "og:title", content: "Is an Online MBA Valid in India? UGC Equivalence Rules Explained" },
-      { property: "og:description", content: "What UGC Regulation 22 says about online degree equivalence, and how to verify an online MBA is genuinely valid before you enrol." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "/blog/is-online-mba-valid-ugc-equivalence" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/blog/is-online-mba-valid-ugc-equivalence" }],
+  loader: async () => (await getBlogPostFn({ data: { slug: "is-online-mba-valid-ugc-equivalence" } })) ?? FALLBACK_SEO,
+  head: ({ loaderData }) => {
+    const seo = loaderData ?? FALLBACK_SEO;
+    const { meta, links } = buildSeoHead(
+      "featuredImage" in seo ? { ...seo, ogImage: seo.featuredImage } : seo,
+      { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: "/blog/is-online-mba-valid-ugc-equivalence" },
+    );
+    return {
+    meta,
+    links,
     scripts: [
       {
         type: "application/ld+json",
@@ -60,7 +66,8 @@ export const Route = createFileRoute("/blog/is-online-mba-valid-ugc-equivalence"
         }),
       },
     ],
-  }),
+    };
+  },
   component: PostPage,
 });
 

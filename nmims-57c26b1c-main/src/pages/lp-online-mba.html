@@ -352,26 +352,26 @@
         <h3>Enquire Now</h3>
         <p class="sub">Hurry Up &amp; Get Free Counselling.</p>
       </div>
-      <form class="enquiry-body" onsubmit="return false;">
+      <form class="enquiry-body" id="enquiry-form">
         <div class="field">
           <label>Name</label>
-          <input type="text" placeholder="Enter Name">
+          <input type="text" name="name" placeholder="Enter Name" required>
         </div>
         <div class="field">
           <label>Email ID</label>
-          <input type="email" placeholder="Enter Email ID">
+          <input type="email" name="email" placeholder="Enter Email ID">
         </div>
         <div class="field">
           <label>Mobile Number</label>
           <div class="phone-field">
             <span class="phone-prefix">+91</span>
-            <input type="tel" placeholder="Enter Mobile Number">
+            <input type="tel" name="mobile" placeholder="Enter Mobile Number" pattern="[6-9][0-9]{9}" maxlength="10" required>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Select Program</label>
-            <select>
+            <select name="program">
               <option>Select Program</option>
               <option>Online MBA</option>
               <option>Online BBA</option>
@@ -383,7 +383,7 @@
           </div>
           <div class="field">
             <label>State</label>
-            <select>
+            <select name="state">
               <option>Select</option>
               <option>Andhra Pradesh</option>
               <option>Arunachal Pradesh</option>
@@ -421,7 +421,8 @@
         <label class="agree">
           <input type="checkbox"> I agree to get updates from counsellor
         </label>
-        <button class="btn btn-orange" type="submit">Submit</button>
+        <p id="enquiry-status" style="display:none;margin:0 0 12px;font-size:13px;font-weight:600;"></p>
+        <button class="btn btn-orange" type="submit" id="enquiry-submit">Submit</button>
       </form>
     </div>
   </div>
@@ -1015,6 +1016,56 @@ function showFeeTab(btn, panelId){
   btn.classList.add('active');
   document.getElementById(panelId).classList.add('active');
 }
+
+document.getElementById('enquiry-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const form = e.target;
+  const statusEl = document.getElementById('enquiry-status');
+  const submitBtn = document.getElementById('enquiry-submit');
+  const mobile = form.mobile.value.trim();
+
+  if(!/^[6-9]\d{9}$/.test(mobile)){
+    statusEl.style.display = 'block';
+    statusEl.style.color = '#e63950';
+    statusEl.textContent = 'Enter a valid 10-digit mobile number.';
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+  statusEl.style.display = 'none';
+
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const res = await fetch('/api/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        phone: mobile,
+        program: form.program.value,
+        state: form.state.value,
+        sourcePage: window.location.pathname,
+        utmSource: params.get('utm_source') || undefined,
+        utmCampaign: params.get('utm_campaign') || undefined,
+      }),
+    });
+    if(!res.ok) throw new Error('Request failed');
+
+    statusEl.style.display = 'block';
+    statusEl.style.color = '#1f9d55';
+    statusEl.textContent = 'Thank you! Our counsellor will reach out within 30 minutes.';
+    form.reset();
+  } catch (err) {
+    statusEl.style.display = 'block';
+    statusEl.style.color = '#e63950';
+    statusEl.textContent = 'Something went wrong. Please try again or call us directly.';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit';
+  }
+});
 </script>
 
 </body>

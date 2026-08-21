@@ -10,28 +10,43 @@ import {
   Brain, Rocket, Landmark, ShoppingCart, Truck, HeartPulse, Quote, Download,
   BookMarked, Layers, IdCard,
 } from "lucide-react";
-import t1 from "@/assets/testimonial-1.jpg";
-import t2 from "@/assets/testimonial-2.jpg";
-import t3 from "@/assets/testimonial-3.jpg";
 import { EnquiryForm } from "@/components/landing/EnquiryForm";
 import { Counter } from "@/components/landing/Counter";
 import {
   Header, Footer, FloatingWA, MobileCTABar, SectionTitle,
   telLink, waLink, CALENDLY_LINK,
 } from "@/components/layout/SiteChrome";
+import { Testimonials } from "@/components/site/Testimonials";
+import { getPageFn } from "@/backend/pages/actions";
+import { listFaqsForPageFn } from "@/backend/faqs/actions";
+import { listTestimonialsFn } from "@/backend/testimonials/actions";
+import { buildSeoHead } from "@/lib/seo-head";
+
+const FALLBACK_SEO = {
+  slug: "online-bba",
+  title: "Online BBA",
+  metaTitle: "NMIMS Online BBA 2026 | UGC-DEB Entitled Degree | Fees, Eligibility & Admission",
+  metaDescription: "Pursue a UGC-DEB entitled Online BBA from NMIMS CDOE - 3-year, 6-semester program with Marketing, Finance & Business Analytics tracks. Check fees, eligibility, syllabus & apply for 2026 admissions.",
+  canonicalUrl: "/programs/online-bba",
+  ogImage: null as string | null,
+  status: "published" as const,
+};
 
 export const Route = createFileRoute("/programs/online-bba")({
-  head: () => ({
-    meta: [
-      { title: "NMIMS Online BBA 2026 | UGC-DEB Approved Degree | Fees, Eligibility & Admission" },
-      { name: "description", content: "Pursue a UGC-DEB approved Online BBA from NMIMS CDOE - 3-year, 6-semester program with Marketing, Finance & Business Analytics tracks. Check fees, eligibility, syllabus & apply for 2026 admissions." },
-      { property: "og:title", content: "NMIMS Online BBA 2026 - UGC-DEB Approved Degree" },
-      { property: "og:description", content: "3-year UGC-DEB approved Online BBA with Marketing, Finance and Business Analytics specialisations, live classes and career services from NMIMS CDOE. Admissions open for 2026." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/programs/online-bba" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/programs/online-bba" }],
+  loader: async () => {
+    const [page, faqItems, testimonials] = await Promise.all([
+      getPageFn({ data: { slug: "online-bba" } }),
+      listFaqsForPageFn({ data: { pageSlug: "online-bba" } }),
+      listTestimonialsFn({ data: { pageSlug: "online-bba" } }),
+    ]);
+    return { seo: page ?? FALLBACK_SEO, faqItems, testimonials };
+  },
+  head: ({ loaderData }) => {
+    const seo = loaderData?.seo ?? FALLBACK_SEO;
+    const { meta, links } = buildSeoHead(seo, { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: FALLBACK_SEO.canonicalUrl });
+    return {
+    meta,
+    links,
     scripts: [
       {
         type: "application/ld+json",
@@ -51,7 +66,7 @@ export const Route = createFileRoute("/programs/online-bba")({
           "@context": "https://schema.org",
           "@type": "EducationalOccupationalProgram",
           name: "Online BBA",
-          description: "UGC-DEB approved 3-year Online BBA offered by NMIMS Centre for Distance and Online Education (CDOE), with Marketing, Finance and Business Analytics specialisations.",
+          description: "UGC-DEB entitled 3-year Online BBA offered by NMIMS Centre for Distance and Online Education (CDOE), with Marketing, Finance and Business Analytics specialisations.",
           provider: {
             "@type": "CollegeOrUniversity",
             name: "NMIMS Centre for Distance and Online Education (CDOE)",
@@ -67,15 +82,16 @@ export const Route = createFileRoute("/programs/online-bba")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: faqItems.map((f) => ({
+          mainEntity: (loaderData?.faqItems ?? []).map((f) => ({
             "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
           })),
         }),
       },
     ],
-  }),
+    };
+  },
   component: OnlineBBAPage,
 });
 
@@ -126,18 +142,9 @@ const skillModules = [
   { module: "Start Your Start-up", skill: "Technical", semester: "Semester 3" },
 ];
 
-const faqItems = [
-  { q: "Is an Online BBA from NMIMS valid and UGC approved?", a: "Yes. The NMIMS Online BBA is offered by NMIMS CDOE under UGC-DEB entitlement, from a NAAC A++ accredited, Category 1 Autonomous, NIRF Top-100 university - a recognised and valid undergraduate degree." },
-  { q: "What is the duration and validity of the NMIMS Online BBA?", a: "The programme is 3 years (6 semesters), with a maximum permissible completion window of up to 6 years. Total programme credits are 144." },
-  { q: "What is the eligibility criteria for the Online BBA?", a: "HSC (10+2) in any discipline from a recognised board with a minimum of 50% marks (45% for SC/ST/OBC/PwD candidates)." },
-  { q: "What is the fee structure and are EMI options available?", a: "The Marketing & Finance track costs ₹47,000/year (₹25,000/semester); the Business Analytics track costs ₹56,400/year (₹30,000/semester). EMI over 3, 6, 9 or 12 months is available via HDFC, ICICI, Axis, Citibank, Standard Chartered, HSBC and Kotak Mahindra Bank credit cards, plus a loan facility that doesn't require a credit card." },
-  { q: "What is an ABC ID and why do I need one?", a: "As per UGC guidelines, every applicant must have an Academic Bank of Credits (ABC) ID before the admission form can be submitted. You cannot submit your application without one, so it's best to create it before you start your registration." },
-  { q: "How does the admission process work?", a: "1) Register online at online.nmims.edu - a student counsellor will contact you · 2) Submit gazette-attested academic and KYC documents · 3) Pay fees online or by demand draft favouring 'SVKM's NMIMS' payable at Mumbai · 4) On document and payment approval, your admission is confirmed and a student number is issued." },
-  { q: "How are exams conducted for the Online BBA?", a: "Exams are conducted online with stringent remote-proctoring systems in place, so you can appear from anywhere." },
-  { q: "Which specialisations can I choose in the Online BBA?", a: "Marketing, Finance, and Business Analytics - electives begin from Semester 4 onward while Semesters 1–3 build core business fundamentals." },
-];
 
 function OnlineBBAPage() {
+  const { testimonials } = Route.useLoaderData();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header activeProgram="Online BBA" />
@@ -152,7 +159,7 @@ function OnlineBBAPage() {
         <CareerServices />
         <HiringSectors />
         <CareerOptions />
-        <Testimonials />
+        <Testimonials items={testimonials} />
         <Fees />
         <EligibilityAndStructure />
         <AdmissionProcess />
@@ -189,7 +196,7 @@ function Hero() {
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold backdrop-blur ring-1 ring-white/20">
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#ef4444]" />
-            UGC-DEB Approved · Admissions Open 2026
+            UGC-DEB Entitled · Admissions Open 2026
           </span>
           <h1 className="mt-5 font-serif text-3xl font-extrabold leading-[1.15] sm:text-4xl lg:text-[44px]">
             Online BBA from
@@ -198,13 +205,13 @@ function Hero() {
             </span>
           </h1>
           <p className="mt-4 max-w-xl text-sm text-white/80 sm:text-base">
-            Ready to start your career? The NMIMS Online BBA is a UGC-DEB approved, 3-year undergraduate degree for school leavers and early-career learners who want a recognised business qualification with complete flexibility.
+            Ready to start your career? The NMIMS Online BBA is a UGC-DEB entitled, 3-year undergraduate degree for school leavers and early-career learners who want a recognised business qualification with complete flexibility.
           </p>
 
           <ul className="mt-6 grid max-w-lg gap-2.5 sm:grid-cols-2">
             {[
               { icon: Video, t: "Live Interactive Lectures" },
-              { icon: ShieldCheck, t: "UGC-DEB Approved Degree" },
+              { icon: ShieldCheck, t: "UGC-DEB Entitled Degree" },
               { icon: Briefcase, t: "Career Services" },
               { icon: Clock, t: "Flexible Learning" },
             ].map(({ icon: Icon, t }) => (
@@ -254,7 +261,7 @@ function Hero() {
 
       <div className="relative border-t border-white/10 bg-black/20 py-4 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-2 px-4 text-xs font-semibold text-white/80 sm:gap-x-10 sm:text-sm">
-          <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#fbbf24]" /> UGC-DEB Approved</span>
+          <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#fbbf24]" /> UGC-DEB Entitled</span>
           <span className="flex items-center gap-2"><Award className="h-4 w-4 text-[#fbbf24]" /> NAAC A++ · NIRF Top 100</span>
           <span className="flex items-center gap-2"><Star className="h-4 w-4 fill-[#fbbf24] text-[#fbbf24]" /> Category 1 Autonomy</span>
           <span className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-[#fbbf24]" /> 200+ cities across India</span>
@@ -270,7 +277,7 @@ function TrustStats() {
     { n: 75000, s: "+", l: "Students Enrolled" },
     { n: 120000, s: "+", l: "Strong Alumni Network" },
     { n: 700, s: "+", l: "Hiring Partners" },
-    { n: 60, s: "%", l: "Avg. Career Growth" },
+    { n: 25, s: "%", l: "of Salary Increment Reported" },
   ];
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(120deg,#7154EA,#3F3083)] py-16 text-white sm:py-24">
@@ -293,7 +300,7 @@ function TrustStats() {
 /* ---------- WHY CHOOSE ---------- */
 function WhyChoose() {
   const items = [
-    { icon: Video, t: "Live Interactive Classes", d: "Live and recorded lectures accessible 24/7 across platforms." },
+    { icon: Video, t: "Live Interactive Classes", d: "Weekend and Wednesday live sessions with faculty and real-time doubt-solving Q&A." },
     { icon: GraduationCap, t: "750+ Full-Time Faculty", d: "Learn from NMIMS' own faculty across its multidisciplinary schools." },
     { icon: Award, t: "India's Top 10 B-School", d: "Study with a university consistently ranked among India's best." },
     { icon: Briefcase, t: "Career Services", d: "Career services and access to a wide hiring-partner network." },
@@ -492,9 +499,9 @@ function Certificate() {
           <ul className="mt-6 space-y-3">
             {[
               "Recognised by employers across India",
-              "Issued by NMIMS CDOE - a Deemed University",
+              "Issued by Prestigious NMIMS - Deemed to be University",
               "Shareable on LinkedIn & job portals",
-              "Comes with worldwide NMIMS CDOE alumni status",
+              "NAAC A++ accredited University",
             ].map((c) => (
               <li key={c} className="flex items-center gap-2.5 text-sm text-white/90">
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-[#8bffb0]" /> {c}
@@ -506,7 +513,7 @@ function Certificate() {
           <img src="/images/certificate-bba.jpg" alt="NMIMS Online BBA certificate sample" loading="lazy" className="mx-auto max-h-[320px] rounded-lg border-2 border-[#1c1c1c] shadow-elegant" />
           <div className="mt-4 flex flex-wrap justify-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ffd68c]/60 px-3 py-1.5 text-xs font-bold text-[#ffd88c]">
-              <CheckCircle2 className="h-3.5 w-3.5" /> Official Degree
+              <CheckCircle2 className="h-3.5 w-3.5" /> Degree Certificate
             </span>
             <span className="inline-flex items-center rounded-full border border-[#ffd68c]/60 px-3 py-1.5 text-xs font-bold text-[#ffd88c]">NMIMS CDOE</span>
           </div>
@@ -618,58 +625,6 @@ function CareerOptions() {
   );
 }
 
-/* ---------- TESTIMONIALS ---------- */
-function Testimonials() {
-  const items = [
-    { img: t1, name: "Aditya Rane", program: "Online BBA - Marketing", quote: "Doing my BBA online meant I could work part-time and still keep up with live classes. The faculty made even the toughest subjects easy to follow." },
-    { img: t2, name: "Sanya Kapoor", program: "Online BBA - Business Analytics", quote: "The Python and Tableau electives gave me a real head-start - I landed an analyst internship before I'd even graduated." },
-    { img: t3, name: "Karan Desai", program: "Online BBA - Finance", quote: "The finance electives in the final year were genuinely practical. I walked into my first job already knowing how to read a balance sheet." },
-  ];
-  const [idx, setIdx] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % items.length), 6000);
-    return () => clearInterval(t);
-  }, [items.length]);
-  return (
-    <section className="py-16 sm:py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Student stories" title="Real outcomes from real learners" />
-        <div className="mt-12 relative">
-          {items.map((it, i) => (
-            <motion.div
-              key={i}
-              initial={false}
-              animate={{ opacity: idx === i ? 1 : 0 }}
-              transition={{ duration: 0.5 }}
-              className="grid items-center gap-8 rounded-3xl bg-card p-6 shadow-elegant sm:p-10 lg:grid-cols-[auto_1fr] lg:gap-12"
-              style={{ display: idx === i ? "grid" : "none" }}
-            >
-              <img src={it.img} alt={it.name} loading="lazy" width={512} height={512} className="mx-auto h-28 w-28 rounded-full object-cover shadow-card ring-4 ring-[color:var(--gold)]/40 sm:h-36 sm:w-36 lg:mx-0" />
-              <div>
-                <Quote className="h-6 w-6 text-[color:var(--gold)]" />
-                <blockquote className="mt-2 text-lg font-medium leading-relaxed text-foreground sm:text-xl">
-                  "{it.quote}"
-                </blockquote>
-                <p className="mt-4 font-extrabold text-foreground">{it.name}</p>
-                <p className="text-sm text-muted-foreground">{it.program}</p>
-              </div>
-            </motion.div>
-          ))}
-          <div className="mt-6 flex justify-center gap-2">
-            {items.map((_, i) => (
-              <button
-                key={i}
-                aria-label={`Show testimonial ${i + 1}`}
-                onClick={() => setIdx(i)}
-                className={`h-2 rounded-full transition-all ${idx === i ? "w-8 gradient-primary" : "w-2 bg-border"}`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ---------- FEES ---------- */
 const BBA_FEE_TRACKS = [
@@ -679,7 +634,7 @@ const BBA_FEE_TRACKS = [
       { opt: "Option 1", title: "Annual Payment", price: "₹47,000", suffix: "/ year", bullets: ["Pay once per year", "3 instalments over 3 years", "Best value plan"] },
       { opt: "Option 2", title: "Semester-Wise Payment", price: "₹25,000", suffix: "/ semester", bullets: ["6 flexible instalments", "Pay per semester", "Easier on monthly budget"] },
       { opt: "Option 3", title: "Full Payment", price: "₹1,31,000", suffix: "one-time", bullets: ["Single one-time payment", "No further instalments", "Lower than the annual plan total"] },
-      { opt: "Option 4", title: "EMI Facility", price: "0%", suffix: "interest EMI", bullets: ["3, 6, 9 or 12-month tenures", "Via HDFC, ICICI, Axis, Citi, SC, HSBC & Kotak cards", "No-cost loan facility even without a credit card"] },
+      { opt: "Option 4", title: "EMI Facility", price: "0%", suffix: "interest EMI", bullets: ["No Cost EMI Plans - Students can pay with fees in 3,6,9,12,24,36 months tenures", "Credit card EMI - Banks charges applicable as per bank policy"] },
     ],
   },
   {
@@ -688,7 +643,7 @@ const BBA_FEE_TRACKS = [
       { opt: "Option 1", title: "Annual Payment", price: "₹56,400", suffix: "/ year", bullets: ["Pay once per year", "3 instalments over 3 years", "Best value plan"] },
       { opt: "Option 2", title: "Semester-Wise Payment", price: "₹30,000", suffix: "/ semester", bullets: ["6 flexible instalments", "Pay per semester", "Easier on monthly budget"] },
       { opt: "Option 3", title: "Full Payment", price: "₹1,45,000", suffix: "one-time", bullets: ["Single one-time payment", "No further instalments", "Lower than the annual plan total"] },
-      { opt: "Option 4", title: "EMI Facility", price: "0%", suffix: "interest EMI", bullets: ["3, 6, 9 or 12-month tenures", "Via HDFC, ICICI, Axis, Citi, SC, HSBC & Kotak cards", "No-cost loan facility even without a credit card"] },
+      { opt: "Option 4", title: "EMI Facility", price: "0%", suffix: "interest EMI", bullets: ["No Cost EMI Plans - Students can pay with fees in 3,6,9,12,24,36 months tenures", "Credit card EMI - Banks charges applicable as per bank policy"] },
     ],
   },
 ];
@@ -911,6 +866,7 @@ function AboutCDOE() {
 
 /* ---------- FAQ ---------- */
 function FAQ() {
+  const { faqItems } = Route.useLoaderData();
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section className="bg-surface-soft py-16 sm:py-24" id="faq">
@@ -918,13 +874,13 @@ function FAQ() {
         <SectionTitle eyebrow="Frequently Asked Questions" title="Everything you need to know" />
         <div className="mt-12 space-y-3">
           {faqItems.map((it, i) => (
-            <div key={i} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+            <div key={it.id} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
               <button
                 onClick={() => setOpen(open === i ? null : i)}
                 className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 aria-expanded={open === i}
               >
-                <span className="font-bold text-foreground">{it.q}</span>
+                <span className="font-bold text-foreground">{it.question}</span>
                 <ChevronDown className={`h-5 w-5 shrink-0 text-primary transition-transform ${open === i ? "rotate-180" : ""}`} />
               </button>
               <motion.div
@@ -933,7 +889,7 @@ function FAQ() {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.a}</p>
+                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.answer}</p>
               </motion.div>
             </div>
           ))}

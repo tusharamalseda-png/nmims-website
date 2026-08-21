@@ -10,28 +10,43 @@ import {
   Brain, Rocket, Landmark, ShoppingCart, Truck, HeartPulse, Quote, Download,
   BookMarked, Layers,
 } from "lucide-react";
-import t1 from "@/assets/testimonial-1.jpg";
-import t2 from "@/assets/testimonial-2.jpg";
-import t3 from "@/assets/testimonial-3.jpg";
 import { EnquiryForm } from "@/components/landing/EnquiryForm";
 import { Counter } from "@/components/landing/Counter";
 import {
   Header, Footer, FloatingWA, MobileCTABar, SectionTitle,
   telLink, waLink, CALENDLY_LINK,
 } from "@/components/layout/SiteChrome";
+import { Testimonials } from "@/components/site/Testimonials";
+import { getPageFn } from "@/backend/pages/actions";
+import { listFaqsForPageFn } from "@/backend/faqs/actions";
+import { listTestimonialsFn } from "@/backend/testimonials/actions";
+import { buildSeoHead } from "@/lib/seo-head";
+
+const FALLBACK_SEO = {
+  slug: "online-mba",
+  title: "Online MBA",
+  metaTitle: "NMIMS Online MBA 2026 | UGC-DEB Entitled Degree | Fees, Eligibility & Admission",
+  metaDescription: "Pursue a UGC-DEB entitled Online MBA from NMIMS CDOE - 2-year program, 7+ specialisations, live faculty sessions & career services. Check fees, eligibility, syllabus & apply for 2026 admissions.",
+  canonicalUrl: "/programs/online-mba",
+  ogImage: null as string | null,
+  status: "published" as const,
+};
 
 export const Route = createFileRoute("/programs/online-mba")({
-  head: () => ({
-    meta: [
-      { title: "NMIMS Online MBA 2026 | UGC-DEB Approved Degree | Fees, Eligibility & Admission" },
-      { name: "description", content: "Pursue a UGC-DEB approved Online MBA from NMIMS CDOE - 2-year program, 7+ specialisations, live faculty sessions & career services. Check fees, eligibility, syllabus & apply for 2026 admissions." },
-      { property: "og:title", content: "NMIMS Online MBA 2026 - UGC-DEB Approved Degree" },
-      { property: "og:description", content: "2-year UGC-DEB approved Online MBA with 7+ specialisations, live classes and career services from NMIMS CDOE. Admissions open for 2026." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/programs/online-mba" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/programs/online-mba" }],
+  loader: async () => {
+    const [page, faqItems, testimonials] = await Promise.all([
+      getPageFn({ data: { slug: "online-mba" } }),
+      listFaqsForPageFn({ data: { pageSlug: "online-mba" } }),
+      listTestimonialsFn({ data: { pageSlug: "online-mba" } }),
+    ]);
+    return { seo: page ?? FALLBACK_SEO, faqItems, testimonials };
+  },
+  head: ({ loaderData }) => {
+    const seo = loaderData?.seo ?? FALLBACK_SEO;
+    const { meta, links } = buildSeoHead(seo, { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: FALLBACK_SEO.canonicalUrl });
+    return {
+    meta,
+    links,
     scripts: [
       {
         type: "application/ld+json",
@@ -51,7 +66,7 @@ export const Route = createFileRoute("/programs/online-mba")({
           "@context": "https://schema.org",
           "@type": "EducationalOccupationalProgram",
           name: "Online MBA",
-          description: "UGC-DEB approved 2-year Online MBA offered by NMIMS Centre for Distance and Online Education (CDOE), with 7+ specialisations, live faculty-led sessions and career services.",
+          description: "UGC-DEB entitled 2-year Online MBA offered by NMIMS Centre for Distance and Online Education (CDOE), with 7+ specialisations, live faculty-led sessions and career services.",
           provider: {
             "@type": "CollegeOrUniversity",
             name: "NMIMS Centre for Distance and Online Education (CDOE)",
@@ -67,15 +82,16 @@ export const Route = createFileRoute("/programs/online-mba")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: faqItems.map((f) => ({
+          mainEntity: (loaderData?.faqItems ?? []).map((f) => ({
             "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
           })),
         }),
       },
     ],
-  }),
+    };
+  },
   component: OnlineMBAPage,
 });
 
@@ -98,18 +114,9 @@ const semesters = [
   { label: "Semester 4", subjects: ["Specialisation Elective IV", "Specialisation Elective V", "International Business", "Corporate Governance & Ethics", "Capstone Project", "Summer Internship Report"] },
 ];
 
-const faqItems = [
-  { q: "Is an Online MBA from NMIMS valid and UGC approved?", a: "Yes. The NMIMS Online MBA is offered by NMIMS CDOE under UGC-DEB entitlement, making it a recognised and valid postgraduate management degree, on par with an on-campus MBA for employment and further education purposes." },
-  { q: "What is the duration of the NMIMS Online MBA?", a: "The program is 2 years (4 semesters) in duration, with a maximum permissible completion window of up to 4 years for learners who need additional time." },
-  { q: "Is work experience mandatory to apply for the Online MBA?", a: "No. Work experience is not mandatory. Fresh graduates as well as working professionals with a recognised bachelor's degree can apply, though prior work experience is viewed favourably." },
-  { q: "What is the fee structure and are EMI options available?", a: "Fees can be paid annually or semester-wise, with easy EMI options available - speak to a counsellor for the current fee schedule. Currently, no scholarships or concessions are available for the general category; a 20% fee concession applies for defence personnel and their immediate family." },
-  { q: "How does the admission process work?", a: "The process involves online registration, document submission, fee payment and admission confirmation. Most applications are reviewed and confirmed within a few working days of document verification." },
-  { q: "Do you provide career support after the Online MBA?", a: "Yes. NMIMS CDOE's Career Services include resume and LinkedIn profile building, mock interviews, psychometric assessments and 1:1 career coaching, plus access to a hiring-partner network. Direct campus placements are not offered - support is guidance and access, not a placement guarantee." },
-  { q: "What is the exam pattern for the NMIMS Online MBA?", a: "Evaluation combines continuous internal assessments (assignments, quizzes, projects) with computer-based end-term examinations conducted at designated centres across India." },
-  { q: "Which specialisations can I choose in the NMIMS Online MBA?", a: "Learners can choose from Financial Management, Business Management, Marketing Management, Human Resource Management, Operations & Data Science, IT Management and Business Analytics." },
-];
 
 function OnlineMBAPage() {
+  const { testimonials } = Route.useLoaderData();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header activeProgram="Online MBA" />
@@ -124,7 +131,7 @@ function OnlineMBAPage() {
         <CareerServices />
         <HiringSectors />
         <CareerOptions />
-        <Testimonials />
+        <Testimonials items={testimonials} />
         <Fees />
         <EligibilityAndStructure />
         <AdmissionProcess />
@@ -161,7 +168,7 @@ function Hero() {
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold backdrop-blur ring-1 ring-white/20">
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#ef4444]" />
-            UGC-DEB Approved · Admissions Open 2026
+            UGC-DEB Entitled · Admissions Open 2026
           </span>
           <h1 className="mt-5 font-serif text-3xl font-extrabold leading-[1.15] sm:text-4xl lg:text-[44px]">
             Online MBA from
@@ -176,7 +183,7 @@ function Hero() {
           <ul className="mt-6 grid max-w-lg gap-2.5 sm:grid-cols-2">
             {[
               { icon: Video, t: "Live Interactive Lectures" },
-              { icon: ShieldCheck, t: "UGC-DEB Approved Degree" },
+              { icon: ShieldCheck, t: "UGC-DEB Entitled Degree" },
               { icon: Briefcase, t: "Career Services" },
               { icon: Clock, t: "Flexible Learning" },
             ].map(({ icon: Icon, t }) => (
@@ -226,7 +233,7 @@ function Hero() {
 
       <div className="relative border-t border-white/10 bg-black/20 py-4 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-2 px-4 text-xs font-semibold text-white/80 sm:gap-x-10 sm:text-sm">
-          <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#fbbf24]" /> UGC-DEB Approved</span>
+          <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#fbbf24]" /> UGC-DEB Entitled</span>
           <span className="flex items-center gap-2"><Award className="h-4 w-4 text-[#fbbf24]" /> NAAC A++</span>
           <span className="flex items-center gap-2"><Star className="h-4 w-4 fill-[#fbbf24] text-[#fbbf24]" /> 4.8/5 · 12,000+ learners</span>
           <span className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-[#fbbf24]" /> 200+ cities across India</span>
@@ -242,7 +249,7 @@ function TrustStats() {
     { n: 75000, s: "+", l: "Students Enrolled" },
     { n: 120000, s: "+", l: "Strong Alumni Network" },
     { n: 700, s: "+", l: "Hiring Partners" },
-    { n: 60, s: "%", l: "Avg. Career Growth" },
+    { n: 25, s: "%", l: "of Salary Increment Reported" },
   ];
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(120deg,#7154EA,#3F3083)] py-16 text-white sm:py-24">
@@ -265,7 +272,7 @@ function TrustStats() {
 /* ---------- WHY CHOOSE ---------- */
 function WhyChoose() {
   const items = [
-    { icon: Video, t: "Live Interactive Classes", d: "Weekend live sessions with faculty and real-time doubt-solving Q&A." },
+    { icon: Video, t: "Live Interactive Classes", d: "Weekend and Wednesday live sessions with faculty and real-time doubt-solving Q&A." },
     { icon: Laptop, t: "Recorded Sessions", d: "Lifetime access to high-quality recordings - learn at your own pace." },
     { icon: GraduationCap, t: "Experienced Faculty", d: "Learn from academicians and industry leaders with years of experience." },
     { icon: Briefcase, t: "Career Services", d: "1:1 career coaching, resume review and access to 700+ hiring partners." },
@@ -485,9 +492,9 @@ function Certificate() {
           <ul className="mt-6 space-y-3">
             {[
               "Recognised by employers across India",
-              "Issued by NMIMS CDOE - a Deemed University",
+              "Issued by Prestigious NMIMS - Deemed to be University",
               "Shareable on LinkedIn & job portals",
-              "Valid proof of NAAC A++ accredited institution",
+              "NAAC A++ accredited University",
             ].map((c) => (
               <li key={c} className="flex items-center gap-2.5 text-sm text-white/90">
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-[#8bffb0]" /> {c}
@@ -499,7 +506,7 @@ function Certificate() {
           <img src="/images/certificate.jpeg" alt="NMIMS Online MBA certificate sample" loading="lazy" className="mx-auto max-h-[320px] rounded-lg border-2 border-[#1c1c1c] shadow-elegant" />
           <div className="mt-4 flex flex-wrap justify-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ffd68c]/60 px-3 py-1.5 text-xs font-bold text-[#ffd88c]">
-              <CheckCircle2 className="h-3.5 w-3.5" /> Official Certificate
+              <CheckCircle2 className="h-3.5 w-3.5" /> Degree Certificate
             </span>
             <span className="inline-flex items-center rounded-full border border-[#ffd68c]/60 px-3 py-1.5 text-xs font-bold text-[#ffd88c]">NMIMS CDOE</span>
           </div>
@@ -609,65 +616,13 @@ function CareerOptions() {
   );
 }
 
-/* ---------- TESTIMONIALS ---------- */
-function Testimonials() {
-  const items = [
-    { img: t1, name: "Rohit Sharma", program: "Online MBA - Marketing Management", quote: "The live mentor sessions changed how I approach my role. I was able to take on a bigger team within a year of starting the program." },
-    { img: t2, name: "Priya Menon", program: "Online MBA - Business Analytics", quote: "Flexible weekend classes meant I could keep my full-time job. The career services team helped me prep for a senior role interview." },
-    { img: t3, name: "Amit Kulkarni", program: "Online MBA - Financial Management", quote: "Faculty quality is excellent, and the capstone project gave me the confidence to lead my own finance function." },
-  ];
-  const [idx, setIdx] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % items.length), 6000);
-    return () => clearInterval(t);
-  }, [items.length]);
-  return (
-    <section className="py-16 sm:py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Student stories" title="Real outcomes from real learners" />
-        <div className="mt-12 relative">
-          {items.map((it, i) => (
-            <motion.div
-              key={i}
-              initial={false}
-              animate={{ opacity: idx === i ? 1 : 0 }}
-              transition={{ duration: 0.5 }}
-              className="grid items-center gap-8 rounded-3xl bg-card p-6 shadow-elegant sm:p-10 lg:grid-cols-[auto_1fr] lg:gap-12"
-              style={{ display: idx === i ? "grid" : "none" }}
-            >
-              <img src={it.img} alt={it.name} loading="lazy" width={512} height={512} className="mx-auto h-28 w-28 rounded-full object-cover shadow-card ring-4 ring-[color:var(--gold)]/40 sm:h-36 sm:w-36 lg:mx-0" />
-              <div>
-                <Quote className="h-6 w-6 text-[color:var(--gold)]" />
-                <blockquote className="mt-2 text-lg font-medium leading-relaxed text-foreground sm:text-xl">
-                  "{it.quote}"
-                </blockquote>
-                <p className="mt-4 font-extrabold text-foreground">{it.name}</p>
-                <p className="text-sm text-muted-foreground">{it.program}</p>
-              </div>
-            </motion.div>
-          ))}
-          <div className="mt-6 flex justify-center gap-2">
-            {items.map((_, i) => (
-              <button
-                key={i}
-                aria-label={`Show testimonial ${i + 1}`}
-                onClick={() => setIdx(i)}
-                className={`h-2 rounded-full transition-all ${idx === i ? "w-8 gradient-primary" : "w-2 bg-border"}`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ---------- FEES ---------- */
 const FEE_PLANS = [
   { opt: "Option 1", title: "Annual Payment", price: "₹1,05,000", suffix: "/ year", bullets: ["Pay once per year", "2 installments over 2 years", "Best value plan"] },
   { opt: "Option 2", title: "Semester-Wise Payment", price: "₹55,000", suffix: "/ semester", bullets: ["4 flexible installments", "Pay per semester", "Easier on monthly budget"] },
   { opt: "Option 3", title: "Full Payment", price: "₹1,96,000", suffix: "one-time", bullets: ["Single one-time payment", "No further installments", "Lower than the annual plan total"] },
-  { opt: "Option 4", title: "EMI Facility", price: "0%", suffix: "interest EMI", bullets: ["3, 6, 9 or 12-month tenures", "Via HDFC, ICICI, Axis, Citi, SC, HSBC & Kotak cards", "No-cost loan facility even without a credit card"] },
+  { opt: "Option 4", title: "EMI Facility", price: "0%", suffix: "interest EMI", bullets: ["No Cost EMI Plans - Students can pay with fees in 3,6,9,12,24,36 months tenures", "Credit card EMI - Banks charges applicable as per bank policy"] },
 ];
 
 function Fees() {
@@ -850,6 +805,7 @@ function AboutCDOE() {
 
 /* ---------- FAQ ---------- */
 function FAQ() {
+  const { faqItems } = Route.useLoaderData();
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section className="bg-surface-soft py-16 sm:py-24" id="faq">
@@ -857,13 +813,13 @@ function FAQ() {
         <SectionTitle eyebrow="Frequently Asked Questions" title="Everything you need to know" />
         <div className="mt-12 space-y-3">
           {faqItems.map((it, i) => (
-            <div key={i} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+            <div key={it.id} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
               <button
                 onClick={() => setOpen(open === i ? null : i)}
                 className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 aria-expanded={open === i}
               >
-                <span className="font-bold text-foreground">{it.q}</span>
+                <span className="font-bold text-foreground">{it.question}</span>
                 <ChevronDown className={`h-5 w-5 shrink-0 text-primary transition-transform ${open === i ? "rotate-180" : ""}`} />
               </button>
               <motion.div
@@ -872,7 +828,7 @@ function FAQ() {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.a}</p>
+                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.answer}</p>
               </motion.div>
             </div>
           ))}

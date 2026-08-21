@@ -8,28 +8,43 @@ import {
   FileEdit, FileCheck, CreditCard, Wallet, Smartphone, HelpCircle, CalendarCheck,
   Mail, Quote, Download, BookMarked, TrendingUp,
 } from "lucide-react";
-import t1 from "@/assets/testimonial-1.jpg";
-import t2 from "@/assets/testimonial-2.jpg";
-import t3 from "@/assets/testimonial-3.jpg";
 import { EnquiryForm } from "@/components/landing/EnquiryForm";
 import { Counter } from "@/components/landing/Counter";
 import {
   Header, Footer, FloatingWA, MobileCTABar, SectionTitle,
   telLink, waLink, CALENDLY_LINK,
 } from "@/components/layout/SiteChrome";
+import { Testimonials } from "@/components/site/Testimonials";
+import { getPageFn } from "@/backend/pages/actions";
+import { listFaqsForPageFn } from "@/backend/faqs/actions";
+import { listTestimonialsFn } from "@/backend/testimonials/actions";
+import { buildSeoHead } from "@/lib/seo-head";
+
+const FALLBACK_SEO = {
+  slug: "online-certificate",
+  title: "Certificate Course",
+  metaTitle: "NMIMS Certificate in Business Management 2026 | 6 Months | Fees & Admission",
+  metaDescription: "UGC-entitled 6-month Certificate in Business Management from NMIMS CDOE - Business Communication, Financial Accounting, Marketing Management, Organisational Behaviour & more. Fee ₹55,000. Admissions open 2026.",
+  canonicalUrl: "/programs/online-certificate",
+  ogImage: null as string | null,
+  status: "published" as const,
+};
 
 export const Route = createFileRoute("/programs/online-certificate")({
-  head: () => ({
-    meta: [
-      { title: "NMIMS Certificate in Business Management 2026 | 6 Months | Fees & Admission" },
-      { name: "description", content: "UGC-entitled 6-month Certificate in Business Management from NMIMS CDOE - Business Communication, Financial Accounting, Marketing Management, Organisational Behaviour & more. Fee ₹55,000. Admissions open 2026." },
-      { property: "og:title", content: "NMIMS Certificate in Business Management 2026" },
-      { property: "og:description", content: "6-month, 1-semester UGC-entitled Certificate in Business Management from NMIMS CDOE - a fast-track introduction to core business fundamentals." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/programs/online-certificate" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/programs/online-certificate" }],
+  loader: async () => {
+    const [page, faqItems, testimonials] = await Promise.all([
+      getPageFn({ data: { slug: "online-certificate" } }),
+      listFaqsForPageFn({ data: { pageSlug: "online-certificate" } }),
+      listTestimonialsFn({ data: { pageSlug: "online-certificate" } }),
+    ]);
+    return { seo: page ?? FALLBACK_SEO, faqItems, testimonials };
+  },
+  head: ({ loaderData }) => {
+    const seo = loaderData?.seo ?? FALLBACK_SEO;
+    const { meta, links } = buildSeoHead(seo, { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: FALLBACK_SEO.canonicalUrl });
+    return {
+    meta,
+    links,
     scripts: [
       {
         type: "application/ld+json",
@@ -71,15 +86,16 @@ export const Route = createFileRoute("/programs/online-certificate")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: faqItems.map((f) => ({
+          mainEntity: (loaderData?.faqItems ?? []).map((f) => ({
             "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
           })),
         }),
       },
     ],
-  }),
+    };
+  },
   component: OnlineCertificatePage,
 });
 
@@ -94,19 +110,9 @@ const outcomes = [
   { icon: CheckCircle2, t: "Apply Management Principles", d: "Implement strategies that enhance organisational performance in your current role." },
 ];
 
-const faqItems = [
-  { q: "Is the NMIMS Certificate in Business Management UGC recognised?", a: "Yes. The Certificate in Business Management carries a UGC-entitled credential, offered by SVKM's NMIMS - a NAAC A++ accredited, Category 1 Autonomous, NIRF Top-100 deemed university." },
-  { q: "How long does the Certificate take to complete?", a: "6 months, delivered across a single semester." },
-  { q: "What subjects are covered in the Certificate?", a: "Business Communication, Financial Accounting, Marketing Management, Micro & Macro Economics, Organisational Behaviour, and Quantitative Methods – I." },
-  { q: "What is the fee for the Certificate in Business Management?", a: "₹55,000 (excluding GST) as a single program fee. An admission processing fee of ₹1,200 applies, with an initial ₹10,000 collected at registration and an exam fee of ₹800 per subject per attempt. A loan facility is available even without a credit card, and finance options are available on request." },
-  { q: "What is the eligibility criteria for the Certificate?", a: "HSC (10+2) in any discipline from a recognised board." },
-  { q: "What documents are required for admission?", a: "Academic certificates, a work experience letter, identity proof and a passport-size photo, submitted after registration." },
-  { q: "How is the Certificate different from the Diploma Programmes?", a: "The Certificate in Business Management is a faster, 6-month, 1-semester generalist programme covering core business fundamentals only, with no specialisation tracks. The Diploma Programmes run for 1 year across 2 semesters and let you choose from 5 specialisation tracks - Finance, Marketing, Business, Operations or HR Management." },
-  { q: "What roles does this Certificate prepare you for?", a: "The programme prepares you to take up roles such as Business Development Manager and Business Strategy Manager, alongside a well-rounded introduction to core business concepts." },
-  { q: "How are exams conducted for the Certificate programme?", a: "Exams are conducted online with stringent remote-proctoring systems in place, so you can appear from anywhere." },
-];
 
 function OnlineCertificatePage() {
+  const { testimonials } = Route.useLoaderData();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header activeProgram="Certificate Course" />
@@ -118,7 +124,7 @@ function OnlineCertificatePage() {
         <LearningExperience />
         <Certificate />
         <CareerOutcomes />
-        <Testimonials />
+        <Testimonials items={testimonials} />
         <Fees />
         <EligibilityAndStructure />
         <AdmissionProcess />
@@ -369,10 +375,10 @@ function Certificate() {
           <p className="mt-3 max-w-lg text-white/85">Earn an official Certificate in Business Management from NMIMS CDOE that recognises your dedication to learning and pursuit of excellence.</p>
           <ul className="mt-6 space-y-3">
             {[
-              "UGC-entitled credential from NMIMS CDOE",
-              "Issued by NMIMS CDOE - a Deemed University",
+              "Recognised by employers across India",
+              "Issued by Prestigious NMIMS - Deemed to be University",
               "Shareable on LinkedIn & job portals",
-              "Comes with worldwide NMIMS CDOE alumni status",
+              "NAAC A++ accredited University",
             ].map((c) => (
               <li key={c} className="flex items-center gap-2.5 text-sm text-white/90">
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-[#8bffb0]" /> {c}
@@ -410,59 +416,6 @@ function CareerOutcomes() {
               <p className="mt-2 text-xs text-muted-foreground">{d}</p>
             </div>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- TESTIMONIALS ---------- */
-function Testimonials() {
-  const items = [
-    { img: t1, name: "Neha Kulkarni", program: "Certificate in Business Management", quote: "I wanted a quick, credible refresher on business fundamentals before switching teams internally - six months and I had exactly the grounding I needed." },
-    { img: t2, name: "Arjun Bhatt", program: "Certificate in Business Management", quote: "The marketing and financial accounting modules were directly useful at work almost immediately. A great low-commitment way to test if I wanted to go further with a diploma or degree." },
-    { img: t3, name: "Divya Menon", program: "Certificate in Business Management", quote: "Balancing this alongside a full-time job was easy with the recorded lectures. It gave me the confidence to take on more business-facing responsibilities." },
-  ];
-  const [idx, setIdx] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % items.length), 6000);
-    return () => clearInterval(t);
-  }, [items.length]);
-  return (
-    <section className="py-16 sm:py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Student stories" title="Real outcomes from real learners" />
-        <div className="mt-12 relative">
-          {items.map((it, i) => (
-            <motion.div
-              key={i}
-              initial={false}
-              animate={{ opacity: idx === i ? 1 : 0 }}
-              transition={{ duration: 0.5 }}
-              className="grid items-center gap-8 rounded-3xl bg-card p-6 shadow-elegant sm:p-10 lg:grid-cols-[auto_1fr] lg:gap-12"
-              style={{ display: idx === i ? "grid" : "none" }}
-            >
-              <img src={it.img} alt={it.name} loading="lazy" width={512} height={512} className="mx-auto h-28 w-28 rounded-full object-cover shadow-card ring-4 ring-[color:var(--gold)]/40 sm:h-36 sm:w-36 lg:mx-0" />
-              <div>
-                <Quote className="h-6 w-6 text-[color:var(--gold)]" />
-                <blockquote className="mt-2 text-lg font-medium leading-relaxed text-foreground sm:text-xl">
-                  "{it.quote}"
-                </blockquote>
-                <p className="mt-4 font-extrabold text-foreground">{it.name}</p>
-                <p className="text-sm text-muted-foreground">{it.program}</p>
-              </div>
-            </motion.div>
-          ))}
-          <div className="mt-6 flex justify-center gap-2">
-            {items.map((_, i) => (
-              <button
-                key={i}
-                aria-label={`Show testimonial ${i + 1}`}
-                onClick={() => setIdx(i)}
-                className={`h-2 rounded-full transition-all ${idx === i ? "w-8 gradient-primary" : "w-2 bg-border"}`}
-              />
-            ))}
-          </div>
         </div>
       </div>
     </section>
@@ -655,6 +608,7 @@ function AboutCDOE() {
 
 /* ---------- FAQ ---------- */
 function FAQ() {
+  const { faqItems } = Route.useLoaderData();
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section className="bg-surface-soft py-16 sm:py-24" id="faq">
@@ -662,13 +616,13 @@ function FAQ() {
         <SectionTitle eyebrow="Frequently Asked Questions" title="Everything you need to know" />
         <div className="mt-12 space-y-3">
           {faqItems.map((it, i) => (
-            <div key={i} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+            <div key={it.id} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
               <button
                 onClick={() => setOpen(open === i ? null : i)}
                 className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 aria-expanded={open === i}
               >
-                <span className="font-bold text-foreground">{it.q}</span>
+                <span className="font-bold text-foreground">{it.question}</span>
                 <ChevronDown className={`h-5 w-5 shrink-0 text-primary transition-transform ${open === i ? "rotate-180" : ""}`} />
               </button>
               <motion.div
@@ -677,7 +631,7 @@ function FAQ() {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.a}</p>
+                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.answer}</p>
               </motion.div>
             </div>
           ))}

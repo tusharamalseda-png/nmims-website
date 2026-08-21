@@ -1,14 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
-  ArrowRight, Calendar, Clock, ShieldCheck, IdCard, Wallet,
+  ArrowRight, Calendar, ShieldCheck, IdCard, Wallet, BookOpen,
 } from "lucide-react";
 import {
   Header, Footer, FloatingWA, MobileCTABar,
 } from "@/components/layout/SiteChrome";
+import { listBlogPostsFn } from "@/backend/blog/actions";
+import { formatDate } from "@/lib/format-date";
+
+const CATEGORY_ICONS: Record<string, typeof ShieldCheck> = {
+  "Eligibility & Recognition": ShieldCheck,
+  "Admission Process": IdCard,
+  "Fees & EMI": Wallet,
+};
 
 export const Route = createFileRoute("/blog/")({
-  head: () => ({
+  loader: async () => {
+    const all = await listBlogPostsFn();
+    const now = Date.now();
+    return all.filter((p) => p.status === "published" && (!p.scheduledFor || new Date(p.scheduledFor).getTime() <= now));
+  },
+  head: ({ loaderData }) => ({
     meta: [
       { title: "NMIMS Online Blog | Admissions, Fees & Eligibility Guides for Gujarat Students" },
       { name: "description", content: "Clear, fact-checked guides on NMIMS CDOE online degree admissions - UGC validity, ABC ID & DEB ID setup, and fees & EMI options - written for students and working professionals across Gujarat." },
@@ -38,11 +51,11 @@ export const Route = createFileRoute("/blog/")({
           "@type": "Blog",
           name: "NMIMS Online Blog",
           description: "Admission, eligibility and fee guides for NMIMS CDOE's online degree programmes.",
-          blogPost: posts.map((p) => ({
+          blogPost: (loaderData ?? []).map((p) => ({
             "@type": "BlogPosting",
             headline: p.title,
             description: p.excerpt,
-            datePublished: p.isoDate,
+            datePublished: p.publishedAt,
             url: `/blog/${p.slug}`,
           })),
         }),
@@ -52,45 +65,13 @@ export const Route = createFileRoute("/blog/")({
   component: BlogIndexPage,
 });
 
-const posts = [
-  {
-    slug: "is-online-mba-valid-ugc-equivalence",
-    icon: ShieldCheck,
-    category: "Eligibility & Recognition",
-    title: "Is an Online MBA Valid in India? UGC Equivalence Rules Explained (2026)",
-    excerpt: "What UGC Regulation 22 actually says about online degrees, whether an NMIMS CDOE Online MBA counts the same as an on-campus one, and how to verify any online degree before you enrol.",
-    date: "12 Jul 2026",
-    isoDate: "2026-07-12",
-    readTime: "7 min read",
-  },
-  {
-    slug: "abc-id-deb-id-guide-nmims-cdoe",
-    icon: IdCard,
-    category: "Admission Process",
-    title: "How to Create Your ABC ID and DEB ID for NMIMS CDOE Admission (2026 Guide)",
-    excerpt: "A step-by-step walkthrough for creating your Academic Bank of Credits (ABC) ID via DigiLocker, understanding DEB registration, and avoiding the most common admission delays.",
-    date: "15 Jul 2026",
-    isoDate: "2026-07-15",
-    readTime: "6 min read",
-  },
-  {
-    slug: "nmims-online-mba-fees-emi-guide",
-    icon: Wallet,
-    category: "Fees & EMI",
-    title: "NMIMS CDOE Online MBA Fees & EMI Options Explained (2026)",
-    excerpt: "The complete, transparent fee breakdown for the NMIMS Online MBA - annual vs semester-wise payment, hidden costs to budget for, EMI banks, and the defence personnel concession.",
-    date: "18 Jul 2026",
-    isoDate: "2026-07-18",
-    readTime: "6 min read",
-  },
-];
-
 function BlogIndexPage() {
+  const posts = Route.useLoaderData();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
       <main>
-        <PostGrid />
+        <PostGrid posts={posts} />
         <NeedHelp />
       </main>
       <Footer />
@@ -101,37 +82,51 @@ function BlogIndexPage() {
 }
 
 /* ---------- POST GRID ---------- */
-function PostGrid() {
+type BlogPostSummary = {
+  slug: string;
+  category: string | null;
+  title: string;
+  excerpt: string | null;
+  publishedAt: Date | string | null;
+};
+
+function PostGrid({ posts }: { posts: BlogPostSummary[] }) {
   return (
     <>
       <IntroBanner />
       <section className="pb-16 sm:pb-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map(({ slug, icon: Icon, category, title, excerpt, date, readTime }, i) => (
-            <motion.a
-              key={slug}
-              href={`/blog/${slug}`}
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="group flex flex-col rounded-3xl border border-border bg-card p-6 shadow-card transition hover:-translate-y-1 hover:shadow-elegant"
-            >
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#FFDCE3] text-[#E63950]">
-                <Icon className="h-5 w-5" />
-              </span>
-              <span className="mt-4 inline-block w-fit rounded-full bg-secondary px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary">
-                {category}
-              </span>
-              <h3 className="mt-3 text-lg font-extrabold leading-snug text-foreground">{title}</h3>
-              <p className="mt-2 flex-1 text-sm text-muted-foreground">{excerpt}</p>
-              <div className="mt-5 flex items-center gap-4 text-xs font-semibold text-muted-foreground">
-                <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" /> {date}</span>
-                <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {readTime}</span>
-              </div>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary transition group-hover:gap-2">
-                Read Guide <ArrowRight className="h-4 w-4" />
-              </span>
-            </motion.a>
-          ))}
+          {posts.map(({ slug, category, title, excerpt, publishedAt }, i) => {
+            const Icon = (category && CATEGORY_ICONS[category]) || BookOpen;
+            return (
+              <motion.a
+                key={slug}
+                href={`/blog/${slug}`}
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="group flex flex-col rounded-3xl border border-border bg-card p-6 shadow-card transition hover:-translate-y-1 hover:shadow-elegant"
+              >
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#FFDCE3] text-[#E63950]">
+                  <Icon className="h-5 w-5" />
+                </span>
+                {category && (
+                  <span className="mt-4 inline-block w-fit rounded-full bg-secondary px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary">
+                    {category}
+                  </span>
+                )}
+                <h3 className="mt-3 text-lg font-extrabold leading-snug text-foreground">{title}</h3>
+                <p className="mt-2 flex-1 text-sm text-muted-foreground">{excerpt}</p>
+                {publishedAt && (
+                  <div className="mt-5 flex items-center gap-4 text-xs font-semibold text-muted-foreground">
+                    <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" /> {formatDate(publishedAt)}</span>
+                  </div>
+                )}
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary transition group-hover:gap-2">
+                  Read Guide <ArrowRight className="h-4 w-4" />
+                </span>
+              </motion.a>
+            );
+          })}
         </div>
         </div>
       </section>

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
+import { createInquiryFn } from "@/backend/leads/actions";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Enter your full name").max(80),
@@ -41,8 +42,21 @@ export function EnquiryForm({ compact = false, showMessage = false }: { compact?
     reset,
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const onSubmit = async (_data: FormData) => {
-    await new Promise((r) => setTimeout(r, 700));
+  const onSubmit = async (data: FormData) => {
+    const params = new URLSearchParams(window.location.search);
+    await createInquiryFn({
+      data: {
+        name: data.name,
+        email: data.email,
+        phone: data.mobile,
+        program: data.program,
+        state: data.state,
+        message: data.message,
+        sourcePage: window.location.pathname,
+        utmSource: params.get("utm_source") ?? undefined,
+        utmCampaign: params.get("utm_campaign") ?? undefined,
+      },
+    });
     setSubmitted(true);
     reset();
     setTimeout(() => setSubmitted(false), 4500);

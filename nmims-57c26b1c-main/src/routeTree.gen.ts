@@ -9,23 +9,98 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ShareYourStoryRouteImport } from './routes/share-your-story'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as MaintenanceRouteImport } from './routes/maintenance'
 import { Route as LpOnlineMbaRouteImport } from './routes/lp-online-mba'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as ContactUsRouteImport } from './routes/contact-us'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgramsIndexRouteImport } from './routes/programs/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as ProgramsOnlineMbaRouteImport } from './routes/programs/online-mba'
 import { Route as ProgramsOnlineDiplomaRouteImport } from './routes/programs/online-diploma'
 import { Route as ProgramsOnlineCertificateRouteImport } from './routes/programs/online-certificate'
 import { Route as ProgramsOnlineBcomRouteImport } from './routes/programs/online-bcom'
 import { Route as ProgramsOnlineBbaRouteImport } from './routes/programs/online-bba'
+import { Route as MediaSlugRouteImport } from './routes/media/$slug'
 import { Route as BlogNmimsOnlineMbaFeesEmiGuideRouteImport } from './routes/blog/nmims-online-mba-fees-emi-guide'
 import { Route as BlogIsOnlineMbaValidUgcEquivalenceRouteImport } from './routes/blog/is-online-mba-valid-ugc-equivalence'
 import { Route as BlogAbcIdDebIdGuideNmimsCdoeRouteImport } from './routes/blog/abc-id-deb-id-guide-nmims-cdoe'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as ApiLeadsExportDotcsvRouteImport } from './routes/api/leads-export[.]csv'
+import { Route as ApiInquiriesRouteImport } from './routes/api/inquiries'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminAuthedRouteRouteImport } from './routes/admin/_authed/route'
+import { Route as AdminAuthedIndexRouteImport } from './routes/admin/_authed/index'
+import { Route as AdminAuthedToolsRouteImport } from './routes/admin/_authed/tools'
+import { Route as AdminAuthedTestimonialsRouteImport } from './routes/admin/_authed/testimonials'
+import { Route as AdminAuthedTeamRouteImport } from './routes/admin/_authed/team'
+import { Route as AdminAuthedSettingsRouteImport } from './routes/admin/_authed/settings'
+import { Route as AdminAuthedRedirectsRouteImport } from './routes/admin/_authed/redirects'
+import { Route as AdminAuthedNotFoundRouteImport } from './routes/admin/_authed/not-found'
+import { Route as AdminAuthedNavigationRouteImport } from './routes/admin/_authed/navigation'
+import { Route as AdminAuthedMediaRouteImport } from './routes/admin/_authed/media'
+import { Route as AdminAuthedLogosRouteImport } from './routes/admin/_authed/logos'
+import { Route as AdminAuthedLeadsRouteImport } from './routes/admin/_authed/leads'
+import { Route as AdminAuthedHealthRouteImport } from './routes/admin/_authed/health'
+import { Route as AdminAuthedFaqsRouteImport } from './routes/admin/_authed/faqs'
+import { Route as AdminAuthedActivityRouteImport } from './routes/admin/_authed/activity'
+import { Route as AdminAuthedAccountRouteImport } from './routes/admin/_authed/account'
+import { Route as AdminAuthedPagesIndexRouteImport } from './routes/admin/_authed/pages/index'
+import { Route as AdminAuthedBlogIndexRouteImport } from './routes/admin/_authed/blog/index'
+import { Route as AdminAuthedPagesSlugRouteImport } from './routes/admin/_authed/pages/$slug'
+import { Route as AdminAuthedBlogNewRouteImport } from './routes/admin/_authed/blog/new'
+import { Route as AdminAuthedBlogSlugRouteImport } from './routes/admin/_authed/blog/$slug'
 
+const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShareYourStoryRoute = ShareYourStoryRouteImport.update({
+  id: '/share-your-story',
+  path: '/share-your-story',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundPolicyRoute = RefundPolicyRouteImport.update({
+  id: '/refund-policy',
+  path: '/refund-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MaintenanceRoute = MaintenanceRouteImport.update({
+  id: '/maintenance',
+  path: '/maintenance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LpOnlineMbaRoute = LpOnlineMbaRouteImport.update({
   id: '/lp-online-mba',
   path: '/lp-online-mba',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactUsRoute = ContactUsRouteImport.update({
@@ -41,6 +116,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramsIndexRoute = ProgramsIndexRouteImport.update({
+  id: '/programs/',
+  path: '/programs/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
@@ -74,6 +154,11 @@ const ProgramsOnlineBbaRoute = ProgramsOnlineBbaRouteImport.update({
   path: '/programs/online-bba',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MediaSlugRoute = MediaSlugRouteImport.update({
+  id: '/media/$slug',
+  path: '/media/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogNmimsOnlineMbaFeesEmiGuideRoute =
   BlogNmimsOnlineMbaFeesEmiGuideRouteImport.update({
     id: '/blog/nmims-online-mba-fees-emi-guide',
@@ -92,52 +177,281 @@ const BlogAbcIdDebIdGuideNmimsCdoeRoute =
     path: '/blog/abc-id-deb-id-guide-nmims-cdoe',
     getParentRoute: () => rootRouteImport,
   } as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLeadsExportDotcsvRoute = ApiLeadsExportDotcsvRouteImport.update({
+  id: '/api/leads-export.csv',
+  path: '/api/leads-export.csv',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInquiriesRoute = ApiInquiriesRouteImport.update({
+  id: '/api/inquiries',
+  path: '/api/inquiries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAuthedRouteRoute = AdminAuthedRouteRouteImport.update({
+  id: '/admin/_authed',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAuthedIndexRoute = AdminAuthedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedToolsRoute = AdminAuthedToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedTestimonialsRoute = AdminAuthedTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedTeamRoute = AdminAuthedTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedSettingsRoute = AdminAuthedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedRedirectsRoute = AdminAuthedRedirectsRouteImport.update({
+  id: '/redirects',
+  path: '/redirects',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedNotFoundRoute = AdminAuthedNotFoundRouteImport.update({
+  id: '/not-found',
+  path: '/not-found',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedNavigationRoute = AdminAuthedNavigationRouteImport.update({
+  id: '/navigation',
+  path: '/navigation',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedMediaRoute = AdminAuthedMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedLogosRoute = AdminAuthedLogosRouteImport.update({
+  id: '/logos',
+  path: '/logos',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedLeadsRoute = AdminAuthedLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedHealthRoute = AdminAuthedHealthRouteImport.update({
+  id: '/health',
+  path: '/health',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedFaqsRoute = AdminAuthedFaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedActivityRoute = AdminAuthedActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedAccountRoute = AdminAuthedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedPagesIndexRoute = AdminAuthedPagesIndexRouteImport.update({
+  id: '/pages/',
+  path: '/pages/',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedBlogIndexRoute = AdminAuthedBlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedPagesSlugRoute = AdminAuthedPagesSlugRouteImport.update({
+  id: '/pages/$slug',
+  path: '/pages/$slug',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedBlogNewRoute = AdminAuthedBlogNewRouteImport.update({
+  id: '/blog/new',
+  path: '/blog/new',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
+const AdminAuthedBlogSlugRoute = AdminAuthedBlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => AdminAuthedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact-us': typeof ContactUsRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/lp-online-mba': typeof LpOnlineMbaRoute
+  '/maintenance': typeof MaintenanceRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/share-your-story': typeof ShareYourStoryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
+  '/admin': typeof AdminAuthedRouteRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/api/inquiries': typeof ApiInquiriesRoute
+  '/api/leads-export.csv': typeof ApiLeadsExportDotcsvRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/blog/abc-id-deb-id-guide-nmims-cdoe': typeof BlogAbcIdDebIdGuideNmimsCdoeRoute
   '/blog/is-online-mba-valid-ugc-equivalence': typeof BlogIsOnlineMbaValidUgcEquivalenceRoute
   '/blog/nmims-online-mba-fees-emi-guide': typeof BlogNmimsOnlineMbaFeesEmiGuideRoute
+  '/media/$slug': typeof MediaSlugRoute
   '/programs/online-bba': typeof ProgramsOnlineBbaRoute
   '/programs/online-bcom': typeof ProgramsOnlineBcomRoute
   '/programs/online-certificate': typeof ProgramsOnlineCertificateRoute
   '/programs/online-diploma': typeof ProgramsOnlineDiplomaRoute
   '/programs/online-mba': typeof ProgramsOnlineMbaRoute
   '/blog/': typeof BlogIndexRoute
+  '/programs/': typeof ProgramsIndexRoute
+  '/admin/account': typeof AdminAuthedAccountRoute
+  '/admin/activity': typeof AdminAuthedActivityRoute
+  '/admin/faqs': typeof AdminAuthedFaqsRoute
+  '/admin/health': typeof AdminAuthedHealthRoute
+  '/admin/leads': typeof AdminAuthedLeadsRoute
+  '/admin/logos': typeof AdminAuthedLogosRoute
+  '/admin/media': typeof AdminAuthedMediaRoute
+  '/admin/navigation': typeof AdminAuthedNavigationRoute
+  '/admin/not-found': typeof AdminAuthedNotFoundRoute
+  '/admin/redirects': typeof AdminAuthedRedirectsRoute
+  '/admin/settings': typeof AdminAuthedSettingsRoute
+  '/admin/team': typeof AdminAuthedTeamRoute
+  '/admin/testimonials': typeof AdminAuthedTestimonialsRoute
+  '/admin/tools': typeof AdminAuthedToolsRoute
+  '/admin/': typeof AdminAuthedIndexRoute
+  '/admin/blog/$slug': typeof AdminAuthedBlogSlugRoute
+  '/admin/blog/new': typeof AdminAuthedBlogNewRoute
+  '/admin/pages/$slug': typeof AdminAuthedPagesSlugRoute
+  '/admin/blog/': typeof AdminAuthedBlogIndexRoute
+  '/admin/pages/': typeof AdminAuthedPagesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact-us': typeof ContactUsRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/lp-online-mba': typeof LpOnlineMbaRoute
+  '/maintenance': typeof MaintenanceRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/share-your-story': typeof ShareYourStoryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/api/inquiries': typeof ApiInquiriesRoute
+  '/api/leads-export.csv': typeof ApiLeadsExportDotcsvRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/blog/abc-id-deb-id-guide-nmims-cdoe': typeof BlogAbcIdDebIdGuideNmimsCdoeRoute
   '/blog/is-online-mba-valid-ugc-equivalence': typeof BlogIsOnlineMbaValidUgcEquivalenceRoute
   '/blog/nmims-online-mba-fees-emi-guide': typeof BlogNmimsOnlineMbaFeesEmiGuideRoute
+  '/media/$slug': typeof MediaSlugRoute
   '/programs/online-bba': typeof ProgramsOnlineBbaRoute
   '/programs/online-bcom': typeof ProgramsOnlineBcomRoute
   '/programs/online-certificate': typeof ProgramsOnlineCertificateRoute
   '/programs/online-diploma': typeof ProgramsOnlineDiplomaRoute
   '/programs/online-mba': typeof ProgramsOnlineMbaRoute
   '/blog': typeof BlogIndexRoute
+  '/programs': typeof ProgramsIndexRoute
+  '/admin/account': typeof AdminAuthedAccountRoute
+  '/admin/activity': typeof AdminAuthedActivityRoute
+  '/admin/faqs': typeof AdminAuthedFaqsRoute
+  '/admin/health': typeof AdminAuthedHealthRoute
+  '/admin/leads': typeof AdminAuthedLeadsRoute
+  '/admin/logos': typeof AdminAuthedLogosRoute
+  '/admin/media': typeof AdminAuthedMediaRoute
+  '/admin/navigation': typeof AdminAuthedNavigationRoute
+  '/admin/not-found': typeof AdminAuthedNotFoundRoute
+  '/admin/redirects': typeof AdminAuthedRedirectsRoute
+  '/admin/settings': typeof AdminAuthedSettingsRoute
+  '/admin/team': typeof AdminAuthedTeamRoute
+  '/admin/testimonials': typeof AdminAuthedTestimonialsRoute
+  '/admin/tools': typeof AdminAuthedToolsRoute
+  '/admin': typeof AdminAuthedIndexRoute
+  '/admin/blog/$slug': typeof AdminAuthedBlogSlugRoute
+  '/admin/blog/new': typeof AdminAuthedBlogNewRoute
+  '/admin/pages/$slug': typeof AdminAuthedPagesSlugRoute
+  '/admin/blog': typeof AdminAuthedBlogIndexRoute
+  '/admin/pages': typeof AdminAuthedPagesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact-us': typeof ContactUsRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/lp-online-mba': typeof LpOnlineMbaRoute
+  '/maintenance': typeof MaintenanceRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/share-your-story': typeof ShareYourStoryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
+  '/admin/_authed': typeof AdminAuthedRouteRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/api/inquiries': typeof ApiInquiriesRoute
+  '/api/leads-export.csv': typeof ApiLeadsExportDotcsvRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/blog/abc-id-deb-id-guide-nmims-cdoe': typeof BlogAbcIdDebIdGuideNmimsCdoeRoute
   '/blog/is-online-mba-valid-ugc-equivalence': typeof BlogIsOnlineMbaValidUgcEquivalenceRoute
   '/blog/nmims-online-mba-fees-emi-guide': typeof BlogNmimsOnlineMbaFeesEmiGuideRoute
+  '/media/$slug': typeof MediaSlugRoute
   '/programs/online-bba': typeof ProgramsOnlineBbaRoute
   '/programs/online-bcom': typeof ProgramsOnlineBcomRoute
   '/programs/online-certificate': typeof ProgramsOnlineCertificateRoute
   '/programs/online-diploma': typeof ProgramsOnlineDiplomaRoute
   '/programs/online-mba': typeof ProgramsOnlineMbaRoute
   '/blog/': typeof BlogIndexRoute
+  '/programs/': typeof ProgramsIndexRoute
+  '/admin/_authed/account': typeof AdminAuthedAccountRoute
+  '/admin/_authed/activity': typeof AdminAuthedActivityRoute
+  '/admin/_authed/faqs': typeof AdminAuthedFaqsRoute
+  '/admin/_authed/health': typeof AdminAuthedHealthRoute
+  '/admin/_authed/leads': typeof AdminAuthedLeadsRoute
+  '/admin/_authed/logos': typeof AdminAuthedLogosRoute
+  '/admin/_authed/media': typeof AdminAuthedMediaRoute
+  '/admin/_authed/navigation': typeof AdminAuthedNavigationRoute
+  '/admin/_authed/not-found': typeof AdminAuthedNotFoundRoute
+  '/admin/_authed/redirects': typeof AdminAuthedRedirectsRoute
+  '/admin/_authed/settings': typeof AdminAuthedSettingsRoute
+  '/admin/_authed/team': typeof AdminAuthedTeamRoute
+  '/admin/_authed/testimonials': typeof AdminAuthedTestimonialsRoute
+  '/admin/_authed/tools': typeof AdminAuthedToolsRoute
+  '/admin/_authed/': typeof AdminAuthedIndexRoute
+  '/admin/_authed/blog/$slug': typeof AdminAuthedBlogSlugRoute
+  '/admin/_authed/blog/new': typeof AdminAuthedBlogNewRoute
+  '/admin/_authed/pages/$slug': typeof AdminAuthedPagesSlugRoute
+  '/admin/_authed/blog/': typeof AdminAuthedBlogIndexRoute
+  '/admin/_authed/pages/': typeof AdminAuthedPagesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -145,71 +459,246 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact-us'
+    | '/disclaimer'
     | '/lp-online-mba'
+    | '/maintenance'
+    | '/privacy-policy'
+    | '/refund-policy'
+    | '/robots.txt'
+    | '/share-your-story'
+    | '/sitemap.xml'
+    | '/terms-of-service'
+    | '/admin'
+    | '/admin/login'
+    | '/api/inquiries'
+    | '/api/leads-export.csv'
+    | '/blog/$slug'
     | '/blog/abc-id-deb-id-guide-nmims-cdoe'
     | '/blog/is-online-mba-valid-ugc-equivalence'
     | '/blog/nmims-online-mba-fees-emi-guide'
+    | '/media/$slug'
     | '/programs/online-bba'
     | '/programs/online-bcom'
     | '/programs/online-certificate'
     | '/programs/online-diploma'
     | '/programs/online-mba'
     | '/blog/'
+    | '/programs/'
+    | '/admin/account'
+    | '/admin/activity'
+    | '/admin/faqs'
+    | '/admin/health'
+    | '/admin/leads'
+    | '/admin/logos'
+    | '/admin/media'
+    | '/admin/navigation'
+    | '/admin/not-found'
+    | '/admin/redirects'
+    | '/admin/settings'
+    | '/admin/team'
+    | '/admin/testimonials'
+    | '/admin/tools'
+    | '/admin/'
+    | '/admin/blog/$slug'
+    | '/admin/blog/new'
+    | '/admin/pages/$slug'
+    | '/admin/blog/'
+    | '/admin/pages/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact-us'
+    | '/disclaimer'
     | '/lp-online-mba'
+    | '/maintenance'
+    | '/privacy-policy'
+    | '/refund-policy'
+    | '/robots.txt'
+    | '/share-your-story'
+    | '/sitemap.xml'
+    | '/terms-of-service'
+    | '/admin/login'
+    | '/api/inquiries'
+    | '/api/leads-export.csv'
+    | '/blog/$slug'
     | '/blog/abc-id-deb-id-guide-nmims-cdoe'
     | '/blog/is-online-mba-valid-ugc-equivalence'
     | '/blog/nmims-online-mba-fees-emi-guide'
+    | '/media/$slug'
     | '/programs/online-bba'
     | '/programs/online-bcom'
     | '/programs/online-certificate'
     | '/programs/online-diploma'
     | '/programs/online-mba'
     | '/blog'
+    | '/programs'
+    | '/admin/account'
+    | '/admin/activity'
+    | '/admin/faqs'
+    | '/admin/health'
+    | '/admin/leads'
+    | '/admin/logos'
+    | '/admin/media'
+    | '/admin/navigation'
+    | '/admin/not-found'
+    | '/admin/redirects'
+    | '/admin/settings'
+    | '/admin/team'
+    | '/admin/testimonials'
+    | '/admin/tools'
+    | '/admin'
+    | '/admin/blog/$slug'
+    | '/admin/blog/new'
+    | '/admin/pages/$slug'
+    | '/admin/blog'
+    | '/admin/pages'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact-us'
+    | '/disclaimer'
     | '/lp-online-mba'
+    | '/maintenance'
+    | '/privacy-policy'
+    | '/refund-policy'
+    | '/robots.txt'
+    | '/share-your-story'
+    | '/sitemap.xml'
+    | '/terms-of-service'
+    | '/admin/_authed'
+    | '/admin/login'
+    | '/api/inquiries'
+    | '/api/leads-export.csv'
+    | '/blog/$slug'
     | '/blog/abc-id-deb-id-guide-nmims-cdoe'
     | '/blog/is-online-mba-valid-ugc-equivalence'
     | '/blog/nmims-online-mba-fees-emi-guide'
+    | '/media/$slug'
     | '/programs/online-bba'
     | '/programs/online-bcom'
     | '/programs/online-certificate'
     | '/programs/online-diploma'
     | '/programs/online-mba'
     | '/blog/'
+    | '/programs/'
+    | '/admin/_authed/account'
+    | '/admin/_authed/activity'
+    | '/admin/_authed/faqs'
+    | '/admin/_authed/health'
+    | '/admin/_authed/leads'
+    | '/admin/_authed/logos'
+    | '/admin/_authed/media'
+    | '/admin/_authed/navigation'
+    | '/admin/_authed/not-found'
+    | '/admin/_authed/redirects'
+    | '/admin/_authed/settings'
+    | '/admin/_authed/team'
+    | '/admin/_authed/testimonials'
+    | '/admin/_authed/tools'
+    | '/admin/_authed/'
+    | '/admin/_authed/blog/$slug'
+    | '/admin/_authed/blog/new'
+    | '/admin/_authed/pages/$slug'
+    | '/admin/_authed/blog/'
+    | '/admin/_authed/pages/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactUsRoute: typeof ContactUsRoute
+  DisclaimerRoute: typeof DisclaimerRoute
   LpOnlineMbaRoute: typeof LpOnlineMbaRoute
+  MaintenanceRoute: typeof MaintenanceRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  RefundPolicyRoute: typeof RefundPolicyRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  ShareYourStoryRoute: typeof ShareYourStoryRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsOfServiceRoute: typeof TermsOfServiceRoute
+  AdminAuthedRouteRoute: typeof AdminAuthedRouteRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
+  ApiInquiriesRoute: typeof ApiInquiriesRoute
+  ApiLeadsExportDotcsvRoute: typeof ApiLeadsExportDotcsvRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   BlogAbcIdDebIdGuideNmimsCdoeRoute: typeof BlogAbcIdDebIdGuideNmimsCdoeRoute
   BlogIsOnlineMbaValidUgcEquivalenceRoute: typeof BlogIsOnlineMbaValidUgcEquivalenceRoute
   BlogNmimsOnlineMbaFeesEmiGuideRoute: typeof BlogNmimsOnlineMbaFeesEmiGuideRoute
+  MediaSlugRoute: typeof MediaSlugRoute
   ProgramsOnlineBbaRoute: typeof ProgramsOnlineBbaRoute
   ProgramsOnlineBcomRoute: typeof ProgramsOnlineBcomRoute
   ProgramsOnlineCertificateRoute: typeof ProgramsOnlineCertificateRoute
   ProgramsOnlineDiplomaRoute: typeof ProgramsOnlineDiplomaRoute
   ProgramsOnlineMbaRoute: typeof ProgramsOnlineMbaRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  ProgramsIndexRoute: typeof ProgramsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms-of-service': {
+      id: '/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/share-your-story': {
+      id: '/share-your-story'
+      path: '/share-your-story'
+      fullPath: '/share-your-story'
+      preLoaderRoute: typeof ShareYourStoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refund-policy': {
+      id: '/refund-policy'
+      path: '/refund-policy'
+      fullPath: '/refund-policy'
+      preLoaderRoute: typeof RefundPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/maintenance': {
+      id: '/maintenance'
+      path: '/maintenance'
+      fullPath: '/maintenance'
+      preLoaderRoute: typeof MaintenanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lp-online-mba': {
       id: '/lp-online-mba'
       path: '/lp-online-mba'
       fullPath: '/lp-online-mba'
       preLoaderRoute: typeof LpOnlineMbaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact-us': {
@@ -231,6 +720,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programs/': {
+      id: '/programs/'
+      path: '/programs'
+      fullPath: '/programs/'
+      preLoaderRoute: typeof ProgramsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/': {
@@ -275,6 +771,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgramsOnlineBbaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/media/$slug': {
+      id: '/media/$slug'
+      path: '/media/$slug'
+      fullPath: '/media/$slug'
+      preLoaderRoute: typeof MediaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/nmims-online-mba-fees-emi-guide': {
       id: '/blog/nmims-online-mba-fees-emi-guide'
       path: '/blog/nmims-online-mba-fees-emi-guide'
@@ -296,24 +799,263 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogAbcIdDebIdGuideNmimsCdoeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/leads-export.csv': {
+      id: '/api/leads-export.csv'
+      path: '/api/leads-export.csv'
+      fullPath: '/api/leads-export.csv'
+      preLoaderRoute: typeof ApiLeadsExportDotcsvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inquiries': {
+      id: '/api/inquiries'
+      path: '/api/inquiries'
+      fullPath: '/api/inquiries'
+      preLoaderRoute: typeof ApiInquiriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_authed': {
+      id: '/admin/_authed'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminAuthedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_authed/': {
+      id: '/admin/_authed/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminAuthedIndexRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/tools': {
+      id: '/admin/_authed/tools'
+      path: '/tools'
+      fullPath: '/admin/tools'
+      preLoaderRoute: typeof AdminAuthedToolsRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/testimonials': {
+      id: '/admin/_authed/testimonials'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminAuthedTestimonialsRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/team': {
+      id: '/admin/_authed/team'
+      path: '/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AdminAuthedTeamRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/settings': {
+      id: '/admin/_authed/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminAuthedSettingsRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/redirects': {
+      id: '/admin/_authed/redirects'
+      path: '/redirects'
+      fullPath: '/admin/redirects'
+      preLoaderRoute: typeof AdminAuthedRedirectsRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/not-found': {
+      id: '/admin/_authed/not-found'
+      path: '/not-found'
+      fullPath: '/admin/not-found'
+      preLoaderRoute: typeof AdminAuthedNotFoundRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/navigation': {
+      id: '/admin/_authed/navigation'
+      path: '/navigation'
+      fullPath: '/admin/navigation'
+      preLoaderRoute: typeof AdminAuthedNavigationRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/media': {
+      id: '/admin/_authed/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminAuthedMediaRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/logos': {
+      id: '/admin/_authed/logos'
+      path: '/logos'
+      fullPath: '/admin/logos'
+      preLoaderRoute: typeof AdminAuthedLogosRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/leads': {
+      id: '/admin/_authed/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminAuthedLeadsRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/health': {
+      id: '/admin/_authed/health'
+      path: '/health'
+      fullPath: '/admin/health'
+      preLoaderRoute: typeof AdminAuthedHealthRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/faqs': {
+      id: '/admin/_authed/faqs'
+      path: '/faqs'
+      fullPath: '/admin/faqs'
+      preLoaderRoute: typeof AdminAuthedFaqsRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/activity': {
+      id: '/admin/_authed/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminAuthedActivityRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/account': {
+      id: '/admin/_authed/account'
+      path: '/account'
+      fullPath: '/admin/account'
+      preLoaderRoute: typeof AdminAuthedAccountRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/pages/': {
+      id: '/admin/_authed/pages/'
+      path: '/pages'
+      fullPath: '/admin/pages/'
+      preLoaderRoute: typeof AdminAuthedPagesIndexRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/blog/': {
+      id: '/admin/_authed/blog/'
+      path: '/blog'
+      fullPath: '/admin/blog/'
+      preLoaderRoute: typeof AdminAuthedBlogIndexRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/pages/$slug': {
+      id: '/admin/_authed/pages/$slug'
+      path: '/pages/$slug'
+      fullPath: '/admin/pages/$slug'
+      preLoaderRoute: typeof AdminAuthedPagesSlugRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/blog/new': {
+      id: '/admin/_authed/blog/new'
+      path: '/blog/new'
+      fullPath: '/admin/blog/new'
+      preLoaderRoute: typeof AdminAuthedBlogNewRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
+    '/admin/_authed/blog/$slug': {
+      id: '/admin/_authed/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/admin/blog/$slug'
+      preLoaderRoute: typeof AdminAuthedBlogSlugRouteImport
+      parentRoute: typeof AdminAuthedRouteRoute
+    }
   }
 }
+
+interface AdminAuthedRouteRouteChildren {
+  AdminAuthedAccountRoute: typeof AdminAuthedAccountRoute
+  AdminAuthedActivityRoute: typeof AdminAuthedActivityRoute
+  AdminAuthedFaqsRoute: typeof AdminAuthedFaqsRoute
+  AdminAuthedHealthRoute: typeof AdminAuthedHealthRoute
+  AdminAuthedLeadsRoute: typeof AdminAuthedLeadsRoute
+  AdminAuthedLogosRoute: typeof AdminAuthedLogosRoute
+  AdminAuthedMediaRoute: typeof AdminAuthedMediaRoute
+  AdminAuthedNavigationRoute: typeof AdminAuthedNavigationRoute
+  AdminAuthedNotFoundRoute: typeof AdminAuthedNotFoundRoute
+  AdminAuthedRedirectsRoute: typeof AdminAuthedRedirectsRoute
+  AdminAuthedSettingsRoute: typeof AdminAuthedSettingsRoute
+  AdminAuthedTeamRoute: typeof AdminAuthedTeamRoute
+  AdminAuthedTestimonialsRoute: typeof AdminAuthedTestimonialsRoute
+  AdminAuthedToolsRoute: typeof AdminAuthedToolsRoute
+  AdminAuthedIndexRoute: typeof AdminAuthedIndexRoute
+  AdminAuthedBlogSlugRoute: typeof AdminAuthedBlogSlugRoute
+  AdminAuthedBlogNewRoute: typeof AdminAuthedBlogNewRoute
+  AdminAuthedPagesSlugRoute: typeof AdminAuthedPagesSlugRoute
+  AdminAuthedBlogIndexRoute: typeof AdminAuthedBlogIndexRoute
+  AdminAuthedPagesIndexRoute: typeof AdminAuthedPagesIndexRoute
+}
+
+const AdminAuthedRouteRouteChildren: AdminAuthedRouteRouteChildren = {
+  AdminAuthedAccountRoute: AdminAuthedAccountRoute,
+  AdminAuthedActivityRoute: AdminAuthedActivityRoute,
+  AdminAuthedFaqsRoute: AdminAuthedFaqsRoute,
+  AdminAuthedHealthRoute: AdminAuthedHealthRoute,
+  AdminAuthedLeadsRoute: AdminAuthedLeadsRoute,
+  AdminAuthedLogosRoute: AdminAuthedLogosRoute,
+  AdminAuthedMediaRoute: AdminAuthedMediaRoute,
+  AdminAuthedNavigationRoute: AdminAuthedNavigationRoute,
+  AdminAuthedNotFoundRoute: AdminAuthedNotFoundRoute,
+  AdminAuthedRedirectsRoute: AdminAuthedRedirectsRoute,
+  AdminAuthedSettingsRoute: AdminAuthedSettingsRoute,
+  AdminAuthedTeamRoute: AdminAuthedTeamRoute,
+  AdminAuthedTestimonialsRoute: AdminAuthedTestimonialsRoute,
+  AdminAuthedToolsRoute: AdminAuthedToolsRoute,
+  AdminAuthedIndexRoute: AdminAuthedIndexRoute,
+  AdminAuthedBlogSlugRoute: AdminAuthedBlogSlugRoute,
+  AdminAuthedBlogNewRoute: AdminAuthedBlogNewRoute,
+  AdminAuthedPagesSlugRoute: AdminAuthedPagesSlugRoute,
+  AdminAuthedBlogIndexRoute: AdminAuthedBlogIndexRoute,
+  AdminAuthedPagesIndexRoute: AdminAuthedPagesIndexRoute,
+}
+
+const AdminAuthedRouteRouteWithChildren =
+  AdminAuthedRouteRoute._addFileChildren(AdminAuthedRouteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactUsRoute: ContactUsRoute,
+  DisclaimerRoute: DisclaimerRoute,
   LpOnlineMbaRoute: LpOnlineMbaRoute,
+  MaintenanceRoute: MaintenanceRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  RefundPolicyRoute: RefundPolicyRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  ShareYourStoryRoute: ShareYourStoryRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsOfServiceRoute: TermsOfServiceRoute,
+  AdminAuthedRouteRoute: AdminAuthedRouteRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
+  ApiInquiriesRoute: ApiInquiriesRoute,
+  ApiLeadsExportDotcsvRoute: ApiLeadsExportDotcsvRoute,
+  BlogSlugRoute: BlogSlugRoute,
   BlogAbcIdDebIdGuideNmimsCdoeRoute: BlogAbcIdDebIdGuideNmimsCdoeRoute,
   BlogIsOnlineMbaValidUgcEquivalenceRoute:
     BlogIsOnlineMbaValidUgcEquivalenceRoute,
   BlogNmimsOnlineMbaFeesEmiGuideRoute: BlogNmimsOnlineMbaFeesEmiGuideRoute,
+  MediaSlugRoute: MediaSlugRoute,
   ProgramsOnlineBbaRoute: ProgramsOnlineBbaRoute,
   ProgramsOnlineBcomRoute: ProgramsOnlineBcomRoute,
   ProgramsOnlineCertificateRoute: ProgramsOnlineCertificateRoute,
   ProgramsOnlineDiplomaRoute: ProgramsOnlineDiplomaRoute,
   ProgramsOnlineMbaRoute: ProgramsOnlineMbaRoute,
   BlogIndexRoute: BlogIndexRoute,
+  ProgramsIndexRoute: ProgramsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -11,21 +11,39 @@ import { EnquiryForm } from "@/components/landing/EnquiryForm";
 import { Counter } from "@/components/landing/Counter";
 import {
   Header, Footer, FloatingWA, MobileCTABar, SectionTitle,
-  telLink, waLink, CALENDLY_LINK,
+  telLink, waLink, CALENDLY_LINK, PRESENCE_CITIES,
 } from "@/components/layout/SiteChrome";
+import { TeamSection } from "@/components/site/TeamSection";
+import { getPageFn } from "@/backend/pages/actions";
+import { listFaqsForPageFn } from "@/backend/faqs/actions";
+import { listTeamMembersFn } from "@/backend/team/actions";
+import { buildSeoHead } from "@/lib/seo-head";
+
+const FALLBACK_SEO = {
+  slug: "about",
+  title: "About Us",
+  metaTitle: "About Us | NMIMS Online - Authorized NMIMS CDOE Enquiry Partner in Gujarat Since 2018",
+  metaDescription: "NMIMS Online is an Authorized NMIMS CDOE Enquiry Partner (AEP) counselling students and working professionals across Gujarat since 2018. Free, transparent guidance from enquiry to graduation - learn our story, our role, and how we work with NMIMS CDOE.",
+  canonicalUrl: "/about",
+  ogImage: null as string | null,
+  status: "published" as const,
+};
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Us | NMIMS Online - Authorized NMIMS CDOE Enquiry Partner in Gujarat Since 2018" },
-      { name: "description", content: "NMIMS Online is an Authorized NMIMS CDOE Enquiry Partner (AEP) counselling students and working professionals across Gujarat since 2018. Free, transparent guidance from enquiry to graduation - learn our story, our role, and how we work with NMIMS CDOE." },
-      { property: "og:title", content: "About NMIMS Online - Authorized NMIMS CDOE Enquiry Partner" },
-      { property: "og:description", content: "An Authorized NMIMS CDOE Enquiry Partner serving Gujarat since 2018 - free counselling, transparent guidance, and end-to-end admission support." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/about" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/about" }],
+  loader: async () => {
+    const [page, faqItems, teamMembers] = await Promise.all([
+      getPageFn({ data: { slug: "about" } }),
+      listFaqsForPageFn({ data: { pageSlug: "about" } }),
+      listTeamMembersFn(),
+    ]);
+    return { seo: page ?? FALLBACK_SEO, faqItems, teamMembers };
+  },
+  head: ({ loaderData }) => {
+    const seo = loaderData?.seo ?? FALLBACK_SEO;
+    const { meta, links } = buildSeoHead(seo, { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: FALLBACK_SEO.canonicalUrl });
+    return {
+    meta,
+    links,
     scripts: [
       {
         type: "application/ld+json",
@@ -46,7 +64,7 @@ export const Route = createFileRoute("/about")({
           name: "NMIMS Online",
           description: "An Affiliate Enquiry Partner (AEP) for NMIMS CDOE - an independent education counselling business, not NMIMS University or NMIMS CDOE itself - providing admission counselling for NMIMS CDOE's online degree programs across India since 2018.",
           foundingDate: "2018",
-          areaServed: presenceCities.map((c) => ({ "@type": "City", name: c })),
+          areaServed: PRESENCE_CITIES.map((c) => ({ "@type": "City", name: c })),
         }),
       },
       {
@@ -54,24 +72,20 @@ export const Route = createFileRoute("/about")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: faqItems.map((f) => ({
+          mainEntity: (loaderData?.faqItems ?? []).map((f) => ({
             "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
           })),
         }),
       },
     ],
-  }),
+    };
+  },
   component: AboutPage,
 });
 
 const waMessage = "Hi, I'd like to know more about NMIMS Online and how you help with NMIMS CDOE admissions.";
-
-const presenceCities = [
-  "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Gandhinagar", "Bhavnagar", "Jamnagar", "Anand",
-  "Mumbai", "Pune", "Bengaluru", "Hyderabad", "Delhi (NCR)", "Chennai", "Kolkata", "Jaipur", "Lucknow", "Chandigarh", "Indore", "Nagpur",
-];
 
 const personas = [
   { icon: GraduationCap, t: "Fresh Graduates", d: "Starting a career and looking for a recognised degree that opens doors from day one." },
@@ -91,20 +105,8 @@ const whyChoose = [
   { icon: HeartHandshake, t: "Support That Doesn't Stop at Admission", d: "We continue assisting with university processes and academic queries even after you enrol." },
 ];
 
-const faqItems = [
-  { q: "What is an Affiliate Enquiry Partner (AEP)?", a: "An Affiliate Enquiry Partner (AEP) is an authorized partner that provides information about the programs offered by NMIMS Centre for Distance and Online Education (CDOE) and assists prospective students with admission-related enquiries." },
-  { q: "What services does an AEP provide?", a: "An AEP helps students understand program details, eligibility criteria, specializations, fee structure, admission process, and available payment options, enabling them to make informed decisions." },
-  { q: "Does the AEP conduct admissions?", a: "No. Admissions are processed and approved solely by NMIMS CDOE. The AEP only assists students with the application process and admission-related guidance." },
-  { q: "Can the AEP approve or reject my application?", a: "No. Application review, document verification, and admission approval are the exclusive responsibility of NMIMS CDOE." },
-  { q: "Can the AEP guarantee admission?", a: "No. Admission is subject to the eligibility criteria, document verification, and approval by NMIMS CDOE." },
-  { q: "Can I contact the AEP after taking admission?", a: "Yes. The AEP can continue to assist you with general guidance and direct you to the appropriate NMIMS CDOE support channels whenever required." },
-  { q: "Does the AEP conduct classes or examinations?", a: "No. Academic delivery, live lectures, recorded sessions, examinations, evaluation, and results are entirely managed by NMIMS CDOE." },
-  { q: "Can the AEP resolve academic or examination-related issues?", a: "The AEP can guide students on the appropriate process or support channel, but all academic, examination, result, and student service matters are handled by NMIMS CDOE." },
-  { q: "Does the AEP issue degrees or certificates?", a: "No. Degrees, diplomas, certificates, transcripts, and other academic documents are issued solely by NMIMS CDOE." },
-  { q: "Why should I apply through an AEP?", a: "An AEP provides personalized guidance, helps you understand the available programs, answers your admission-related questions, and supports you throughout the pre-admission process, making your application journey smoother and more informed." },
-];
-
 function AboutPage() {
+  const { teamMembers } = Route.useLoaderData();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -117,6 +119,7 @@ function AboutPage() {
         <CityPresence />
         <AboutUniversity />
         <OurRole />
+        <TeamSection items={teamMembers} />
         <FAQ />
         <NeedHelp />
       </main>
@@ -322,7 +325,7 @@ function WhyChooseUs() {
 
 /* ---------- CITY PRESENCE ---------- */
 function CityPresence() {
-  const track = [...presenceCities, ...presenceCities];
+  const track = [...PRESENCE_CITIES, ...PRESENCE_CITIES];
   return (
     <section className="py-16 text-center sm:py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
@@ -451,6 +454,7 @@ function OurRole() {
 
 /* ---------- FAQ ---------- */
 function FAQ() {
+  const { faqItems } = Route.useLoaderData();
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section className="bg-surface-soft py-16 sm:py-24" id="faq">
@@ -458,13 +462,13 @@ function FAQ() {
         <SectionTitle eyebrow="Frequently Asked Questions" title="Everything you need to know about us" />
         <div className="mt-12 space-y-3">
           {faqItems.map((it, i) => (
-            <div key={i} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+            <div key={it.id} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
               <button
                 onClick={() => setOpen(open === i ? null : i)}
                 className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 aria-expanded={open === i}
               >
-                <span className="font-bold text-foreground">{it.q}</span>
+                <span className="font-bold text-foreground">{it.question}</span>
                 <ChevronDown className={`h-5 w-5 shrink-0 text-primary transition-transform ${open === i ? "rotate-180" : ""}`} />
               </button>
               <motion.div
@@ -473,7 +477,7 @@ function FAQ() {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.a}</p>
+                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.answer}</p>
               </motion.div>
             </div>
           ))}

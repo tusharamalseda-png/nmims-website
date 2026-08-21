@@ -8,19 +8,25 @@ import {
 import {
   Header, Footer, FloatingWA, MobileCTABar, telLink, waLink,
 } from "@/components/layout/SiteChrome";
+import { getBlogPostFn } from "@/backend/blog/actions";
+import { buildSeoHead } from "@/lib/seo-head";
+
+const FALLBACK_SEO = {
+  metaTitle: "How to Create Your ABC ID and DEB ID for NMIMS CDOE Admission (2026 Guide)",
+  metaDescription: "Step-by-step guide to creating your Academic Bank of Credits (ABC) ID via DigiLocker and your DEB ID at deb.ugc.ac.in - both mandatory before you can submit an NMIMS CDOE online degree application.",
+};
 
 export const Route = createFileRoute("/blog/abc-id-deb-id-guide-nmims-cdoe")({
-  head: () => ({
-    meta: [
-      { title: "How to Create Your ABC ID and DEB ID for NMIMS CDOE Admission (2026 Guide)" },
-      { name: "description", content: "Step-by-step guide to creating your Academic Bank of Credits (ABC) ID via DigiLocker and your DEB ID at deb.ugc.ac.in - both mandatory before you can submit an NMIMS CDOE online degree application." },
-      { property: "og:title", content: "ABC ID & DEB ID Guide for NMIMS CDOE Admission" },
-      { property: "og:description", content: "How to create your ABC ID via DigiLocker and your DEB ID at deb.ugc.ac.in before applying for an NMIMS CDOE online degree." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "/blog/abc-id-deb-id-guide-nmims-cdoe" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/blog/abc-id-deb-id-guide-nmims-cdoe" }],
+  loader: async () => (await getBlogPostFn({ data: { slug: "abc-id-deb-id-guide-nmims-cdoe" } })) ?? FALLBACK_SEO,
+  head: ({ loaderData }) => {
+    const seo = loaderData ?? FALLBACK_SEO;
+    const { meta, links } = buildSeoHead(
+      "featuredImage" in seo ? { ...seo, ogImage: seo.featuredImage } : seo,
+      { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: "/blog/abc-id-deb-id-guide-nmims-cdoe" },
+    );
+    return {
+    meta,
+    links,
     scripts: [
       {
         type: "application/ld+json",
@@ -69,7 +75,8 @@ export const Route = createFileRoute("/blog/abc-id-deb-id-guide-nmims-cdoe")({
         }),
       },
     ],
-  }),
+    };
+  },
   component: PostPage,
 });
 

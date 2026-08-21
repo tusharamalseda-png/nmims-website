@@ -8,19 +8,25 @@ import {
 import {
   Header, Footer, FloatingWA, MobileCTABar, telLink, waLink,
 } from "@/components/layout/SiteChrome";
+import { getBlogPostFn } from "@/backend/blog/actions";
+import { buildSeoHead } from "@/lib/seo-head";
+
+const FALLBACK_SEO = {
+  metaTitle: "NMIMS CDOE Online MBA Fees & EMI Options Explained (2026)",
+  metaDescription: "The complete NMIMS Online MBA fee breakdown for 2026 - annual vs semester-wise payment, admission processing and exam fees, EMI banks, and the defence personnel concession, with no hidden costs.",
+};
 
 export const Route = createFileRoute("/blog/nmims-online-mba-fees-emi-guide")({
-  head: () => ({
-    meta: [
-      { title: "NMIMS CDOE Online MBA Fees & EMI Options Explained (2026)" },
-      { name: "description", content: "The complete NMIMS Online MBA fee breakdown for 2026 - annual vs semester-wise payment, admission processing and exam fees, EMI banks, and the defence personnel concession, with no hidden costs." },
-      { property: "og:title", content: "NMIMS Online MBA Fees & EMI Options Explained (2026)" },
-      { property: "og:description", content: "Annual vs semester-wise fees, hidden costs, EMI options and the defence concession for the NMIMS CDOE Online MBA." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "/blog/nmims-online-mba-fees-emi-guide" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/blog/nmims-online-mba-fees-emi-guide" }],
+  loader: async () => (await getBlogPostFn({ data: { slug: "nmims-online-mba-fees-emi-guide" } })) ?? FALLBACK_SEO,
+  head: ({ loaderData }) => {
+    const seo = loaderData ?? FALLBACK_SEO;
+    const { meta, links } = buildSeoHead(
+      "featuredImage" in seo ? { ...seo, ogImage: seo.featuredImage } : seo,
+      { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: "/blog/nmims-online-mba-fees-emi-guide" },
+    );
+    return {
+    meta,
+    links,
     scripts: [
       {
         type: "application/ld+json",
@@ -60,7 +66,8 @@ export const Route = createFileRoute("/blog/nmims-online-mba-fees-emi-guide")({
         }),
       },
     ],
-  }),
+    };
+  },
   component: PostPage,
 });
 
