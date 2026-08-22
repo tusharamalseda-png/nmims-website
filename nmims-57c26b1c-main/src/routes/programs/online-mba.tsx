@@ -272,7 +272,7 @@ function TrustStats() {
 /* ---------- WHY CHOOSE ---------- */
 function WhyChoose() {
   const items = [
-    { icon: Video, t: "Live Interactive Classes", d: "Weekend and Wednesday live sessions with faculty and real-time doubt-solving Q&A." },
+    { icon: Video, t: "Live Interactive Classes", d: "Weekend and Weekday live sessions with faculty and real-time doubt-solving Q&A." },
     { icon: Laptop, t: "Recorded Sessions", d: "Lifetime access to high-quality recordings - learn at your own pace." },
     { icon: GraduationCap, t: "Experienced Faculty", d: "Learn from academicians and industry leaders with years of experience." },
     { icon: Briefcase, t: "Career Services", d: "1:1 career coaching, resume review and access to 700+ hiring partners." },

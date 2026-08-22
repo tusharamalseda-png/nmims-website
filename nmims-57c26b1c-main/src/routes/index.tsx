@@ -375,7 +375,7 @@ function Specializations() {
 /* ---------- WHY CHOOSE ---------- */
 function WhyChoose() {
   const items = [
-    { icon: Video, t: "Live Interactive Classes", d: "Weekend and Wednesday live sessions with award-winning faculty and real-time Q&A." },
+    { icon: Video, t: "Live Interactive Classes", d: "Weekend and Weekday live sessions with award-winning faculty and real-time Q&A." },
     { icon: Laptop, t: "Recorded Sessions", d: "Lifetime access to high-quality recordings - learn at your pace." },
     { icon: GraduationCap, t: "Experienced Faculty", d: "Learn from experienced academicians and industry leaders with 15+ years of experience." },
     { icon: Briefcase, t: "Career Services", d: "1:1 career coaching, resume review and access to 700+ hiring partners." },

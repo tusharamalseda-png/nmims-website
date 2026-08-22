@@ -300,7 +300,7 @@ function TrustStats() {
 /* ---------- WHY CHOOSE ---------- */
 function WhyChoose() {
   const items = [
-    { icon: Video, t: "Live Interactive Classes", d: "Weekend and Wednesday live sessions with faculty and real-time doubt-solving Q&A." },
+    { icon: Video, t: "Live Interactive Classes", d: "Weekend and Weekday live sessions with faculty and real-time doubt-solving Q&A." },
     { icon: GraduationCap, t: "750+ Full-Time Faculty", d: "Learn from NMIMS' own faculty across its multidisciplinary schools." },
     { icon: Award, t: "India's Top 10 B-School", d: "Study with a university consistently ranked among India's best." },
     { icon: Briefcase, t: "Career Services", d: "Career services and access to a wide hiring-partner network." },
