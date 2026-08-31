@@ -267,8 +267,18 @@ export function Footer() {
             NMIMS Centre for Distance and Online Education (CDOE) is one of India's leading institutions for flexible, career-focused online education, offering UGC-entitled online degrees for working professionals.
           </p>
           <div className="mt-5 space-y-2 text-sm">
-            <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-[color:var(--gold)]" /> {phone}, {PHONE_SECONDARY}</p>
-            {email && <p className="flex items-center gap-2"><MessageCircle className="h-4 w-4 text-[color:var(--gold)]" /> {email}</p>}
+            <p className="flex items-center gap-2">
+              <Phone className="h-4 w-4 shrink-0 text-[color:var(--gold)]" />
+              <a href={`tel:${phone}`} className="transition hover:text-[color:var(--gold)]">{phone}</a>
+              <span>,</span>
+              <a href={`tel:${PHONE_SECONDARY}`} className="transition hover:text-[color:var(--gold)]">{PHONE_SECONDARY}</a>
+            </p>
+            {email && (
+              <p className="flex items-center gap-2">
+                <MessageCircle className="h-4 w-4 shrink-0 text-[color:var(--gold)]" />
+                <a href={`mailto:${email}`} className="transition hover:text-[color:var(--gold)]">{email}</a>
+              </p>
+            )}
           </div>
           {socialEntries.length > 0 && (
             <div className="mt-5 flex items-center gap-3">

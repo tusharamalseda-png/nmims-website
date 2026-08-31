@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "nmims-website.vercel.app"
+        }
+      ],
+      "destination": "https://rh-academy-website.vercel.app/:path*",
+      "permanent": true
+    }
+  ]
+}
