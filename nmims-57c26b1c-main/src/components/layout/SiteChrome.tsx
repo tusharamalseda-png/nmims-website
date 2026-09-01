@@ -354,8 +354,20 @@ function WhatsAppGlyph({ className }: { className?: string }) {
   );
 }
 
+const WA_POPUP_DISMISSED_KEY = "wa-popup-dismissed";
+
 export function FloatingWA({ message }: { message: string }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem(WA_POPUP_DISMISSED_KEY) === "1") return;
+    setOpen(true);
+  }, []);
+
+  function dismiss() {
+    setOpen(false);
+    sessionStorage.setItem(WA_POPUP_DISMISSED_KEY, "1");
+  }
 
   return (
     <div className="fixed bottom-24 right-4 z-40 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
@@ -363,7 +375,7 @@ export function FloatingWA({ message }: { message: string }) {
         <div className="relative w-[270px] rounded-2xl bg-white p-4 text-[13px] text-[#333] shadow-elegant">
           <button
             type="button"
-            onClick={() => setOpen(false)}
+            onClick={dismiss}
             aria-label="Close"
             className="absolute -right-2.5 -top-2.5 grid h-6 w-6 place-items-center rounded-full border-[1.5px] border-[#e2e2e2] bg-white text-[#555] shadow-md"
           >
