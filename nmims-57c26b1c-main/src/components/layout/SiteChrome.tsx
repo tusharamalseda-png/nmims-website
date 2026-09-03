@@ -24,6 +24,7 @@ import {
 export const PHONE = "+917069181188";
 export const PHONE_SECONDARY = "+919924266322";
 export const WA = "917069181188";
+// eslint-disable-next-line react-refresh/only-export-components -- shared helper, intentionally co-located with the components that use it
 export const waLink = (message: string) =>
   `https://wa.me/${WA}?text=${encodeURIComponent(message)}`;
 export const telLink = `tel:${PHONE}`;
@@ -32,6 +33,7 @@ export const CALENDLY_LINK = "https://calendly.com/nmims-online/counseling";
 export const EMAIL = "ncdoe-026@nmims.edu";
 export const OFFICE_ADDRESS =
   "503, Sukhsagar Complex, Next to hotel fortune landmark, Ashram road, Ahmedabad, 380013";
+// eslint-disable-next-line react-refresh/only-export-components -- shared data, intentionally co-located with the components that use it
 export const OFFICE_HOURS = [
   ["Monday - Saturday", "9:30 AM - 7:00 PM"],
   ["Sunday", "By appointment only"],
@@ -39,6 +41,7 @@ export const OFFICE_HOURS = [
 
 // Cities we counsel students from — shared across every page that shows a
 // city list (About Us, Contact Us) so they never drift out of sync.
+// eslint-disable-next-line react-refresh/only-export-components -- shared data, intentionally co-located with the components that use it
 export const PRESENCE_CITIES = [
   "Ahmedabad",
   "Surat",
@@ -62,6 +65,7 @@ export const PRESENCE_CITIES = [
   "Nagpur",
 ];
 
+// eslint-disable-next-line react-refresh/only-export-components -- shared data, intentionally co-located with the components that use it
 export const programMenuItems = [
   { label: "Online MBA", href: "/programs/online-mba" },
   { label: "Online BBA", href: "/programs/online-bba" },
