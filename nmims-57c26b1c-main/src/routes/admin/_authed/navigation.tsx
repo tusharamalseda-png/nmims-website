@@ -41,7 +41,8 @@ function NavigationAdmin() {
         <div>
           <h1 className="text-lg font-extrabold text-foreground">Navigation</h1>
           <p className="text-sm text-muted-foreground">
-            Footer "Quick Links" column. The header menu and Programs dropdown are structural and stay in code.
+            Footer "Quick Links" column. The header menu and Programs dropdown are structural and
+            stay in code.
           </p>
         </div>
       </div>
@@ -53,10 +54,15 @@ function NavigationAdmin() {
           </p>
         )}
         {items.map((item) => (
-          <div key={item.id} className="flex items-center gap-2 rounded-xl border border-border bg-card p-3 shadow-card">
+          <div
+            key={item.id}
+            className="flex items-center gap-2 rounded-xl border border-border bg-card p-3 shadow-card"
+          >
             <span className="font-mono text-xs text-muted-foreground">{item.sortOrder}</span>
             <span className="flex-1 text-sm font-semibold text-foreground">{item.label}</span>
-            <span className="flex-1 truncate font-mono text-xs text-muted-foreground">{item.url}</span>
+            <span className="flex-1 truncate font-mono text-xs text-muted-foreground">
+              {item.url}
+            </span>
             <button
               onClick={() => handleDelete(item.id)}
               className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-destructive/10 text-destructive transition hover:bg-destructive/20"
@@ -82,7 +88,9 @@ function NewNavItemRow({ nextOrder, onCreated }: { nextOrder: number; onCreated:
     if (!label || !url) return;
     setSaving(true);
     try {
-      await createNavItemFn({ data: { label, url, parentId: null, location: "footer", sortOrder: nextOrder } });
+      await createNavItemFn({
+        data: { label, url, parentId: null, location: "footer", sortOrder: nextOrder },
+      });
       setLabel("");
       setUrl("");
       onCreated();
@@ -93,8 +101,18 @@ function NewNavItemRow({ nextOrder, onCreated }: { nextOrder: number; onCreated:
 
   return (
     <div className="flex items-center gap-2 rounded-xl border border-dashed border-border p-3">
-      <Input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Label" className="flex-1" />
-      <Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="/url-path" className="flex-1" />
+      <Input
+        value={label}
+        onChange={(e) => setLabel(e.target.value)}
+        placeholder="Label"
+        className="flex-1"
+      />
+      <Input
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        placeholder="/url-path"
+        className="flex-1"
+      />
       <Button size="sm" onClick={handleCreate} disabled={saving || !label || !url}>
         <Plus className="mr-1 h-3.5 w-3.5" /> Add
       </Button>

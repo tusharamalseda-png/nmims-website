@@ -8,7 +8,8 @@ const FALLBACK_SEO = {
   title: "Disclaimer",
   content: { body: "" } as Record<string, unknown>,
   metaTitle: "Disclaimer | RH Academy - NMIMS CDOE Enquiry Partner",
-  metaDescription: "Our relationship to NMIMS CDOE and the limits of the information provided on this site.",
+  metaDescription:
+    "Our relationship to NMIMS CDOE and the limits of the information provided on this site.",
   canonicalUrl: "/disclaimer",
   ogImage: null as string | null,
   status: "published" as const,
@@ -20,7 +21,11 @@ export const Route = createFileRoute("/disclaimer")({
     const seo = loaderData ?? FALLBACK_SEO;
     return buildSeoHead(
       { ...seo, robotsIndex: "robotsIndex" in seo ? seo.robotsIndex : false },
-      { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: FALLBACK_SEO.canonicalUrl },
+      {
+        title: FALLBACK_SEO.metaTitle,
+        description: FALLBACK_SEO.metaDescription,
+        canonicalUrl: FALLBACK_SEO.canonicalUrl,
+      },
     );
   },
   component: DisclaimerPage,

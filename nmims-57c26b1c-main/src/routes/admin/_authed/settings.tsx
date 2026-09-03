@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Settings as SettingsIcon } from "lucide-react";
 import { useState } from "react";
-import { getSiteSettingsFn, updateSiteSettingsFn, getEmailConfigFn } from "@/backend/settings/actions";
+import {
+  getSiteSettingsFn,
+  updateSiteSettingsFn,
+  getEmailConfigFn,
+} from "@/backend/settings/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -142,7 +146,9 @@ function SettingsPage() {
         </span>
         <div>
           <h1 className="text-lg font-extrabold text-foreground">Settings</h1>
-          <p className="text-sm text-muted-foreground">Site-wide configuration — things that apply everywhere, not to one page.</p>
+          <p className="text-sm text-muted-foreground">
+            Site-wide configuration — things that apply everywhere, not to one page.
+          </p>
         </div>
       </div>
 
@@ -152,7 +158,9 @@ function SettingsPage() {
             key={t.key}
             onClick={() => setTab(t.key)}
             className={`rounded-lg px-3.5 py-2 text-xs font-bold transition ${
-              tab === t.key ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"
+              tab === t.key
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
           >
             {t.label}
@@ -165,46 +173,114 @@ function SettingsPage() {
           <>
             <div className="space-y-1.5">
               <Label htmlFor="siteTitle">Site Title</Label>
-              <Input id="siteTitle" value={form.siteTitle} onChange={(e) => set("siteTitle", e.target.value)} />
+              <Input
+                id="siteTitle"
+                value={form.siteTitle}
+                onChange={(e) => set("siteTitle", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="siteTagline">Tagline</Label>
-              <Input id="siteTagline" placeholder="Not set" value={form.siteTagline} onChange={(e) => set("siteTagline", e.target.value)} />
+              <Input
+                id="siteTagline"
+                placeholder="Not set"
+                value={form.siteTagline}
+                onChange={(e) => set("siteTagline", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="logoUrl">Logo URL</Label>
-              <Input id="logoUrl" value={form.logoUrl} onChange={(e) => set("logoUrl", e.target.value)} />
+              <Input
+                id="logoUrl"
+                value={form.logoUrl}
+                onChange={(e) => set("logoUrl", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="faviconUrl">Favicon URL</Label>
-              <Input id="faviconUrl" placeholder="/favicon.ico" value={form.faviconUrl} onChange={(e) => set("faviconUrl", e.target.value)} />
+              <Input
+                id="faviconUrl"
+                placeholder="/favicon.ico"
+                value={form.faviconUrl}
+                onChange={(e) => set("faviconUrl", e.target.value)}
+              />
             </div>
             <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Contact</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Contact
+            </p>
             <div className="space-y-1.5">
               <Label htmlFor="contactPhone">Phone (footer)</Label>
-              <Input id="contactPhone" value={form.contactPhone} onChange={(e) => set("contactPhone", e.target.value)} />
+              <Input
+                id="contactPhone"
+                value={form.contactPhone}
+                onChange={(e) => set("contactPhone", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="contactEmail">Email (footer)</Label>
-              <Input id="contactEmail" value={form.contactEmail} onChange={(e) => set("contactEmail", e.target.value)} />
+              <Input
+                id="contactEmail"
+                value={form.contactEmail}
+                onChange={(e) => set("contactEmail", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="contactAddress">Office Address</Label>
-              <Textarea id="contactAddress" rows={2} value={form.contactAddress} onChange={(e) => set("contactAddress", e.target.value)} />
+              <Textarea
+                id="contactAddress"
+                rows={2}
+                value={form.contactAddress}
+                onChange={(e) => set("contactAddress", e.target.value)}
+              />
             </div>
             <hr className="border-border" />
             <div className="space-y-1.5">
               <Label htmlFor="disclaimerText">Footer Disclaimer Text</Label>
-              <Textarea id="disclaimerText" rows={4} value={form.disclaimerText} onChange={(e) => set("disclaimerText", e.target.value)} />
+              <Textarea
+                id="disclaimerText"
+                rows={4}
+                value={form.disclaimerText}
+                onChange={(e) => set("disclaimerText", e.target.value)}
+              />
             </div>
             <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Social Links</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Social Links
+            </p>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-1.5"><Label htmlFor="facebook">Facebook URL</Label><Input id="facebook" value={form.facebook} onChange={(e) => set("facebook", e.target.value)} /></div>
-              <div className="space-y-1.5"><Label htmlFor="instagram">Instagram URL</Label><Input id="instagram" value={form.instagram} onChange={(e) => set("instagram", e.target.value)} /></div>
-              <div className="space-y-1.5"><Label htmlFor="linkedin">LinkedIn URL</Label><Input id="linkedin" value={form.linkedin} onChange={(e) => set("linkedin", e.target.value)} /></div>
-              <div className="space-y-1.5"><Label htmlFor="youtube">YouTube URL</Label><Input id="youtube" value={form.youtube} onChange={(e) => set("youtube", e.target.value)} /></div>
+              <div className="space-y-1.5">
+                <Label htmlFor="facebook">Facebook URL</Label>
+                <Input
+                  id="facebook"
+                  value={form.facebook}
+                  onChange={(e) => set("facebook", e.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="instagram">Instagram URL</Label>
+                <Input
+                  id="instagram"
+                  value={form.instagram}
+                  onChange={(e) => set("instagram", e.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="linkedin">LinkedIn URL</Label>
+                <Input
+                  id="linkedin"
+                  value={form.linkedin}
+                  onChange={(e) => set("linkedin", e.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="youtube">YouTube URL</Label>
+                <Input
+                  id="youtube"
+                  value={form.youtube}
+                  onChange={(e) => set("youtube", e.target.value)}
+                />
+              </div>
             </div>
           </>
         )}
@@ -212,54 +288,99 @@ function SettingsPage() {
         {tab === "seo" && (
           <>
             <p className="text-xs text-muted-foreground">
-              These apply to the whole site — for one page's meta title, description, robots and schema, edit that page directly under Pages or Blog Posts.
+              These apply to the whole site — for one page's meta title, description, robots and
+              schema, edit that page directly under Pages or Blog Posts.
             </p>
             <div className="space-y-1.5">
               <Label htmlFor="robotsTxt">robots.txt</Label>
-              <Textarea id="robotsTxt" rows={4} className="font-mono text-xs" value={form.robotsTxt} onChange={(e) => set("robotsTxt", e.target.value)} />
+              <Textarea
+                id="robotsTxt"
+                rows={4}
+                className="font-mono text-xs"
+                value={form.robotsTxt}
+                onChange={(e) => set("robotsTxt", e.target.value)}
+              />
               <p className="text-xs text-muted-foreground">Served live at /robots.txt.</p>
             </div>
             <div className="flex items-center justify-between rounded-lg border border-border p-3">
               <div>
                 <p className="text-sm font-semibold text-foreground">XML Sitemap</p>
-                <p className="text-xs text-muted-foreground">Auto-generated at /sitemap.xml from published pages &amp; posts.</p>
+                <p className="text-xs text-muted-foreground">
+                  Auto-generated at /sitemap.xml from published pages &amp; posts.
+                </p>
               </div>
-              <Switch checked={form.sitemapEnabled} onCheckedChange={(v) => set("sitemapEnabled", v)} />
+              <Switch
+                checked={form.sitemapEnabled}
+                onCheckedChange={(v) => set("sitemapEnabled", v)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="googleSiteVerification">Google Search Console verification tag</Label>
-              <Input id="googleSiteVerification" placeholder="Paste your verification meta content value" value={form.googleSiteVerification} onChange={(e) => set("googleSiteVerification", e.target.value)} />
+              <Input
+                id="googleSiteVerification"
+                placeholder="Paste your verification meta content value"
+                value={form.googleSiteVerification}
+                onChange={(e) => set("googleSiteVerification", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="bingSiteVerification">Bing Webmaster verification tag</Label>
-              <Input id="bingSiteVerification" placeholder="Not set" value={form.bingSiteVerification} onChange={(e) => set("bingSiteVerification", e.target.value)} />
+              <Input
+                id="bingSiteVerification"
+                placeholder="Not set"
+                value={form.bingSiteVerification}
+                onChange={(e) => set("bingSiteVerification", e.target.value)}
+              />
             </div>
           </>
         )}
 
         {tab === "integrations" && (
           <>
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Analytics</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Analytics
+            </p>
             <div className="space-y-1.5">
               <Label htmlFor="gaId">Google Analytics 4 (GA4) Measurement ID</Label>
-              <Input id="gaId" placeholder="G-XXXXXXXXXX" value={form.gaId} onChange={(e) => set("gaId", e.target.value)} />
+              <Input
+                id="gaId"
+                placeholder="G-XXXXXXXXXX"
+                value={form.gaId}
+                onChange={(e) => set("gaId", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="gtmId">Google Tag Manager (GTM) Container ID</Label>
-              <Input id="gtmId" placeholder="GTM-XXXXXXX" value={form.gtmId} onChange={(e) => set("gtmId", e.target.value)} />
+              <Input
+                id="gtmId"
+                placeholder="GTM-XXXXXXX"
+                value={form.gtmId}
+                onChange={(e) => set("gtmId", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="metaPixelId">Meta Pixel ID</Label>
-              <Input id="metaPixelId" value={form.metaPixelId} onChange={(e) => set("metaPixelId", e.target.value)} />
+              <Input
+                id="metaPixelId"
+                value={form.metaPixelId}
+                onChange={(e) => set("metaPixelId", e.target.value)}
+              />
             </div>
             <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Email (Resend)</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Email (Resend)
+            </p>
             <p className="text-xs text-muted-foreground">
               Configured via environment variables, not this form — shown here for visibility only.
             </p>
             <div className="space-y-1.5">
               <Label>API Key</Label>
-              <Input disabled value={emailConfig.apiKeyConfigured ? "•••••••••••• (configured)" : "Not configured"} />
+              <Input
+                disabled
+                value={
+                  emailConfig.apiKeyConfigured ? "•••••••••••• (configured)" : "Not configured"
+                }
+              />
             </div>
             <div className="space-y-1.5">
               <Label>Notification Email</Label>
@@ -270,7 +391,8 @@ function SettingsPage() {
               <Input disabled value={emailConfig.fromEmail ?? "onboarding@resend.dev"} />
               {!emailConfig.domainVerified && (
                 <p className="text-xs font-medium text-amber-600">
-                  Unverified — replies can currently only reach your own Resend signup email. Verify the cdoe.info domain in Resend before go-live.
+                  Unverified — replies can currently only reach your own Resend signup email. Verify
+                  the cdoe.info domain in Resend before go-live.
                 </p>
               )}
             </div>
@@ -279,30 +401,54 @@ function SettingsPage() {
 
         {tab === "engagement" && (
           <>
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Announcement Bar</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Announcement Bar
+            </p>
             <div className="flex items-center justify-between rounded-lg border border-border p-3">
               <div>
                 <p className="text-sm font-semibold text-foreground">Show announcement bar</p>
-                <p className="text-xs text-muted-foreground">A dismissible strip across the top of every page — e.g. admissions deadlines.</p>
+                <p className="text-xs text-muted-foreground">
+                  A dismissible strip across the top of every page — e.g. admissions deadlines.
+                </p>
               </div>
-              <Switch checked={form.announcementEnabled} onCheckedChange={(v) => set("announcementEnabled", v)} />
+              <Switch
+                checked={form.announcementEnabled}
+                onCheckedChange={(v) => set("announcementEnabled", v)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="announcementText">Announcement Text</Label>
-              <Input id="announcementText" placeholder="Admissions closing soon — apply by 30th August" value={form.announcementText} onChange={(e) => set("announcementText", e.target.value)} />
+              <Input
+                id="announcementText"
+                placeholder="Admissions closing soon — apply by 30th August"
+                value={form.announcementText}
+                onChange={(e) => set("announcementText", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="announcementLink">Link (optional)</Label>
-              <Input id="announcementLink" placeholder="/contact-us" value={form.announcementLink} onChange={(e) => set("announcementLink", e.target.value)} />
+              <Input
+                id="announcementLink"
+                placeholder="/contact-us"
+                value={form.announcementLink}
+                onChange={(e) => set("announcementLink", e.target.value)}
+              />
             </div>
             <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Cookie Consent</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Cookie Consent
+            </p>
             <div className="flex items-center justify-between rounded-lg border border-border p-3">
               <div>
                 <p className="text-sm font-semibold text-foreground">Show cookie consent banner</p>
-                <p className="text-xs text-muted-foreground">Appears once per visitor at the bottom of every page.</p>
+                <p className="text-xs text-muted-foreground">
+                  Appears once per visitor at the bottom of every page.
+                </p>
               </div>
-              <Switch checked={form.cookieConsentEnabled} onCheckedChange={(v) => set("cookieConsentEnabled", v)} />
+              <Switch
+                checked={form.cookieConsentEnabled}
+                onCheckedChange={(v) => set("cookieConsentEnabled", v)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="cookieConsentText">Banner Text</Label>
@@ -322,9 +468,15 @@ function SettingsPage() {
             <div className="flex items-center justify-between rounded-lg border border-border p-3">
               <div>
                 <p className="text-sm font-semibold text-foreground">Maintenance Mode</p>
-                <p className="text-xs text-muted-foreground">Shows a "we'll be back soon" page to visitors. Admins signed in can still browse the site normally.</p>
+                <p className="text-xs text-muted-foreground">
+                  Shows a "we'll be back soon" page to visitors. Admins signed in can still browse
+                  the site normally.
+                </p>
               </div>
-              <Switch checked={form.maintenanceMode} onCheckedChange={(v) => set("maintenanceMode", v)} />
+              <Switch
+                checked={form.maintenanceMode}
+                onCheckedChange={(v) => set("maintenanceMode", v)}
+              />
             </div>
           </>
         )}

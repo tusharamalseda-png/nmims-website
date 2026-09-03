@@ -25,7 +25,13 @@ export const createTeamMemberFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     const [row] = await db.insert(teamMembers).values(data).returning();
-    logActivity({ userId: session.data.userId, action: "created", entity: "team_member", entityId: row.id, details: { name: data.name } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "team_member",
+      entityId: row.id,
+      details: { name: data.name },
+    });
     return row;
   });
 
@@ -36,7 +42,13 @@ export const updateTeamMemberFn = createServerFn({ method: "POST" })
     if (!session.data.userId) throw new Error("Not authenticated.");
     const { id, ...rest } = data;
     await db.update(teamMembers).set(rest).where(eq(teamMembers.id, id));
-    logActivity({ userId: session.data.userId, action: "updated", entity: "team_member", entityId: id, details: { name: data.name } });
+    logActivity({
+      userId: session.data.userId,
+      action: "updated",
+      entity: "team_member",
+      entityId: id,
+      details: { name: data.name },
+    });
     return { success: true };
   });
 
@@ -46,6 +58,11 @@ export const deleteTeamMemberFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.delete(teamMembers).where(eq(teamMembers.id, data.id));
-    logActivity({ userId: session.data.userId, action: "deleted", entity: "team_member", entityId: data.id });
+    logActivity({
+      userId: session.data.userId,
+      action: "deleted",
+      entity: "team_member",
+      entityId: data.id,
+    });
     return { success: true };
   });

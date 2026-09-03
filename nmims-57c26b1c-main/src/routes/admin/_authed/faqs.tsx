@@ -62,7 +62,9 @@ function FaqsAdmin() {
       </div>
 
       <div className="mt-6 max-w-3xl">
-        <label className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Page</label>
+        <label className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+          Page
+        </label>
         <select
           value={selectedSlug}
           onChange={(e) => handleSlugChange(e.target.value)}
@@ -91,32 +93,60 @@ function FaqsAdmin() {
             </p>
           )}
           {faqList.map((faq) => (
-            <FaqRow key={faq.id} faq={faq} onSaved={() => loadFaqs(selectedSlug)} onDelete={() => handleDelete(faq.id)} />
+            <FaqRow
+              key={faq.id}
+              faq={faq}
+              onSaved={() => loadFaqs(selectedSlug)}
+              onDelete={() => handleDelete(faq.id)}
+            />
           ))}
 
-          <NewFaqRow pageSlug={selectedSlug} nextOrder={faqList.length} onCreated={() => loadFaqs(selectedSlug)} />
+          <NewFaqRow
+            pageSlug={selectedSlug}
+            nextOrder={faqList.length}
+            onCreated={() => loadFaqs(selectedSlug)}
+          />
         </div>
       )}
     </div>
   );
 }
 
-function FaqRow({ faq, onSaved, onDelete }: { faq: Faq; onSaved: () => void; onDelete: () => void }) {
+function FaqRow({
+  faq,
+  onSaved,
+  onDelete,
+}: {
+  faq: Faq;
+  onSaved: () => void;
+  onDelete: () => void;
+}) {
   const [question, setQuestion] = useState(faq.question);
   const [answer, setAnswer] = useState(faq.answer);
   const [saving, setSaving] = useState(false);
 
   async function handleSave() {
     setSaving(true);
-    await updateFaqFn({ data: { id: faq.id, pageSlug: faq.pageSlug, question, answer, sortOrder: faq.sortOrder } });
+    await updateFaqFn({
+      data: { id: faq.id, pageSlug: faq.pageSlug, question, answer, sortOrder: faq.sortOrder },
+    });
     setSaving(false);
     onSaved();
   }
 
   return (
     <div className="space-y-3 rounded-2xl border border-border bg-card p-5 shadow-card">
-      <Input value={question} onChange={(e) => setQuestion(e.target.value)} placeholder="Question" />
-      <Textarea rows={3} value={answer} onChange={(e) => setAnswer(e.target.value)} placeholder="Answer" />
+      <Input
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
+        placeholder="Question"
+      />
+      <Textarea
+        rows={3}
+        value={answer}
+        onChange={(e) => setAnswer(e.target.value)}
+        placeholder="Answer"
+      />
       <div className="flex items-center gap-2">
         <Button size="sm" onClick={handleSave} disabled={saving}>
           {saving ? "Saving..." : "Save"}
@@ -133,7 +163,15 @@ function FaqRow({ faq, onSaved, onDelete }: { faq: Faq; onSaved: () => void; onD
   );
 }
 
-function NewFaqRow({ pageSlug, nextOrder, onCreated }: { pageSlug: string; nextOrder: number; onCreated: () => void }) {
+function NewFaqRow({
+  pageSlug,
+  nextOrder,
+  onCreated,
+}: {
+  pageSlug: string;
+  nextOrder: number;
+  onCreated: () => void;
+}) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [saving, setSaving] = useState(false);
@@ -151,8 +189,17 @@ function NewFaqRow({ pageSlug, nextOrder, onCreated }: { pageSlug: string; nextO
   return (
     <div className="space-y-3 rounded-2xl border border-dashed border-border p-5">
       <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Add FAQ</p>
-      <Input value={question} onChange={(e) => setQuestion(e.target.value)} placeholder="Question" />
-      <Textarea rows={3} value={answer} onChange={(e) => setAnswer(e.target.value)} placeholder="Answer" />
+      <Input
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
+        placeholder="Question"
+      />
+      <Textarea
+        rows={3}
+        value={answer}
+        onChange={(e) => setAnswer(e.target.value)}
+        placeholder="Answer"
+      />
       <Button size="sm" onClick={handleCreate} disabled={saving || !question || !answer}>
         <Plus className="mr-1 h-3.5 w-3.5" /> {saving ? "Adding..." : "Add FAQ"}
       </Button>

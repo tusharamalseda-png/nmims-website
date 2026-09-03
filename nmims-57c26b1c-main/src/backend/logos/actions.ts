@@ -34,7 +34,13 @@ export const createLogoFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     const [row] = await db.insert(logos).values(data).returning();
-    logActivity({ userId: session.data.userId, action: "created", entity: "logo", entityId: row.id, details: { name: data.name } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "logo",
+      entityId: row.id,
+      details: { name: data.name },
+    });
     return row;
   });
 
@@ -45,7 +51,13 @@ export const updateLogoFn = createServerFn({ method: "POST" })
     if (!session.data.userId) throw new Error("Not authenticated.");
     const { id, ...rest } = data;
     await db.update(logos).set(rest).where(eq(logos.id, id));
-    logActivity({ userId: session.data.userId, action: "updated", entity: "logo", entityId: id, details: { name: data.name } });
+    logActivity({
+      userId: session.data.userId,
+      action: "updated",
+      entity: "logo",
+      entityId: id,
+      details: { name: data.name },
+    });
     return { success: true };
   });
 
@@ -55,6 +67,11 @@ export const deleteLogoFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.delete(logos).where(eq(logos.id, data.id));
-    logActivity({ userId: session.data.userId, action: "deleted", entity: "logo", entityId: data.id });
+    logActivity({
+      userId: session.data.userId,
+      action: "deleted",
+      entity: "logo",
+      entityId: data.id,
+    });
     return { success: true };
   });

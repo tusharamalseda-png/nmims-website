@@ -11,20 +11,34 @@ export function LogoStrip({ items }: { items: Logo[] }) {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {accreditations.length > 0 && (
           <div className="mb-8">
-            <p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground">Accreditations</p>
+            <p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              Accreditations
+            </p>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-8">
               {accreditations.map((l) => (
-                <img key={l.id} src={l.logoUrl} alt={l.name} className="h-10 w-auto object-contain grayscale transition hover:grayscale-0" />
+                <img
+                  key={l.id}
+                  src={l.logoUrl}
+                  alt={l.name}
+                  className="h-10 w-auto object-contain grayscale transition hover:grayscale-0"
+                />
               ))}
             </div>
           </div>
         )}
         {banks.length > 0 && (
           <div>
-            <p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground">EMI Partner Banks</p>
+            <p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              EMI Partner Banks
+            </p>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-8">
               {banks.map((l) => (
-                <img key={l.id} src={l.logoUrl} alt={l.name} className="h-8 w-auto object-contain grayscale transition hover:grayscale-0" />
+                <img
+                  key={l.id}
+                  src={l.logoUrl}
+                  alt={l.name}
+                  className="h-8 w-auto object-contain grayscale transition hover:grayscale-0"
+                />
               ))}
             </div>
           </div>

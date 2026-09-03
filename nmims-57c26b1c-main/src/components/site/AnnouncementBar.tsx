@@ -24,9 +24,7 @@ export function AnnouncementBar() {
     setDismissed(true);
   }
 
-  const content = (
-    <span className="text-xs font-semibold sm:text-sm">{text}</span>
-  );
+  const content = <span className="text-xs font-semibold sm:text-sm">{text}</span>;
 
   return (
     <div className="relative z-[70] flex items-center justify-center gap-3 bg-[linear-gradient(135deg,#ef4444,#f97316)] px-4 py-2.5 text-center text-white">
@@ -37,7 +35,11 @@ export function AnnouncementBar() {
       ) : (
         content
       )}
-      <button onClick={dismiss} aria-label="Dismiss" className="absolute right-3 grid h-5 w-5 shrink-0 place-items-center rounded-full hover:bg-white/20">
+      <button
+        onClick={dismiss}
+        aria-label="Dismiss"
+        className="absolute right-3 grid h-5 w-5 shrink-0 place-items-center rounded-full hover:bg-white/20"
+      >
         <X className="h-3.5 w-3.5" />
       </button>
     </div>

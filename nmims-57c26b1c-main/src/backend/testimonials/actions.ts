@@ -75,7 +75,13 @@ export const createTestimonialFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     const [row] = await db.insert(testimonials).values(data).returning();
-    logActivity({ userId: session.data.userId, action: "created", entity: "testimonial", entityId: row.id, details: { name: data.name } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "testimonial",
+      entityId: row.id,
+      details: { name: data.name },
+    });
     return row;
   });
 
@@ -86,7 +92,13 @@ export const updateTestimonialFn = createServerFn({ method: "POST" })
     if (!session.data.userId) throw new Error("Not authenticated.");
     const { id, ...rest } = data;
     await db.update(testimonials).set(rest).where(eq(testimonials.id, id));
-    logActivity({ userId: session.data.userId, action: "updated", entity: "testimonial", entityId: id, details: { name: data.name } });
+    logActivity({
+      userId: session.data.userId,
+      action: "updated",
+      entity: "testimonial",
+      entityId: id,
+      details: { name: data.name },
+    });
     return { success: true };
   });
 
@@ -96,7 +108,12 @@ export const deleteTestimonialFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.delete(testimonials).where(eq(testimonials.id, data.id));
-    logActivity({ userId: session.data.userId, action: "deleted", entity: "testimonial", entityId: data.id });
+    logActivity({
+      userId: session.data.userId,
+      action: "deleted",
+      entity: "testimonial",
+      entityId: data.id,
+    });
     return { success: true };
   });
 
@@ -105,6 +122,9 @@ export const toggleTestimonialVisibilityFn = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
-    await db.update(testimonials).set({ isVisible: data.isVisible }).where(eq(testimonials.id, data.id));
+    await db
+      .update(testimonials)
+      .set({ isVisible: data.isVisible })
+      .where(eq(testimonials.id, data.id));
     return { success: true };
   });

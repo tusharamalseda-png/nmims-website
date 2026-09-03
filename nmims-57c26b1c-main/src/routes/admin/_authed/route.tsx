@@ -1,5 +1,33 @@
-import { createFileRoute, Link, Outlet, redirect, useNavigate, useRouter, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, FileText, BookOpen, HelpCircle, Image as ImageIcon, Inbox, LogOut, Star, Navigation as NavIcon, Settings as SettingsIcon, History, ArrowRightLeft, Award, Users, HeartPulse, Radar, Wrench, UserCog, ChevronRight } from "lucide-react";
+import {
+  createFileRoute,
+  Link,
+  Outlet,
+  redirect,
+  useNavigate,
+  useRouter,
+  useRouterState,
+} from "@tanstack/react-router";
+import {
+  LayoutDashboard,
+  FileText,
+  BookOpen,
+  HelpCircle,
+  Image as ImageIcon,
+  Inbox,
+  LogOut,
+  Star,
+  Navigation as NavIcon,
+  Settings as SettingsIcon,
+  History,
+  ArrowRightLeft,
+  Award,
+  Users,
+  HeartPulse,
+  Radar,
+  Wrench,
+  UserCog,
+  ChevronRight,
+} from "lucide-react";
 import { useState } from "react";
 import { logoutFn, getCurrentAdminFn } from "@/backend/auth/actions";
 import { cn } from "@/lib/utils";
@@ -69,7 +97,11 @@ function AuthedAdminLayout() {
   const navigate = useNavigate();
   const router = useRouter();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({ Content: true, Growth: true, System: true });
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({
+    Content: true,
+    Growth: true,
+    System: true,
+  });
 
   async function handleLogout() {
     await logoutFn();
@@ -88,7 +120,9 @@ function AuthedAdminLayout() {
           <p className="text-xl font-extrabold leading-none tracking-tight text-white">
             cdoe<span className="text-[#FF6C4A]">.info</span>
           </p>
-          <p className="mt-2.5 text-[10.5px] font-bold uppercase tracking-[0.22em] text-white/55">Admin Panel</p>
+          <p className="mt-2.5 text-[10.5px] font-bold uppercase tracking-[0.22em] text-white/55">
+            Admin Panel
+          </p>
         </div>
 
         <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-5 pt-5">
@@ -98,14 +132,26 @@ function AuthedAdminLayout() {
               <div key={group.label ?? `top-${i}`} className={group.label ? "pt-4" : undefined}>
                 {group.label && (
                   <button
-                    onClick={() => setCollapsed((c) => ({ ...c, [group.label as string]: !c[group.label as string] }))}
+                    onClick={() =>
+                      setCollapsed((c) => ({
+                        ...c,
+                        [group.label as string]: !c[group.label as string],
+                      }))
+                    }
                     className={cn(
                       "flex w-full items-center justify-between rounded-lg px-3 py-2 text-[11px] font-bold uppercase tracking-[0.12em] outline-none transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40",
-                      isOpen ? "bg-white/[0.06] text-white" : "text-white/70 hover:bg-white/[0.05] hover:text-white",
+                      isOpen
+                        ? "bg-white/[0.06] text-white"
+                        : "text-white/70 hover:bg-white/[0.05] hover:text-white",
                     )}
                   >
                     {group.label}
-                    <ChevronRight className={cn("h-3.5 w-3.5 text-[#FF9270] transition-transform duration-200", isOpen && "rotate-90")} />
+                    <ChevronRight
+                      className={cn(
+                        "h-3.5 w-3.5 text-[#FF9270] transition-transform duration-200",
+                        isOpen && "rotate-90",
+                      )}
+                    />
                   </button>
                 )}
                 <div
@@ -127,7 +173,13 @@ function AuthedAdminLayout() {
                                 : "bg-white/[0.045] text-white/80 hover:bg-[linear-gradient(135deg,#FF6C4A,#F5B942)] hover:text-white",
                             )}
                           >
-                            <Icon className={cn("h-[15px] w-[15px] shrink-0", !active && "text-[#FF9270]")} strokeWidth={2.25} />
+                            <Icon
+                              className={cn(
+                                "h-[15px] w-[15px] shrink-0",
+                                !active && "text-[#FF9270]",
+                              )}
+                              strokeWidth={2.25}
+                            />
                             {label}
                           </Link>
                         );

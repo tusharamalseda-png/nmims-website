@@ -1,7 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Inbox, Trash2, Reply, Download } from "lucide-react";
 import { useMemo, useState } from "react";
-import { listInquiriesFn, updateInquiryStatusFn, deleteInquiryFn, assignInquiryFn, replyToLeadFn } from "@/backend/leads/actions";
+import {
+  listInquiriesFn,
+  updateInquiryStatusFn,
+  deleteInquiryFn,
+  assignInquiryFn,
+  replyToLeadFn,
+} from "@/backend/leads/actions";
 import { listAdminUsersFn } from "@/backend/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,7 +54,13 @@ function LeadsAdmin() {
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
 
   const counts = useMemo(() => {
-    const c: Record<string, number> = { all: leads.length, new: 0, contacted: 0, enrolled: 0, lost: 0 };
+    const c: Record<string, number> = {
+      all: leads.length,
+      new: 0,
+      contacted: 0,
+      enrolled: 0,
+      lost: 0,
+    };
     for (const l of leads) c[l.status]++;
     return c;
   }, [leads]);
@@ -61,7 +73,9 @@ function LeadsAdmin() {
   }
 
   async function handleAssign(id: string, assignedTo: string) {
-    setLeads((prev) => prev.map((l) => (l.id === id ? { ...l, assignedTo: assignedTo || null } : l)));
+    setLeads((prev) =>
+      prev.map((l) => (l.id === id ? { ...l, assignedTo: assignedTo || null } : l)),
+    );
     await assignInquiryFn({ data: { id, assignedTo: assignedTo || null } });
   }
 
@@ -79,7 +93,9 @@ function LeadsAdmin() {
           </span>
           <div>
             <h1 className="text-lg font-extrabold text-foreground">Leads / Inquiries</h1>
-            <p className="text-sm text-muted-foreground">Enquiry form submissions from the website.</p>
+            <p className="text-sm text-muted-foreground">
+              Enquiry form submissions from the website.
+            </p>
           </div>
         </div>
         <a
@@ -96,7 +112,9 @@ function LeadsAdmin() {
             key={s}
             onClick={() => setFilter(s)}
             className={`rounded-full px-3 py-1.5 text-xs font-bold capitalize transition ${
-              filter === s ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"
+              filter === s
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
           >
             {s} ({counts[s] ?? 0})
@@ -121,7 +139,11 @@ function LeadsAdmin() {
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${STATUS_STYLE[lead.status]}`}>{lead.status}</span>
+                <span
+                  className={`rounded-full px-2.5 py-1 text-xs font-bold ${STATUS_STYLE[lead.status]}`}
+                >
+                  {lead.status}
+                </span>
                 <select
                   value={lead.status}
                   onChange={(e) => handleStatusChange(lead.id, e.target.value as Status)}
@@ -140,7 +162,9 @@ function LeadsAdmin() {
                 >
                   <option value="">Unassigned</option>
                   {admins.map((a) => (
-                    <option key={a.id} value={a.id}>{a.name || a.email}</option>
+                    <option key={a.id} value={a.id}>
+                      {a.name || a.email}
+                    </option>
                   ))}
                 </select>
                 {lead.email && (
@@ -162,17 +186,45 @@ function LeadsAdmin() {
               </div>
             </div>
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-muted-foreground">
-              {lead.program && <span><strong className="text-foreground">Program:</strong> {lead.program}</span>}
-              {lead.state && <span><strong className="text-foreground">State:</strong> {lead.state}</span>}
-              {lead.sourcePage && <span><strong className="text-foreground">Source:</strong> {lead.sourcePage}</span>}
-              {lead.utmSource && <span><strong className="text-foreground">UTM Source:</strong> {lead.utmSource}</span>}
-              {lead.utmCampaign && <span><strong className="text-foreground">UTM Campaign:</strong> {lead.utmCampaign}</span>}
-              <span><strong className="text-foreground">Received:</strong> {formatDateTime(lead.createdAt)}</span>
+              {lead.program && (
+                <span>
+                  <strong className="text-foreground">Program:</strong> {lead.program}
+                </span>
+              )}
+              {lead.state && (
+                <span>
+                  <strong className="text-foreground">State:</strong> {lead.state}
+                </span>
+              )}
+              {lead.sourcePage && (
+                <span>
+                  <strong className="text-foreground">Source:</strong> {lead.sourcePage}
+                </span>
+              )}
+              {lead.utmSource && (
+                <span>
+                  <strong className="text-foreground">UTM Source:</strong> {lead.utmSource}
+                </span>
+              )}
+              {lead.utmCampaign && (
+                <span>
+                  <strong className="text-foreground">UTM Campaign:</strong> {lead.utmCampaign}
+                </span>
+              )}
+              <span>
+                <strong className="text-foreground">Received:</strong>{" "}
+                {formatDateTime(lead.createdAt)}
+              </span>
             </div>
             {lead.message && <p className="mt-2 text-sm text-muted-foreground">{lead.message}</p>}
 
             {replyingTo === lead.id && lead.email && (
-              <ReplyForm leadId={lead.id} email={lead.email} onSent={() => setReplyingTo(null)} onCancel={() => setReplyingTo(null)} />
+              <ReplyForm
+                leadId={lead.id}
+                email={lead.email}
+                onSent={() => setReplyingTo(null)}
+                onCancel={() => setReplyingTo(null)}
+              />
             )}
           </div>
         ))}
@@ -182,7 +234,10 @@ function LeadsAdmin() {
 }
 
 function ReplyForm({
-  leadId, email, onSent, onCancel,
+  leadId,
+  email,
+  onSent,
+  onCancel,
 }: {
   leadId: string;
   email: string;
@@ -210,15 +265,24 @@ function ReplyForm({
 
   return (
     <div className="mt-4 space-y-2 rounded-xl border border-dashed border-border p-4">
-      <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Reply to {email}</p>
+      <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+        Reply to {email}
+      </p>
       <Input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Subject" />
-      <Textarea rows={4} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Message" />
+      <Textarea
+        rows={4}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Message"
+      />
       {error && <p className="text-xs font-medium text-destructive">{error}</p>}
       <div className="flex items-center gap-2">
         <Button size="sm" onClick={handleSend} disabled={sending || !subject || !message}>
           {sending ? "Sending..." : "Send"}
         </Button>
-        <Button size="sm" variant="ghost" onClick={onCancel}>Cancel</Button>
+        <Button size="sm" variant="ghost" onClick={onCancel}>
+          Cancel
+        </Button>
       </div>
     </div>
   );

@@ -23,13 +23,31 @@ export const Route = createFileRoute("/api/leads-export.csv")({
 
         const rows = await db.select().from(inquiries).orderBy(desc(inquiries.createdAt));
 
-        const header = ["Name", "Email", "Phone", "Program", "State", "Status", "Source Page", "UTM Source", "UTM Campaign", "Received"];
+        const header = [
+          "Name",
+          "Email",
+          "Phone",
+          "Program",
+          "State",
+          "Status",
+          "Source Page",
+          "UTM Source",
+          "UTM Campaign",
+          "Received",
+        ];
         const lines = [header.join(",")];
         for (const r of rows) {
           lines.push(
             [
-              r.name, r.email ?? "", r.phone ?? "", r.program ?? "", r.state ?? "",
-              r.status, r.sourcePage ?? "", r.utmSource ?? "", r.utmCampaign ?? "",
+              r.name,
+              r.email ?? "",
+              r.phone ?? "",
+              r.program ?? "",
+              r.state ?? "",
+              r.status,
+              r.sourcePage ?? "",
+              r.utmSource ?? "",
+              r.utmCampaign ?? "",
               new Date(r.createdAt).toISOString(),
             ]
               .map((v) => csvEscape(String(v)))

@@ -25,7 +25,13 @@ export const createNavItemFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     const [row] = await db.insert(navigationItems).values(data).returning();
-    logActivity({ userId: session.data.userId, action: "created", entity: "nav_item", entityId: row.id, details: { label: data.label } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "nav_item",
+      entityId: row.id,
+      details: { label: data.label },
+    });
     return row;
   });
 
@@ -36,7 +42,13 @@ export const updateNavItemFn = createServerFn({ method: "POST" })
     if (!session.data.userId) throw new Error("Not authenticated.");
     const { id, ...rest } = data;
     await db.update(navigationItems).set(rest).where(eq(navigationItems.id, id));
-    logActivity({ userId: session.data.userId, action: "updated", entity: "nav_item", entityId: id, details: { label: data.label } });
+    logActivity({
+      userId: session.data.userId,
+      action: "updated",
+      entity: "nav_item",
+      entityId: id,
+      details: { label: data.label },
+    });
     return { success: true };
   });
 
@@ -46,6 +58,11 @@ export const deleteNavItemFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.delete(navigationItems).where(eq(navigationItems.id, data.id));
-    logActivity({ userId: session.data.userId, action: "deleted", entity: "nav_item", entityId: data.id });
+    logActivity({
+      userId: session.data.userId,
+      action: "deleted",
+      entity: "nav_item",
+      entityId: data.id,
+    });
     return { success: true };
   });

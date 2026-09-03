@@ -4,7 +4,11 @@
 // what the client re-computes on hydration — React then discards and
 // re-renders the affected tree, causing a visible flash on every load.
 export function formatDate(value: Date | string) {
-  return new Date(value).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  return new Date(value).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 export function formatDateTime(value: Date | string) {

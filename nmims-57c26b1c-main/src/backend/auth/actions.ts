@@ -38,11 +38,21 @@ export const loginFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
 
     if (profile.twoFactorEnabled) {
-      await session.update({ pending2FAUserId: profile.id, userId: undefined, email: undefined, role: undefined });
+      await session.update({
+        pending2FAUserId: profile.id,
+        userId: undefined,
+        email: undefined,
+        role: undefined,
+      });
       return { requires2FA: true as const };
     }
 
-    await session.update({ userId: profile.id, email: profile.email, role: profile.role, pending2FAUserId: undefined });
+    await session.update({
+      userId: profile.id,
+      email: profile.email,
+      role: profile.role,
+      pending2FAUserId: undefined,
+    });
     return { requires2FA: false as const, role: profile.role };
   });
 
@@ -53,8 +63,13 @@ export const verifyLoginTwoFactorFn = createServerFn({ method: "POST" })
     const pendingId = session.data.pending2FAUserId;
     if (!pendingId) throw new Error("No login in progress.");
 
-    const [profile] = await db.select().from(adminUsers).where(eq(adminUsers.id, pendingId)).limit(1);
-    if (!profile || !profile.twoFactorSecret) throw new Error("Two-factor is not set up for this account.");
+    const [profile] = await db
+      .select()
+      .from(adminUsers)
+      .where(eq(adminUsers.id, pendingId))
+      .limit(1);
+    if (!profile || !profile.twoFactorSecret)
+      throw new Error("Two-factor is not set up for this account.");
 
     const totp = new OTPAuth.TOTP({
       issuer: "cdoe.info Admin",
@@ -65,9 +80,15 @@ export const verifyLoginTwoFactorFn = createServerFn({ method: "POST" })
       secret: OTPAuth.Secret.fromBase32(profile.twoFactorSecret),
     });
     const delta = totp.validate({ token: data.code, window: 1 });
-    if (delta === null) throw new Error("Invalid code. Check your authenticator app and try again.");
+    if (delta === null)
+      throw new Error("Invalid code. Check your authenticator app and try again.");
 
-    await session.update({ userId: profile.id, email: profile.email, role: profile.role, pending2FAUserId: undefined });
+    await session.update({
+      userId: profile.id,
+      email: profile.email,
+      role: profile.role,
+      pending2FAUserId: undefined,
+    });
     return { role: profile.role };
   });
 
@@ -86,7 +107,13 @@ export const listAdminUsersFn = createServerFn({ method: "GET" }).handler(async 
   const session = await getAdminSession();
   if (!session.data.userId) throw new Error("Not authenticated.");
   return db
-    .select({ id: adminUsers.id, email: adminUsers.email, name: adminUsers.name, role: adminUsers.role, twoFactorEnabled: adminUsers.twoFactorEnabled })
+    .select({
+      id: adminUsers.id,
+      email: adminUsers.email,
+      name: adminUsers.name,
+      role: adminUsers.role,
+      twoFactorEnabled: adminUsers.twoFactorEnabled,
+    })
     .from(adminUsers);
 });
 
@@ -95,7 +122,11 @@ export const listAdminUsersFn = createServerFn({ method: "GET" }).handler(async 
 export const getTwoFactorStatusFn = createServerFn({ method: "GET" }).handler(async () => {
   const session = await getAdminSession();
   if (!session.data.userId) throw new Error("Not authenticated.");
-  const [profile] = await db.select({ twoFactorEnabled: adminUsers.twoFactorEnabled }).from(adminUsers).where(eq(adminUsers.id, session.data.userId)).limit(1);
+  const [profile] = await db
+    .select({ twoFactorEnabled: adminUsers.twoFactorEnabled })
+    .from(adminUsers)
+    .where(eq(adminUsers.id, session.data.userId))
+    .limit(1);
   return { enabled: profile?.twoFactorEnabled ?? false };
 });
 
@@ -115,7 +146,10 @@ export const generateTwoFactorSetupFn = createServerFn({ method: "POST" }).handl
     secret,
   });
 
-  await db.update(adminUsers).set({ twoFactorSecret: secret.base32, twoFactorEnabled: false }).where(eq(adminUsers.id, session.data.userId));
+  await db
+    .update(adminUsers)
+    .set({ twoFactorSecret: secret.base32, twoFactorEnabled: false })
+    .where(eq(adminUsers.id, session.data.userId));
 
   const otpauthUri = totp.toString();
   const qrDataUrl = await QRCode.toDataURL(otpauthUri);
@@ -128,7 +162,11 @@ export const confirmTwoFactorSetupFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
 
-    const [profile] = await db.select({ twoFactorSecret: adminUsers.twoFactorSecret }).from(adminUsers).where(eq(adminUsers.id, session.data.userId)).limit(1);
+    const [profile] = await db
+      .select({ twoFactorSecret: adminUsers.twoFactorSecret })
+      .from(adminUsers)
+      .where(eq(adminUsers.id, session.data.userId))
+      .limit(1);
     if (!profile?.twoFactorSecret) throw new Error("Start setup again — no pending secret found.");
 
     const totp = new OTPAuth.TOTP({
@@ -140,15 +178,22 @@ export const confirmTwoFactorSetupFn = createServerFn({ method: "POST" })
       secret: OTPAuth.Secret.fromBase32(profile.twoFactorSecret),
     });
     const delta = totp.validate({ token: data.code, window: 1 });
-    if (delta === null) throw new Error("Invalid code. Check your authenticator app and try again.");
+    if (delta === null)
+      throw new Error("Invalid code. Check your authenticator app and try again.");
 
-    await db.update(adminUsers).set({ twoFactorEnabled: true }).where(eq(adminUsers.id, session.data.userId));
+    await db
+      .update(adminUsers)
+      .set({ twoFactorEnabled: true })
+      .where(eq(adminUsers.id, session.data.userId));
     return { success: true };
   });
 
 export const disableTwoFactorFn = createServerFn({ method: "POST" }).handler(async () => {
   const session = await getAdminSession();
   if (!session.data.userId) throw new Error("Not authenticated.");
-  await db.update(adminUsers).set({ twoFactorSecret: null, twoFactorEnabled: false }).where(eq(adminUsers.id, session.data.userId));
+  await db
+    .update(adminUsers)
+    .set({ twoFactorSecret: null, twoFactorEnabled: false })
+    .where(eq(adminUsers.id, session.data.userId));
   return { success: true };
 });

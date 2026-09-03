@@ -13,7 +13,11 @@ export const listAllFaqsFn = createServerFn({ method: "GET" }).handler(async () 
 export const listFaqsForPageFn = createServerFn({ method: "GET" })
   .inputValidator(z.object({ pageSlug: z.string() }))
   .handler(async ({ data }) => {
-    return db.select().from(faqs).where(eq(faqs.pageSlug, data.pageSlug)).orderBy(asc(faqs.sortOrder));
+    return db
+      .select()
+      .from(faqs)
+      .where(eq(faqs.pageSlug, data.pageSlug))
+      .orderBy(asc(faqs.sortOrder));
   });
 
 const faqSchema = z.object({
@@ -29,7 +33,12 @@ export const createFaqFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.insert(faqs).values(data);
-    logActivity({ userId: session.data.userId, action: "created", entity: "faq", details: { pageSlug: data.pageSlug, question: data.question } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "faq",
+      details: { pageSlug: data.pageSlug, question: data.question },
+    });
     return { success: true };
   });
 
@@ -47,7 +56,13 @@ export const updateFaqFn = createServerFn({ method: "POST" })
         sortOrder: data.sortOrder,
       })
       .where(eq(faqs.id, data.id));
-    logActivity({ userId: session.data.userId, action: "updated", entity: "faq", entityId: data.id, details: { question: data.question } });
+    logActivity({
+      userId: session.data.userId,
+      action: "updated",
+      entity: "faq",
+      entityId: data.id,
+      details: { question: data.question },
+    });
     return { success: true };
   });
 
@@ -57,6 +72,11 @@ export const deleteFaqFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.delete(faqs).where(eq(faqs.id, data.id));
-    logActivity({ userId: session.data.userId, action: "deleted", entity: "faq", entityId: data.id });
+    logActivity({
+      userId: session.data.userId,
+      action: "deleted",
+      entity: "faq",
+      entityId: data.id,
+    });
     return { success: true };
   });

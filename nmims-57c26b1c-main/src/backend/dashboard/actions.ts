@@ -23,10 +23,19 @@ export const getDashboardStatsFn = createServerFn({ method: "GET" }).handler(asy
 
   const [totalLeads] = await db.select({ count: sql<number>`count(*)::int` }).from(inquiries);
   const [totalPages] = await db.select({ count: sql<number>`count(*)::int` }).from(pages);
-  const [draftPages] = await db.select({ count: sql<number>`count(*)::int` }).from(pages).where(eq(pages.status, "draft"));
+  const [draftPages] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(pages)
+    .where(eq(pages.status, "draft"));
   const [totalPosts] = await db.select({ count: sql<number>`count(*)::int` }).from(blogPosts);
-  const [draftPosts] = await db.select({ count: sql<number>`count(*)::int` }).from(blogPosts).where(eq(blogPosts.status, "draft"));
-  const [pendingTestimonials] = await db.select({ count: sql<number>`count(*)::int` }).from(testimonials).where(eq(testimonials.isVisible, false));
+  const [draftPosts] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(blogPosts)
+    .where(eq(blogPosts.status, "draft"));
+  const [pendingTestimonials] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(testimonials)
+    .where(eq(testimonials.isVisible, false));
 
   const [missingSeo, brokenLinks] = await Promise.all([getMissingSeoFn(), checkBrokenLinksFn()]);
 
@@ -44,11 +53,7 @@ export const getDashboardStatsFn = createServerFn({ method: "GET" }).handler(asy
     .orderBy(desc(activityLog.createdAt))
     .limit(8);
 
-  const recentLeads = await db
-    .select()
-    .from(inquiries)
-    .orderBy(desc(inquiries.createdAt))
-    .limit(5);
+  const recentLeads = await db.select().from(inquiries).orderBy(desc(inquiries.createdAt)).limit(5);
 
   return {
     leadsThisWeek: leadsThisWeek.count,

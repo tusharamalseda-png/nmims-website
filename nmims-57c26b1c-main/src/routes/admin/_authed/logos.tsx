@@ -47,7 +47,9 @@ function LogosAdmin() {
           </span>
           <div>
             <h1 className="text-lg font-extrabold text-foreground">Logos & Badges</h1>
-            <p className="text-sm text-muted-foreground">Partner bank logos and accreditation badges.</p>
+            <p className="text-sm text-muted-foreground">
+              Partner bank logos and accreditation badges.
+            </p>
           </div>
         </div>
         <Button size="sm" onClick={() => setShowNew((v) => !v)}>
@@ -57,7 +59,13 @@ function LogosAdmin() {
 
       <div className="mt-6 max-w-3xl space-y-3">
         {showNew && (
-          <LogoForm pages={pages} onSaved={() => { setShowNew(false); refresh(); }} />
+          <LogoForm
+            pages={pages}
+            onSaved={() => {
+              setShowNew(false);
+              refresh();
+            }}
+          />
         )}
 
         {items.length === 0 && !showNew && (
@@ -68,14 +76,26 @@ function LogosAdmin() {
 
         {items.map((l) =>
           editingId === l.id ? (
-            <LogoForm key={l.id} pages={pages} initial={l} onSaved={() => { setEditingId(null); refresh(); }} />
+            <LogoForm
+              key={l.id}
+              pages={pages}
+              initial={l}
+              onSaved={() => {
+                setEditingId(null);
+                refresh();
+              }}
+            />
           ) : (
-            <div key={l.id} className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-card">
+            <div
+              key={l.id}
+              className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-card"
+            >
               <img src={l.logoUrl} alt={l.name} className="h-10 w-16 shrink-0 object-contain" />
               <div className="flex-1">
                 <p className="text-sm font-bold text-foreground">{l.name}</p>
                 <p className="text-xs capitalize text-muted-foreground">
-                  {l.category} · shows on {l.pageSlugs.length === 0 ? "every page" : l.pageSlugs.join(", ")}
+                  {l.category} · shows on{" "}
+                  {l.pageSlugs.length === 0 ? "every page" : l.pageSlugs.join(", ")}
                 </p>
               </div>
               <button
@@ -101,7 +121,9 @@ function LogosAdmin() {
 }
 
 function LogoForm({
-  pages, initial, onSaved,
+  pages,
+  initial,
+  onSaved,
 }: {
   pages: { slug: string; title: string }[];
   initial?: Logo;
@@ -109,12 +131,16 @@ function LogoForm({
 }) {
   const [name, setName] = useState(initial?.name ?? "");
   const [logoUrl, setLogoUrl] = useState(initial?.logoUrl ?? "");
-  const [category, setCategory] = useState<"bank" | "accreditation">((initial?.category as "bank" | "accreditation") ?? "bank");
+  const [category, setCategory] = useState<"bank" | "accreditation">(
+    (initial?.category as "bank" | "accreditation") ?? "bank",
+  );
   const [pageSlugs, setPageSlugs] = useState<string[]>(initial?.pageSlugs ?? []);
   const [saving, setSaving] = useState(false);
 
   function togglePage(slug: string) {
-    setPageSlugs((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]));
+    setPageSlugs((prev) =>
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
+    );
   }
 
   async function handleSave() {
@@ -135,9 +161,15 @@ function LogoForm({
 
   return (
     <div className="space-y-3 rounded-2xl border border-dashed border-border p-5">
-      <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{initial ? "Edit Logo" : "Add Logo"}</p>
+      <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+        {initial ? "Edit Logo" : "Add Logo"}
+      </p>
       <div className="grid gap-3 sm:grid-cols-2">
-        <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name (e.g. HDFC Bank)" />
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Name (e.g. HDFC Bank)"
+        />
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value as "bank" | "accreditation")}
@@ -147,7 +179,11 @@ function LogoForm({
           <option value="accreditation">Accreditation</option>
         </select>
       </div>
-      <Input value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)} placeholder="Logo image URL (upload to Media first)" />
+      <Input
+        value={logoUrl}
+        onChange={(e) => setLogoUrl(e.target.value)}
+        placeholder="Logo image URL (upload to Media first)"
+      />
       <div>
         <p className="mb-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
           Show on (leave empty to show on every page)
@@ -159,7 +195,9 @@ function LogoForm({
               type="button"
               onClick={() => togglePage(p.slug)}
               className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
-                pageSlugs.includes(p.slug) ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"
+                pageSlugs.includes(p.slug)
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-muted-foreground"
               }`}
             >
               {p.title}

@@ -34,7 +34,9 @@ export const createInquiryFn = createServerFn({ method: "POST" })
       utmSource: data.utmSource || null,
       utmCampaign: data.utmCampaign || null,
     });
-    sendNewLeadNotification(data).catch((err) => console.error("Lead notification email failed:", err));
+    sendNewLeadNotification(data).catch((err) =>
+      console.error("Lead notification email failed:", err),
+    );
     return { success: true };
   });
 
@@ -45,12 +47,20 @@ export const listInquiriesFn = createServerFn({ method: "GET" }).handler(async (
 });
 
 export const updateInquiryStatusFn = createServerFn({ method: "POST" })
-  .inputValidator(z.object({ id: z.string(), status: z.enum(["new", "contacted", "enrolled", "lost"]) }))
+  .inputValidator(
+    z.object({ id: z.string(), status: z.enum(["new", "contacted", "enrolled", "lost"]) }),
+  )
   .handler(async ({ data }) => {
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.update(inquiries).set({ status: data.status }).where(eq(inquiries.id, data.id));
-    logActivity({ userId: session.data.userId, action: "updated", entity: "inquiry", entityId: data.id, details: { status: data.status } });
+    logActivity({
+      userId: session.data.userId,
+      action: "updated",
+      entity: "inquiry",
+      entityId: data.id,
+      details: { status: data.status },
+    });
     return { success: true };
   });
 
@@ -59,8 +69,17 @@ export const assignInquiryFn = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
-    await db.update(inquiries).set({ assignedTo: data.assignedTo }).where(eq(inquiries.id, data.id));
-    logActivity({ userId: session.data.userId, action: "updated", entity: "inquiry", entityId: data.id, details: { assignedTo: data.assignedTo } });
+    await db
+      .update(inquiries)
+      .set({ assignedTo: data.assignedTo })
+      .where(eq(inquiries.id, data.id));
+    logActivity({
+      userId: session.data.userId,
+      action: "updated",
+      entity: "inquiry",
+      entityId: data.id,
+      details: { assignedTo: data.assignedTo },
+    });
     return { success: true };
   });
 
@@ -70,12 +89,19 @@ export const deleteInquiryFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.delete(inquiries).where(eq(inquiries.id, data.id));
-    logActivity({ userId: session.data.userId, action: "deleted", entity: "inquiry", entityId: data.id });
+    logActivity({
+      userId: session.data.userId,
+      action: "deleted",
+      entity: "inquiry",
+      entityId: data.id,
+    });
     return { success: true };
   });
 
 export const replyToLeadFn = createServerFn({ method: "POST" })
-  .inputValidator(z.object({ id: z.string(), subject: z.string().min(1), message: z.string().min(1) }))
+  .inputValidator(
+    z.object({ id: z.string(), subject: z.string().min(1), message: z.string().min(1) }),
+  )
   .handler(async ({ data }) => {
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");

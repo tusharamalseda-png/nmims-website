@@ -26,12 +26,18 @@ export const Route = createFileRoute("/api/inquiries")({
         try {
           body = await request.json();
         } catch {
-          return Response.json({ error: "Invalid JSON body." }, { status: 400, headers: CORS_HEADERS });
+          return Response.json(
+            { error: "Invalid JSON body." },
+            { status: 400, headers: CORS_HEADERS },
+          );
         }
 
         const parsed = schema.safeParse(body);
         if (!parsed.success) {
-          return Response.json({ error: "Invalid input.", details: parsed.error.flatten() }, { status: 400, headers: CORS_HEADERS });
+          return Response.json(
+            { error: "Invalid input.", details: parsed.error.flatten() },
+            { status: 400, headers: CORS_HEADERS },
+          );
         }
 
         const data = parsed.data;
@@ -47,14 +53,20 @@ export const Route = createFileRoute("/api/inquiries")({
           utmCampaign: data.utmCampaign || null,
         });
 
-        sendNewLeadNotification(data).catch((err) => console.error("Lead notification email failed:", err));
+        sendNewLeadNotification(data).catch((err) =>
+          console.error("Lead notification email failed:", err),
+        );
 
         return Response.json({ success: true }, { headers: CORS_HEADERS });
       },
       OPTIONS: async () =>
         new Response(null, {
           status: 204,
-          headers: { ...CORS_HEADERS, "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" },
+          headers: {
+            ...CORS_HEADERS,
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
         }),
     },
   },

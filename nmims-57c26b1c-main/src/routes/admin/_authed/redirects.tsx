@@ -56,22 +56,38 @@ function RedirectsAdmin() {
         </span>
         <div>
           <h1 className="text-lg font-extrabold text-foreground">Redirects</h1>
-          <p className="text-sm text-muted-foreground">Send an old URL to a new one. Takes effect within a minute of saving.</p>
+          <p className="text-sm text-muted-foreground">
+            Send an old URL to a new one. Takes effect within a minute of saving.
+          </p>
         </div>
       </div>
 
       <div className="mt-6 max-w-3xl space-y-3">
         <div className="flex flex-wrap items-end gap-2 rounded-xl border border-dashed border-border p-3">
           <div className="flex-1">
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">From (old path)</label>
-            <Input value={fromPath} onChange={(e) => setFromPath(e.target.value)} placeholder="/old-page" />
+            <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              From (old path)
+            </label>
+            <Input
+              value={fromPath}
+              onChange={(e) => setFromPath(e.target.value)}
+              placeholder="/old-page"
+            />
           </div>
           <div className="flex-1">
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">To (new path or URL)</label>
-            <Input value={toPath} onChange={(e) => setToPath(e.target.value)} placeholder="/new-page" />
+            <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              To (new path or URL)
+            </label>
+            <Input
+              value={toPath}
+              onChange={(e) => setToPath(e.target.value)}
+              placeholder="/new-page"
+            />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">Type</label>
+            <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Type
+            </label>
             <select
               value={statusCode}
               onChange={(e) => setStatusCode(e.target.value as "301" | "302")}
@@ -93,8 +109,13 @@ function RedirectsAdmin() {
           </p>
         )}
         {items.map((r) => (
-          <div key={r.id} className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-card">
-            <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-bold text-muted-foreground">{r.statusCode}</span>
+          <div
+            key={r.id}
+            className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-card"
+          >
+            <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-bold text-muted-foreground">
+              {r.statusCode}
+            </span>
             <span className="flex-1 truncate font-mono text-xs text-foreground">{r.fromPath}</span>
             <ArrowRightLeft className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
             <span className="flex-1 truncate font-mono text-xs text-foreground">{r.toPath}</span>

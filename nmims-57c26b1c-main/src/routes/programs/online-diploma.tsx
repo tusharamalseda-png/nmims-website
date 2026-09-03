@@ -2,17 +2,52 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  Phone, MessageCircle, GraduationCap, Briefcase, Clock, Award, BookOpen,
-  Video, Headphones, ChevronDown, MapPin, Star, ArrowRight, CheckCircle2,
-  TrendingUp, Globe2, ShieldCheck, Building2, Landmark, ClipboardCheck,
-  FileEdit, FileCheck, CreditCard, Wallet, Smartphone, HelpCircle, CalendarCheck,
-  Mail, Quote, Download, BookMarked, Megaphone, UserCog, Layers,
+  Phone,
+  MessageCircle,
+  GraduationCap,
+  Briefcase,
+  Clock,
+  Award,
+  BookOpen,
+  Video,
+  Headphones,
+  ChevronDown,
+  MapPin,
+  Star,
+  ArrowRight,
+  CheckCircle2,
+  TrendingUp,
+  Globe2,
+  ShieldCheck,
+  Building2,
+  Landmark,
+  ClipboardCheck,
+  FileEdit,
+  FileCheck,
+  CreditCard,
+  Wallet,
+  Smartphone,
+  HelpCircle,
+  CalendarCheck,
+  Mail,
+  Quote,
+  Download,
+  BookMarked,
+  Megaphone,
+  UserCog,
+  Layers,
 } from "lucide-react";
 import { EnquiryForm } from "@/components/landing/EnquiryForm";
 import { Counter } from "@/components/landing/Counter";
 import {
-  Header, Footer, FloatingWA, MobileCTABar, SectionTitle,
-  telLink, waLink, CALENDLY_LINK,
+  Header,
+  Footer,
+  FloatingWA,
+  MobileCTABar,
+  SectionTitle,
+  telLink,
+  waLink,
+  CALENDLY_LINK,
 } from "@/components/layout/SiteChrome";
 import { Testimonials } from "@/components/site/Testimonials";
 import { getPageFn } from "@/backend/pages/actions";
@@ -24,7 +59,8 @@ const FALLBACK_SEO = {
   slug: "online-diploma",
   title: "Diploma Programmes",
   metaTitle: "NMIMS Online Diploma Programmes 2026 | 5 Specialisations | Fees & Admission",
-  metaDescription: "UGC-entitled 1-year Online Diploma from NMIMS CDOE - choose from Business Management, Finance Management, Marketing Management, HR Management or Operations Management. Fees from ₹55,000/semester. Admissions open 2026.",
+  metaDescription:
+    "UGC-entitled 1-year Online Diploma from NMIMS CDOE - choose from Business Management, Finance Management, Marketing Management, HR Management or Operations Management. Fees from ₹55,000/semester. Admissions open 2026.",
   canonicalUrl: "/programs/online-diploma",
   ogImage: null as string | null,
   status: "published" as const,
@@ -41,50 +77,59 @@ export const Route = createFileRoute("/programs/online-diploma")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.seo ?? FALLBACK_SEO;
-    const { meta, links } = buildSeoHead(seo, { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: FALLBACK_SEO.canonicalUrl });
+    const { meta, links } = buildSeoHead(seo, {
+      title: FALLBACK_SEO.metaTitle,
+      description: FALLBACK_SEO.metaDescription,
+      canonicalUrl: FALLBACK_SEO.canonicalUrl,
+    });
     return {
-    meta,
-    links,
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-            { "@type": "ListItem", position: 2, name: "Programs", item: "/programs" },
-            { "@type": "ListItem", position: 3, name: "Diploma Programmes", item: "/programs/online-diploma" },
-          ],
-        }),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          name: "NMIMS Online Diploma Specialisation Tracks",
-          itemListElement: tracks.map((tr, i) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            name: `Diploma in ${tr.name}`,
-            description: tr.desc,
-          })),
-        }),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: (loaderData?.faqItems ?? []).map((f) => ({
-            "@type": "Question",
-            name: f.question,
-            acceptedAnswer: { "@type": "Answer", text: f.answer },
-          })),
-        }),
-      },
-    ],
+      meta,
+      links,
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+              { "@type": "ListItem", position: 2, name: "Programs", item: "/programs" },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Diploma Programmes",
+                item: "/programs/online-diploma",
+              },
+            ],
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "NMIMS Online Diploma Specialisation Tracks",
+            itemListElement: tracks.map((tr, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: `Diploma in ${tr.name}`,
+              description: tr.desc,
+            })),
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: (loaderData?.faqItems ?? []).map((f) => ({
+              "@type": "Question",
+              name: f.question,
+              acceptedAnswer: { "@type": "Answer", text: f.answer },
+            })),
+          }),
+        },
+      ],
     };
   },
   component: OnlineDiplomaPage,
@@ -93,34 +138,150 @@ export const Route = createFileRoute("/programs/online-diploma")({
 const waMessage = "Hi, I'd like to know about the NMIMS Online Diploma Programmes.";
 
 const tracks = [
-  { icon: Landmark, name: "Finance Management", desc: "Corporate Finance, Cost & Management Accounting and Capital Market & Portfolio Management - build financial analysis, planning and decision-making expertise.", roles: "Financial Auditor · Financial Planning Analyst · Financial Planner" },
-  { icon: Megaphone, name: "Marketing Management", desc: "Sales Management, Brand Management and Consumer Behaviour - learn to analyse market trends and design impactful campaigns.", roles: "Product Manager · Brand Manager" },
-  { icon: Briefcase, name: "Business Management", desc: "Deepen your understanding of business frameworks and strategic thinking to navigate diverse business environments and make well-informed managerial decisions.", roles: "Business Strategy Manager · Business Development Manager · Account Manager" },
-  { icon: Layers, name: "Operations Management", desc: "Supply Chain Management, Project Management and Operations Management - streamline processes, manage supply chains and boost operational efficiency.", roles: "Operations, Supply Chain & Process Management roles" },
-  { icon: UserCog, name: "Human Resource Management", desc: "Compensation, employee policies, organisational behaviour, manpower planning, recruitment & selection and performance management systems.", roles: "Talent Acquisition Manager · Employee Relations Manager · HR Operations Manager" },
+  {
+    icon: Landmark,
+    name: "Finance Management",
+    desc: "Corporate Finance, Cost & Management Accounting and Capital Market & Portfolio Management - build financial analysis, planning and decision-making expertise.",
+    roles: "Financial Auditor · Financial Planning Analyst · Financial Planner",
+  },
+  {
+    icon: Megaphone,
+    name: "Marketing Management",
+    desc: "Sales Management, Brand Management and Consumer Behaviour - learn to analyse market trends and design impactful campaigns.",
+    roles: "Product Manager · Brand Manager",
+  },
+  {
+    icon: Briefcase,
+    name: "Business Management",
+    desc: "Deepen your understanding of business frameworks and strategic thinking to navigate diverse business environments and make well-informed managerial decisions.",
+    roles: "Business Strategy Manager · Business Development Manager · Account Manager",
+  },
+  {
+    icon: Layers,
+    name: "Operations Management",
+    desc: "Supply Chain Management, Project Management and Operations Management - streamline processes, manage supply chains and boost operational efficiency.",
+    roles: "Operations, Supply Chain & Process Management roles",
+  },
+  {
+    icon: UserCog,
+    name: "Human Resource Management",
+    desc: "Compensation, employee policies, organisational behaviour, manpower planning, recruitment & selection and performance management systems.",
+    roles: "Talent Acquisition Manager · Employee Relations Manager · HR Operations Manager",
+  },
 ];
 
-const COMMON_SEM1 = ["Business Communication", "Financial Accounting", "Marketing Management", "Micro & Macro Economics", "Organisational Behaviour", "Quantitative Methods – I"];
+const COMMON_SEM1 = [
+  "Business Communication",
+  "Financial Accounting",
+  "Marketing Management",
+  "Micro & Macro Economics",
+  "Organisational Behaviour",
+  "Quantitative Methods – I",
+];
 
 const curriculum = [
-  { track: "Finance Management", sem1: COMMON_SEM1, sem2: ["Capital Market and Portfolio Management", "Business Analytics", "Corporate Finance", "Legal Aspect of Business", "Cost & Management Accounting", "Strategic Management"] },
-  { track: "Marketing Management", sem1: [...COMMON_SEM1, "Brand Management"], sem2: ["Business Analytics", "Consumer Behaviour", "Legal Aspect of Business", "Sales Management", "Strategic Management"] },
-  { track: "Business Management", sem1: COMMON_SEM1, sem2: ["Business Analytics", "Cost & Management Accounting", "Human Resource Management", "Legal Aspect of Business", "Operations Management", "Strategic Management"] },
-  { track: "Operations Management", sem1: COMMON_SEM1, sem2: ["Operations Management", "Business Analytics", "Project Management", "Legal Aspect of Business", "Supply Chain Management", "Strategic Management"] },
-  { track: "Human Resource Management", sem1: [...COMMON_SEM1, "Human Resource Management"], sem2: ["Business Analytics", "Manpower Planning, Recruitment and Selection", "Legal Aspect of Business", "Performance Management System", "Strategic Management"] },
+  {
+    track: "Finance Management",
+    sem1: COMMON_SEM1,
+    sem2: [
+      "Capital Market and Portfolio Management",
+      "Business Analytics",
+      "Corporate Finance",
+      "Legal Aspect of Business",
+      "Cost & Management Accounting",
+      "Strategic Management",
+    ],
+  },
+  {
+    track: "Marketing Management",
+    sem1: [...COMMON_SEM1, "Brand Management"],
+    sem2: [
+      "Business Analytics",
+      "Consumer Behaviour",
+      "Legal Aspect of Business",
+      "Sales Management",
+      "Strategic Management",
+    ],
+  },
+  {
+    track: "Business Management",
+    sem1: COMMON_SEM1,
+    sem2: [
+      "Business Analytics",
+      "Cost & Management Accounting",
+      "Human Resource Management",
+      "Legal Aspect of Business",
+      "Operations Management",
+      "Strategic Management",
+    ],
+  },
+  {
+    track: "Operations Management",
+    sem1: COMMON_SEM1,
+    sem2: [
+      "Operations Management",
+      "Business Analytics",
+      "Project Management",
+      "Legal Aspect of Business",
+      "Supply Chain Management",
+      "Strategic Management",
+    ],
+  },
+  {
+    track: "Human Resource Management",
+    sem1: [...COMMON_SEM1, "Human Resource Management"],
+    sem2: [
+      "Business Analytics",
+      "Manpower Planning, Recruitment and Selection",
+      "Legal Aspect of Business",
+      "Performance Management System",
+      "Strategic Management",
+    ],
+  },
 ];
 
 const careerRoles = [
-  { icon: Landmark, t: "Financial Auditor", d: "Apply financial analysis, planning and decision-making skills from the Finance Management track." },
-  { icon: TrendingUp, t: "Financial Planning Analyst", d: "Build client-facing financial planning expertise grounded in capital markets and portfolio management." },
-  { icon: Megaphone, t: "Product / Brand Manager", d: "Lead campaigns and product strategy using brand management and consumer behaviour skills." },
-  { icon: Briefcase, t: "Business Strategy Manager", d: "Navigate diverse business environments with strategic thinking and frameworks." },
-  { icon: Building2, t: "Business Development Manager", d: "Drive growth and partnerships using business management fundamentals." },
-  { icon: Layers, t: "Operations / Supply Chain Roles", d: "Streamline processes and manage supply chains using operations and project management skills." },
-  { icon: UserCog, t: "Talent Acquisition Manager", d: "Apply recruitment, selection and manpower planning skills from the HR Management track." },
-  { icon: GraduationCap, t: "HR Operations Manager", d: "Align HR strategy with organisational goals using compensation and performance management expertise." },
+  {
+    icon: Landmark,
+    t: "Financial Auditor",
+    d: "Apply financial analysis, planning and decision-making skills from the Finance Management track.",
+  },
+  {
+    icon: TrendingUp,
+    t: "Financial Planning Analyst",
+    d: "Build client-facing financial planning expertise grounded in capital markets and portfolio management.",
+  },
+  {
+    icon: Megaphone,
+    t: "Product / Brand Manager",
+    d: "Lead campaigns and product strategy using brand management and consumer behaviour skills.",
+  },
+  {
+    icon: Briefcase,
+    t: "Business Strategy Manager",
+    d: "Navigate diverse business environments with strategic thinking and frameworks.",
+  },
+  {
+    icon: Building2,
+    t: "Business Development Manager",
+    d: "Drive growth and partnerships using business management fundamentals.",
+  },
+  {
+    icon: Layers,
+    t: "Operations / Supply Chain Roles",
+    d: "Streamline processes and manage supply chains using operations and project management skills.",
+  },
+  {
+    icon: UserCog,
+    t: "Talent Acquisition Manager",
+    d: "Apply recruitment, selection and manpower planning skills from the HR Management track.",
+  },
+  {
+    icon: GraduationCap,
+    t: "HR Operations Manager",
+    d: "Align HR strategy with organisational goals using compensation and performance management expertise.",
+  },
 ];
-
 
 function OnlineDiplomaPage() {
   const { testimonials } = Route.useLoaderData();
@@ -161,8 +322,14 @@ function Hero() {
   ];
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(135deg,#1f1b2e_0%,#2a2440_55%,#3a2f55_100%)]">
-      <div className="pointer-events-none absolute -left-32 top-10 h-96 w-96 rounded-full bg-[#ef4444]/20 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#a855f7]/20 blur-3xl" aria-hidden />
+      <div
+        className="pointer-events-none absolute -left-32 top-10 h-96 w-96 rounded-full bg-[#ef4444]/20 blur-3xl"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#a855f7]/20 blur-3xl"
+        aria-hidden
+      />
 
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-[60px] lg:px-8">
         <motion.div
@@ -182,7 +349,9 @@ function Hero() {
             </span>
           </h1>
           <p className="mt-4 max-w-xl text-sm text-white/80 sm:text-base">
-            Fast-track your career with a UGC-entitled, 1-year online diploma from NMIMS CDOE. Choose from 5 specialisation tracks - Finance, Marketing, Business, Operations or HR Management - and build industry-ready skills in half the time of a degree.
+            Fast-track your career with a UGC-entitled, 1-year online diploma from NMIMS CDOE.
+            Choose from 5 specialisation tracks - Finance, Marketing, Business, Operations or HR
+            Management - and build industry-ready skills in half the time of a degree.
           </p>
 
           <ul className="mt-6 grid max-w-lg gap-2.5 sm:grid-cols-2">
@@ -203,8 +372,13 @@ function Hero() {
 
           <div className="mt-6 grid max-w-lg grid-cols-4 gap-2">
             {facts.map((f) => (
-              <div key={f.label} className="rounded-xl border border-white/15 bg-white/[.06] px-2 py-3 text-center">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-white/60">{f.label}</p>
+              <div
+                key={f.label}
+                className="rounded-xl border border-white/15 bg-white/[.06] px-2 py-3 text-center"
+              >
+                <p className="text-[10px] font-bold uppercase tracking-wide text-white/60">
+                  {f.label}
+                </p>
                 <p className="mt-1 text-xs font-extrabold text-white sm:text-sm">{f.value}</p>
               </div>
             ))}
@@ -238,10 +412,18 @@ function Hero() {
 
       <div className="relative border-t border-white/10 bg-black/20 py-4 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-2 px-4 text-xs font-semibold text-white/80 sm:gap-x-10 sm:text-sm">
-          <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#fbbf24]" /> UGC-Entitled</span>
-          <span className="flex items-center gap-2"><Award className="h-4 w-4 text-[#fbbf24]" /> NAAC A++ · NIRF Top 100</span>
-          <span className="flex items-center gap-2"><Star className="h-4 w-4 fill-[#fbbf24] text-[#fbbf24]" /> Category 1 Autonomy</span>
-          <span className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-[#fbbf24]" /> 200+ cities across India</span>
+          <span className="flex items-center gap-2">
+            <ShieldCheck className="h-4 w-4 text-[#fbbf24]" /> UGC-Entitled
+          </span>
+          <span className="flex items-center gap-2">
+            <Award className="h-4 w-4 text-[#fbbf24]" /> NAAC A++ · NIRF Top 100
+          </span>
+          <span className="flex items-center gap-2">
+            <Star className="h-4 w-4 fill-[#fbbf24] text-[#fbbf24]" /> Category 1 Autonomy
+          </span>
+          <span className="flex items-center gap-2">
+            <Globe2 className="h-4 w-4 text-[#fbbf24]" /> 200+ cities across India
+          </span>
         </div>
       </div>
     </section>
@@ -258,15 +440,23 @@ function TrustStats() {
   ];
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(120deg,#7154EA,#3F3083)] py-16 text-white sm:py-24">
-      <div className="absolute -left-20 top-0 h-72 w-72 rounded-full bg-white opacity-10 blur-3xl" aria-hidden />
-      <div className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-[color:var(--gold)] opacity-25 blur-3xl" aria-hidden />
+      <div
+        className="absolute -left-20 top-0 h-72 w-72 rounded-full bg-white opacity-10 blur-3xl"
+        aria-hidden
+      />
+      <div
+        className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-[color:var(--gold)] opacity-25 blur-3xl"
+        aria-hidden
+      />
       <div className="relative mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
         {items.map(({ n, s, l }) => (
           <div key={l} className="text-center">
             <p className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
               <Counter to={n} suffix={s} />
             </p>
-            <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-white/70 sm:text-sm">{l}</p>
+            <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-white/70 sm:text-sm">
+              {l}
+            </p>
           </div>
         ))}
       </div>
@@ -277,22 +467,53 @@ function TrustStats() {
 /* ---------- WHY CHOOSE ---------- */
 function WhyChoose() {
   const items = [
-    { icon: Clock, t: "Achieve More in Less Time", d: "A focused 1-year diploma - fast-track specialised skills without a multi-year commitment." },
-    { icon: Video, t: "Flexible Online Learning", d: "Learn at your own pace while engaging with interactive sessions and enriching resources." },
-    { icon: MapPin, t: "Study Anytime, Anywhere", d: "Use the Student Zone via the portal or mobile app for all course materials and updates." },
-    { icon: BookOpen, t: "Comprehensive Learning Resources", d: "E-books, journals, lecture transcripts and 24/7 access to recorded lectures." },
-    { icon: GraduationCap, t: "Guided by Experts", d: "90+ PhD holders and 120+ faculty from IIT & IIM, with 800+ years of combined industry experience." },
-    { icon: Headphones, t: "Dedicated Student Support", d: "The Student Success Team assists with admissions, academics, exams and fee receipts throughout your programme." },
+    {
+      icon: Clock,
+      t: "Achieve More in Less Time",
+      d: "A focused 1-year diploma - fast-track specialised skills without a multi-year commitment.",
+    },
+    {
+      icon: Video,
+      t: "Flexible Online Learning",
+      d: "Learn at your own pace while engaging with interactive sessions and enriching resources.",
+    },
+    {
+      icon: MapPin,
+      t: "Study Anytime, Anywhere",
+      d: "Use the Student Zone via the portal or mobile app for all course materials and updates.",
+    },
+    {
+      icon: BookOpen,
+      t: "Comprehensive Learning Resources",
+      d: "E-books, journals, lecture transcripts and 24/7 access to recorded lectures.",
+    },
+    {
+      icon: GraduationCap,
+      t: "Guided by Experts",
+      d: "90+ PhD holders and 120+ faculty from IIT & IIM, with 800+ years of combined industry experience.",
+    },
+    {
+      icon: Headphones,
+      t: "Dedicated Student Support",
+      d: "The Student Success Team assists with admissions, academics, exams and fee receipts throughout your programme.",
+    },
   ];
   return (
     <section className="bg-surface-soft py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Key Highlights" title="Thrive with knowledge, lead with confidence" subtitle="A one-year diploma built around flexibility, faculty quality and career-ready skills." />
+        <SectionTitle
+          eyebrow="Key Highlights"
+          title="Thrive with knowledge, lead with confidence"
+          subtitle="A one-year diploma built around flexibility, faculty quality and career-ready skills."
+        />
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map(({ icon: Icon, t, d }, i) => (
             <motion.div
               key={t}
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
               className="rounded-3xl border border-border bg-card p-6 shadow-card transition hover:-translate-y-1 hover:shadow-elegant"
             >
               <span className="grid h-12 w-12 place-items-center rounded-2xl gradient-primary text-primary-foreground shadow-card">
@@ -313,12 +534,19 @@ function TrackSelector() {
   return (
     <section className="py-16 sm:py-24" id="tracks">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="5 Specialisation Tracks" title="Choose your Diploma track" subtitle="Each track is a standalone 1-year, 2-semester diploma - pick the one that matches your career goals." />
+        <SectionTitle
+          eyebrow="5 Specialisation Tracks"
+          title="Choose your Diploma track"
+          subtitle="Each track is a standalone 1-year, 2-semester diploma - pick the one that matches your career goals."
+        />
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {tracks.map(({ icon: Icon, name, desc, roles }, i) => (
             <motion.article
               key={name}
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.04 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.04 }}
               className="group rounded-3xl border border-border bg-card p-6 shadow-card transition hover:-translate-y-1 hover:shadow-elegant"
             >
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#FFDCE3] text-[#E63950]">
@@ -327,7 +555,10 @@ function TrackSelector() {
               <h3 className="mt-4 text-base font-bold text-foreground">Diploma in {name}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
               <p className="mt-3 text-xs font-semibold text-primary">{roles}</p>
-              <a href="#enquire" className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary transition group-hover:gap-2">
+              <a
+                href="#enquire"
+                className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary transition group-hover:gap-2"
+              >
                 Get Curriculum <ArrowRight className="h-4 w-4" />
               </a>
             </motion.article>
@@ -337,7 +568,9 @@ function TrackSelector() {
               <HelpCircle className="h-5 w-5" />
             </span>
             <h3 className="mt-4 text-base font-bold">Not sure which track fits you?</h3>
-            <p className="mt-2 text-sm text-primary-foreground/90">Talk to a counsellor and find the right specialisation for your goals - free of cost.</p>
+            <p className="mt-2 text-sm text-primary-foreground/90">
+              Talk to a counsellor and find the right specialisation for your goals - free of cost.
+            </p>
             <a href="#enquire" className="mt-4 inline-flex items-center gap-1 text-sm font-bold">
               Talk to a Counsellor <ArrowRight className="h-4 w-4" />
             </a>
@@ -355,7 +588,11 @@ function Curriculum() {
   return (
     <section className="bg-surface-soft py-16 sm:py-24" id="curriculum">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Curriculum" title="Semester-Wise Syllabus" subtitle="Semester 1 builds a common business foundation across every track; Semester 2 delivers your chosen specialisation." />
+        <SectionTitle
+          eyebrow="Curriculum"
+          title="Semester-Wise Syllabus"
+          subtitle="Semester 1 builds a common business foundation across every track; Semester 2 delivers your chosen specialisation."
+        />
 
         <div className="mt-12 flex flex-wrap justify-center gap-2">
           {curriculum.map((c, i) => (
@@ -363,7 +600,9 @@ function Curriculum() {
               key={c.track}
               onClick={() => setActive(i)}
               className={`rounded-full border-2 px-5 py-2 text-sm font-bold transition ${
-                active === i ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground/70 hover:border-primary"
+                active === i
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-card text-foreground/70 hover:border-primary"
               }`}
             >
               {c.track}
@@ -373,10 +612,15 @@ function Curriculum() {
 
         <div className="mx-auto mt-8 max-w-4xl grid gap-8 sm:grid-cols-2">
           <div>
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-primary">Semester 1</h3>
+            <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-primary">
+              Semester 1
+            </h3>
             <div className="grid gap-3">
               {current.sem1.map((subj) => (
-                <div key={subj} className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground shadow-card">
+                <div
+                  key={subj}
+                  className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground shadow-card"
+                >
                   <BookOpen className="h-4 w-4 shrink-0 text-primary" />
                   {subj}
                 </div>
@@ -384,10 +628,15 @@ function Curriculum() {
             </div>
           </div>
           <div>
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-primary">Semester 2</h3>
+            <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-primary">
+              Semester 2
+            </h3>
             <div className="grid gap-3">
               {current.sem2.map((subj) => (
-                <div key={subj} className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground shadow-card">
+                <div
+                  key={subj}
+                  className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground shadow-card"
+                >
                   <BookOpen className="h-4 w-4 shrink-0 text-primary" />
                   {subj}
                 </div>
@@ -397,13 +646,20 @@ function Curriculum() {
         </div>
 
         <p className="mx-auto mt-6 max-w-3xl text-center text-xs text-muted-foreground">
-          Curriculum structure is as per university guidelines and subject to change without prior notice.
+          Curriculum structure is as per university guidelines and subject to change without prior
+          notice.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <a href="#enquire" className="inline-flex items-center gap-2 rounded-full gradient-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-card transition hover:scale-[1.03]">
+          <a
+            href="#enquire"
+            className="inline-flex items-center gap-2 rounded-full gradient-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-card transition hover:scale-[1.03]"
+          >
             <Download className="h-4 w-4" /> Download Brochure
           </a>
-          <a href="#enquire" className="inline-flex items-center gap-2 rounded-full border-2 border-primary px-6 py-3 text-sm font-bold text-primary transition hover:bg-primary hover:text-primary-foreground">
+          <a
+            href="#enquire"
+            className="inline-flex items-center gap-2 rounded-full border-2 border-primary px-6 py-3 text-sm font-bold text-primary transition hover:bg-primary hover:text-primary-foreground"
+          >
             Download Detailed Syllabus
           </a>
         </div>
@@ -415,22 +671,52 @@ function Curriculum() {
 /* ---------- LEARNING EXPERIENCE / LMS ---------- */
 function LearningExperience() {
   const items = [
-    { icon: MapPin, t: "Study Anytime, Anywhere", d: "24/7 unlimited online access across platforms to live & recorded lectures." },
-    { icon: GraduationCap, t: "Focus on Academic Excellence", d: "Programme content and syllabus meticulously designed by academicians & industry experts." },
-    { icon: ShieldCheck, t: "Examination and Evaluation", d: "Exams are conducted online with stringent remote-proctoring systems in place." },
-    { icon: Smartphone, t: "Technology-Based Learning", d: "Delivered online through a mobile app-based learning platform." },
-    { icon: Award, t: "Get Alumni Status", d: "On completion, become part of the worldwide NMIMS CDOE alumni network." },
-    { icon: Headphones, t: "24×7 Student Support", d: "Dedicated mentors and a responsive helpdesk for academic and technical queries." },
+    {
+      icon: MapPin,
+      t: "Study Anytime, Anywhere",
+      d: "24/7 unlimited online access across platforms to live & recorded lectures.",
+    },
+    {
+      icon: GraduationCap,
+      t: "Focus on Academic Excellence",
+      d: "Programme content and syllabus meticulously designed by academicians & industry experts.",
+    },
+    {
+      icon: ShieldCheck,
+      t: "Examination and Evaluation",
+      d: "Exams are conducted online with stringent remote-proctoring systems in place.",
+    },
+    {
+      icon: Smartphone,
+      t: "Technology-Based Learning",
+      d: "Delivered online through a mobile app-based learning platform.",
+    },
+    {
+      icon: Award,
+      t: "Get Alumni Status",
+      d: "On completion, become part of the worldwide NMIMS CDOE alumni network.",
+    },
+    {
+      icon: Headphones,
+      t: "24×7 Student Support",
+      d: "Dedicated mentors and a responsive helpdesk for academic and technical queries.",
+    },
   ];
   return (
     <section className="py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Learning Experience" title="A tech-enabled journey, built for every learner" />
+        <SectionTitle
+          eyebrow="Learning Experience"
+          title="A tech-enabled journey, built for every learner"
+        />
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map(({ icon: Icon, t, d }, i) => (
             <motion.div
               key={t}
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
               className="rounded-3xl border border-border bg-card p-6 text-center shadow-card transition hover:-translate-y-1 hover:shadow-elegant"
             >
               <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-[linear-gradient(135deg,#3A1642,#3F3083)] text-[color:var(--gold)]">
@@ -455,8 +741,13 @@ function Certificate() {
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#ffd7c9] ring-1 ring-white/20">
             <span className="h-[7px] w-[7px] rounded-full bg-[#ffd7c9]" /> Diploma & Alumni Status
           </span>
-          <h2 className="mt-3 font-serif text-2xl font-bold sm:text-[30px] lg:text-[34px]">Earn Your NMIMS Diploma</h2>
-          <p className="mt-3 max-w-lg text-white/85">Earn an official Diploma certificate from NMIMS CDOE that recognises your dedication to learning and pursuit of excellence.</p>
+          <h2 className="mt-3 font-serif text-2xl font-bold sm:text-[30px] lg:text-[34px]">
+            Earn Your NMIMS Diploma
+          </h2>
+          <p className="mt-3 max-w-lg text-white/85">
+            Earn an official Diploma certificate from NMIMS CDOE that recognises your dedication to
+            learning and pursuit of excellence.
+          </p>
           <ul className="mt-6 space-y-3">
             {[
               "Recognised by employers across India",
@@ -471,12 +762,19 @@ function Certificate() {
           </ul>
         </div>
         <div className="rounded-3xl border border-white/15 bg-white/[.06] p-6 text-center">
-          <img src="/images/certificate-diploma.jpg" alt="NMIMS Online Diploma certificate sample" loading="lazy" className="mx-auto max-h-[320px] rounded-lg border-2 border-[#1c1c1c] shadow-elegant" />
+          <img
+            src="/images/certificate-diploma.jpg"
+            alt="NMIMS Online Diploma certificate sample"
+            loading="lazy"
+            className="mx-auto max-h-[320px] rounded-lg border-2 border-[#1c1c1c] shadow-elegant"
+          />
           <div className="mt-4 flex flex-wrap justify-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ffd68c]/60 px-3 py-1.5 text-xs font-bold text-[#ffd88c]">
               <CheckCircle2 className="h-3.5 w-3.5" /> Official Diploma
             </span>
-            <span className="inline-flex items-center rounded-full border border-[#ffd68c]/60 px-3 py-1.5 text-xs font-bold text-[#ffd88c]">NMIMS CDOE</span>
+            <span className="inline-flex items-center rounded-full border border-[#ffd68c]/60 px-3 py-1.5 text-xs font-bold text-[#ffd88c]">
+              NMIMS CDOE
+            </span>
           </div>
         </div>
       </div>
@@ -489,7 +787,11 @@ function CareerOutcomes() {
   return (
     <section className="bg-surface-soft py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Career Outcomes" title="Where This Diploma Can Take You" subtitle="Each specialisation track is designed to prepare you for specific roles in your chosen field." />
+        <SectionTitle
+          eyebrow="Career Outcomes"
+          title="Where This Diploma Can Take You"
+          subtitle="Each specialisation track is designed to prepare you for specific roles in your chosen field."
+        />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {careerRoles.map(({ icon: Icon, t, d }) => (
             <div key={t} className="rounded-2xl border border-border bg-card p-5 shadow-card">
@@ -508,15 +810,35 @@ function CareerOutcomes() {
 
 /* ---------- FEES ---------- */
 const DIPLOMA_FEE_PLANS = [
-  { opt: "Option 1", title: "Full Payment", price: "₹1,05,000", suffix: "one-time", bullets: ["Single one-time payment", "No further instalments", "Lower than the semester-wise total"] },
-  { opt: "Option 2", title: "Semester-Wise Payment", price: "₹55,000", suffix: "/ semester", bullets: ["2 instalments across the year", "Pay per semester", "Easier on monthly budget"] },
+  {
+    opt: "Option 1",
+    title: "Full Payment",
+    price: "₹1,05,000",
+    suffix: "one-time",
+    bullets: [
+      "Single one-time payment",
+      "No further instalments",
+      "Lower than the semester-wise total",
+    ],
+  },
+  {
+    opt: "Option 2",
+    title: "Semester-Wise Payment",
+    price: "₹55,000",
+    suffix: "/ semester",
+    bullets: ["2 instalments across the year", "Pay per semester", "Easier on monthly budget"],
+  },
 ];
 
 function Fees() {
   return (
     <section className="bg-surface-soft py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Fees & Payment" title="Fee Structure" subtitle="Select a payment plan that works for you - pay in full or split across 2 semesters." />
+        <SectionTitle
+          eyebrow="Fees & Payment"
+          title="Fee Structure"
+          subtitle="Select a payment plan that works for you - pay in full or split across 2 semesters."
+        />
         <div className="mx-auto mt-12 grid max-w-3xl gap-5 sm:grid-cols-2">
           {DIPLOMA_FEE_PLANS.map(({ opt, title, price, suffix, bullets }) => (
             <div
@@ -524,15 +846,23 @@ function Fees() {
               className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:bg-[linear-gradient(135deg,#785BEB,#3F3083)] hover:shadow-elegant"
             >
               <div className="absolute -right-10 -top-8 h-36 w-36 rounded-full bg-white/10 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
-              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors duration-300 group-hover:text-white/70">{opt}</p>
-              <h3 className="mt-1 text-lg font-bold leading-tight text-foreground transition-colors duration-300 group-hover:text-white">{title}</h3>
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors duration-300 group-hover:text-white/70">
+                {opt}
+              </p>
+              <h3 className="mt-1 text-lg font-bold leading-tight text-foreground transition-colors duration-300 group-hover:text-white">
+                {title}
+              </h3>
               <p className="mt-4 text-2xl font-extrabold text-[#3F3083] transition-colors duration-300 group-hover:text-[#ffd24d]">
-                {price} <span className="text-sm font-medium text-muted-foreground transition-colors duration-300 group-hover:text-white/70">{suffix}</span>
+                {price}{" "}
+                <span className="text-sm font-medium text-muted-foreground transition-colors duration-300 group-hover:text-white/70">
+                  {suffix}
+                </span>
               </p>
               <ul className="mt-5 flex-1 space-y-2.5 text-sm text-muted-foreground transition-colors duration-300 group-hover:text-white">
                 {bullets.map((f) => (
                   <li key={f} className="flex items-start gap-2">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary transition-colors duration-300 group-hover:text-[#8bffb0]" /> {f}
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary transition-colors duration-300 group-hover:text-[#8bffb0]" />{" "}
+                    {f}
                   </li>
                 ))}
               </ul>
@@ -546,11 +876,32 @@ function Fees() {
           ))}
         </div>
         <div className="mx-auto mt-8 max-w-3xl space-y-2.5 rounded-2xl border border-border bg-card p-6 text-xs text-muted-foreground shadow-card">
-          <p className="flex gap-2"><Wallet className="h-4 w-4 shrink-0 text-primary" /> Admission processing fee of ₹1,200 applies to all admissions; an initial ₹10,000 from the programme fee is collected at registration.</p>
-          <p className="flex gap-2"><Wallet className="h-4 w-4 shrink-0 text-primary" /> Exam fee: ₹800 per subject per attempt.</p>
-          <p className="flex gap-2"><Wallet className="h-4 w-4 shrink-0 text-primary" /> Demand drafts should be made in favour of "SVKM's NMIMS" payable at Mumbai.</p>
-          <p className="flex gap-2"><Wallet className="h-4 w-4 shrink-0 text-primary" /> Fee structure is subject to change at the discretion of the University; please reconfirm current figures with your counsellor.</p>
-          <p className="flex gap-2"><Wallet className="h-4 w-4 shrink-0 text-primary" /> Refunds and cancellations are governed by the official <a href="#" className="underline">Refund Policy</a> of NMIMS CDOE.</p>
+          <p className="flex gap-2">
+            <Wallet className="h-4 w-4 shrink-0 text-primary" /> Admission processing fee of ₹1,200
+            applies to all admissions; an initial ₹10,000 from the programme fee is collected at
+            registration.
+          </p>
+          <p className="flex gap-2">
+            <Wallet className="h-4 w-4 shrink-0 text-primary" /> Exam fee: ₹800 per subject per
+            attempt.
+          </p>
+          <p className="flex gap-2">
+            <Wallet className="h-4 w-4 shrink-0 text-primary" /> Demand drafts should be made in
+            favour of "SVKM's NMIMS" payable at Mumbai.
+          </p>
+          <p className="flex gap-2">
+            <Wallet className="h-4 w-4 shrink-0 text-primary" /> Fee structure is subject to change
+            at the discretion of the University; please reconfirm current figures with your
+            counsellor.
+          </p>
+          <p className="flex gap-2">
+            <Wallet className="h-4 w-4 shrink-0 text-primary" /> Refunds and cancellations are
+            governed by the official{" "}
+            <a href="#" className="underline">
+              Refund Policy
+            </a>{" "}
+            of NMIMS CDOE.
+          </p>
         </div>
       </div>
     </section>
@@ -573,7 +924,11 @@ function EligibilityAndStructure() {
   return (
     <section className="py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Admission Essentials" title="Eligibility & Program Structure" subtitle="Everything you need to know before you apply." />
+        <SectionTitle
+          eyebrow="Admission Essentials"
+          title="Eligibility & Program Structure"
+          subtitle="Everything you need to know before you apply."
+        />
         <div className="mt-12 grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl border border-border bg-card p-8 shadow-card">
             <h3 className="flex items-center gap-2 text-lg font-extrabold text-foreground">
@@ -612,20 +967,47 @@ function EligibilityAndStructure() {
 /* ---------- ADMISSION PROCESS ---------- */
 function AdmissionProcess() {
   const steps = [
-    { icon: FileEdit, tag: "Step 1", t: "Registration", d: "Fill out the registration form and pay the Admission Processing Fee to begin your journey." },
-    { icon: FileCheck, tag: "Step 2", t: "Document Submission", d: "Upload academic certificates, a work experience letter, identity proof and a passport-size photo." },
-    { icon: CreditCard, tag: "Step 3", t: "Fee Submission", d: "Confirm your admission by paying the fee online or by demand draft favouring 'SVKM's NMIMS' payable at Mumbai." },
-    { icon: CheckCircle2, tag: "Step 4", t: "Confirmation", d: "Receive your confirmation letter with a student number. Study Kit dispatch and Student Portal access follow confirmation." },
+    {
+      icon: FileEdit,
+      tag: "Step 1",
+      t: "Registration",
+      d: "Fill out the registration form and pay the Admission Processing Fee to begin your journey.",
+    },
+    {
+      icon: FileCheck,
+      tag: "Step 2",
+      t: "Document Submission",
+      d: "Upload academic certificates, a work experience letter, identity proof and a passport-size photo.",
+    },
+    {
+      icon: CreditCard,
+      tag: "Step 3",
+      t: "Fee Submission",
+      d: "Confirm your admission by paying the fee online or by demand draft favouring 'SVKM's NMIMS' payable at Mumbai.",
+    },
+    {
+      icon: CheckCircle2,
+      tag: "Step 4",
+      t: "Confirmation",
+      d: "Receive your confirmation letter with a student number. Study Kit dispatch and Student Portal access follow confirmation.",
+    },
   ];
   return (
     <section className="bg-surface-soft py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle eyebrow="Admission Process" title="How to Get Admission" subtitle="A simple 4-step process to begin your Diploma journey with NMIMS CDOE." />
+        <SectionTitle
+          eyebrow="Admission Process"
+          title="How to Get Admission"
+          subtitle="A simple 4-step process to begin your Diploma journey with NMIMS CDOE."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map(({ icon: Icon, tag, t, d }, i) => (
             <motion.div
               key={t}
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
               className="relative rounded-3xl border border-border bg-card p-6 pt-8 shadow-card transition hover:-translate-y-1 hover:shadow-elegant"
             >
               <span className="absolute -top-4 left-6 grid h-9 w-9 place-items-center rounded-full bg-[#7154EA] text-sm font-extrabold text-white shadow-card">
@@ -660,35 +1042,61 @@ function AboutCDOE() {
     <section className="py-16 sm:py-24">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
         <motion.img
-          src="/images/about.webp" alt="NMIMS CDOE campus building" loading="lazy" width={1600} height={1000}
-          initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
+          src="/images/about.webp"
+          alt="NMIMS CDOE campus building"
+          loading="lazy"
+          width={1600}
+          height={1000}
+          initial={{ opacity: 0, scale: 0.97 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
           className="rounded-3xl shadow-elegant"
         />
         <div>
-          <SectionTitle align="left" eyebrow="About NMIMS CDOE" title="A legacy of excellence, recognised nationwide" />
+          <SectionTitle
+            align="left"
+            eyebrow="About NMIMS CDOE"
+            title="A legacy of excellence, recognised nationwide"
+          />
           <p className="mt-4 text-muted-foreground">
-            SVKM's Narsee Monjee Institute of Management was founded in 1981 and achieved Deemed-to-be-University status from the UGC in 2003. Today NMIMS is a globalised centre of learning with 750+ full-time faculty across multidisciplinary specialised schools, giving students balanced exposure to research, academics and industry practice.
+            SVKM's Narsee Monjee Institute of Management was founded in 1981 and achieved
+            Deemed-to-be-University status from the UGC in 2003. Today NMIMS is a globalised centre
+            of learning with 750+ full-time faculty across multidisciplinary specialised schools,
+            giving students balanced exposure to research, academics and industry practice.
           </p>
           <p className="mt-3 text-muted-foreground">
-            NMIMS Centre for Distance and Online Education (CDOE) began its distance and online learning journey in 2013 with a state-of-the-art learning management system, delivering interactive learning on connected platforms 24/7 - changing the dynamics of higher education delivery in India.
+            NMIMS Centre for Distance and Online Education (CDOE) began its distance and online
+            learning journey in 2013 with a state-of-the-art learning management system, delivering
+            interactive learning on connected platforms 24/7 - changing the dynamics of higher
+            education delivery in India.
           </p>
           <div className="mt-6 flex items-start gap-3 rounded-2xl bg-secondary p-4">
             <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
             <p className="text-sm text-foreground">
-              <strong className="font-bold">Home Campus:</strong> SVKM's NMIMS, V.L. Mehta Road, Vile Parle (West), Mumbai, Maharashtra, India
+              <strong className="font-bold">Home Campus:</strong> SVKM's NMIMS, V.L. Mehta Road,
+              Vile Parle (West), Mumbai, Maharashtra, India
             </p>
           </div>
           <div className="mt-6">
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Accreditations & Recognition</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              Accreditations & Recognition
+            </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {["UGC-Entitled", "NAAC A++", "NIRF Top 100", "Category 1 Autonomy"].map((b) => (
-                <span key={b} className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-bold text-foreground shadow-card">
+                <span
+                  key={b}
+                  className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-bold text-foreground shadow-card"
+                >
                   ✓ {b}
                 </span>
               ))}
             </div>
           </div>
-          <a href="/about" className="mt-7 inline-flex items-center gap-2 rounded-xl gradient-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-card transition hover:scale-[1.03]">
+          <a
+            href="/about"
+            className="mt-7 inline-flex items-center gap-2 rounded-xl gradient-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-card transition hover:scale-[1.03]"
+          >
             Want to Know More <ArrowRight className="h-4 w-4" />
           </a>
         </div>
@@ -707,14 +1115,19 @@ function FAQ() {
         <SectionTitle eyebrow="Frequently Asked Questions" title="Everything you need to know" />
         <div className="mt-12 space-y-3">
           {faqItems.map((it, i) => (
-            <div key={it.id} className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+            <div
+              key={it.id}
+              className="overflow-hidden rounded-2xl border border-border bg-card shadow-card"
+            >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
                 className="flex w-full items-center justify-between gap-4 p-5 text-left"
                 aria-expanded={open === i}
               >
                 <span className="font-bold text-foreground">{it.question}</span>
-                <ChevronDown className={`h-5 w-5 shrink-0 text-primary transition-transform ${open === i ? "rotate-180" : ""}`} />
+                <ChevronDown
+                  className={`h-5 w-5 shrink-0 text-primary transition-transform ${open === i ? "rotate-180" : ""}`}
+                />
               </button>
               <motion.div
                 initial={false}
@@ -722,7 +1135,9 @@ function FAQ() {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{it.answer}</p>
+                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">
+                  {it.answer}
+                </p>
               </motion.div>
             </div>
           ))}
@@ -746,19 +1161,38 @@ function NeedHelp() {
           Talk to an admissions counsellor
         </h2>
         <p className="relative mx-auto mt-4 max-w-xl text-white/85">
-          Get a callback, chat instantly on WhatsApp, or join a free info session to learn more about the NMIMS Online Diploma Programmes.
+          Get a callback, chat instantly on WhatsApp, or join a free info session to learn more
+          about the NMIMS Online Diploma Programmes.
         </p>
         <div className="relative mt-8 flex flex-wrap justify-center gap-3">
-          <a href={telLink} className="inline-flex items-center gap-2 rounded-xl bg-[linear-gradient(135deg,#ef4444,#dc2626)] px-6 py-3.5 text-sm font-bold text-white shadow-elegant transition hover:scale-[1.03]">
+          <a
+            href={telLink}
+            className="inline-flex items-center gap-2 rounded-xl bg-[linear-gradient(135deg,#ef4444,#dc2626)] px-6 py-3.5 text-sm font-bold text-white shadow-elegant transition hover:scale-[1.03]"
+          >
             <Phone className="h-4 w-4" /> Call Now
           </a>
-          <a href={waLink("Hi, I'm interested in the NMIMS Online Diploma Programmes. Please share more details.")} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-sm font-bold text-white shadow-elegant transition hover:scale-[1.03]">
+          <a
+            href={waLink(
+              "Hi, I'm interested in the NMIMS Online Diploma Programmes. Please share more details.",
+            )}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-sm font-bold text-white shadow-elegant transition hover:scale-[1.03]"
+          >
             <MessageCircle className="h-4 w-4" /> WhatsApp Us
           </a>
-          <a href="#enquire" className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-6 py-3.5 text-sm font-bold text-white ring-1 ring-white/30 backdrop-blur transition hover:bg-white/15">
+          <a
+            href="#enquire"
+            className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-6 py-3.5 text-sm font-bold text-white ring-1 ring-white/30 backdrop-blur transition hover:bg-white/15"
+          >
             <Mail className="h-4 w-4" /> Request a Callback
           </a>
-          <a href={CALENDLY_LINK} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-6 py-3.5 text-sm font-bold text-white ring-1 ring-white/30 backdrop-blur transition hover:bg-white/15">
+          <a
+            href={CALENDLY_LINK}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-6 py-3.5 text-sm font-bold text-white ring-1 ring-white/30 backdrop-blur transition hover:bg-white/15"
+          >
             <CalendarCheck className="h-4 w-4" /> Join Free Info Session
           </a>
         </div>

@@ -91,11 +91,32 @@ function MediaLibrary() {
     setTimeout(() => setCopiedId(null), 1500);
   }
 
-  async function handleSaveEdit(item: MediaItem, patch: { title: string; caption: string; altText: string; folder: string }) {
+  async function handleSaveEdit(
+    item: MediaItem,
+    patch: { title: string; caption: string; altText: string; folder: string },
+  ) {
     await updateMediaFn({
-      data: { id: item.id, title: patch.title || null, caption: patch.caption || null, altText: patch.altText || null, folder: patch.folder },
+      data: {
+        id: item.id,
+        title: patch.title || null,
+        caption: patch.caption || null,
+        altText: patch.altText || null,
+        folder: patch.folder,
+      },
     });
-    setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, ...patch, title: patch.title || null, caption: patch.caption || null, altText: patch.altText || null } : i)));
+    setItems((prev) =>
+      prev.map((i) =>
+        i.id === item.id
+          ? {
+              ...i,
+              ...patch,
+              title: patch.title || null,
+              caption: patch.caption || null,
+              altText: patch.altText || null,
+            }
+          : i,
+      ),
+    );
     setEditingId(null);
   }
 
@@ -107,31 +128,60 @@ function MediaLibrary() {
         </span>
         <div>
           <h1 className="text-lg font-extrabold text-foreground">Media Library</h1>
-          <p className="text-sm text-muted-foreground">Upload and manage images and PDFs — with the per-file fields search engines and screen readers use.</p>
+          <p className="text-sm text-muted-foreground">
+            Upload and manage images and PDFs — with the per-file fields search engines and screen
+            readers use.
+          </p>
         </div>
       </div>
 
       <div className="mt-6 flex flex-wrap items-end gap-3 rounded-2xl border border-border bg-card p-5 shadow-card">
         <div className="space-y-1.5">
           <Label>Folder</Label>
-          <Input value={folder} onChange={(e) => setFolder(e.target.value)} className="w-40" placeholder="e.g. blog" />
+          <Input
+            value={folder}
+            onChange={(e) => setFolder(e.target.value)}
+            className="w-40"
+            placeholder="e.g. blog"
+          />
         </div>
         <div className="space-y-1.5">
           <Label>Title</Label>
-          <Input value={title} onChange={(e) => setTitle(e.target.value)} className="w-48" placeholder="Media title" />
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-48"
+            placeholder="Media title"
+          />
         </div>
         <div className="space-y-1.5">
           <Label>Alt Text</Label>
-          <Input value={altText} onChange={(e) => setAltText(e.target.value)} className="w-56" placeholder="Describe the image" />
+          <Input
+            value={altText}
+            onChange={(e) => setAltText(e.target.value)}
+            className="w-56"
+            placeholder="Describe the image"
+          />
         </div>
         <div className="space-y-1.5">
           <Label>Caption</Label>
-          <Input value={caption} onChange={(e) => setCaption(e.target.value)} className="w-56" placeholder="Optional caption" />
+          <Input
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
+            className="w-56"
+            placeholder="Optional caption"
+          />
         </div>
         <Button onClick={() => fileInputRef.current?.click()} disabled={uploading}>
           <Upload className="mr-1.5 h-4 w-4" /> {uploading ? "Uploading..." : "Upload File"}
         </Button>
-        <input ref={fileInputRef} type="file" accept="image/*,application/pdf" className="hidden" onChange={handleUpload} />
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*,application/pdf"
+          className="hidden"
+          onChange={handleUpload}
+        />
       </div>
 
       <div className="mt-5 flex flex-wrap gap-2">
@@ -140,7 +190,9 @@ function MediaLibrary() {
             key={t}
             onClick={() => setTypeFilter(t)}
             className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
-              typeFilter === t ? "bg-foreground text-background" : "bg-secondary text-muted-foreground hover:text-foreground"
+              typeFilter === t
+                ? "bg-foreground text-background"
+                : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
           >
             {t === "all" ? "All types" : t === "image" ? "Images" : "Documents"}
@@ -154,7 +206,9 @@ function MediaLibrary() {
             key={f}
             onClick={() => setActiveFilter(f)}
             className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
-              activeFilter === f ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"
+              activeFilter === f
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
           >
             {f}
@@ -169,19 +223,36 @@ function MediaLibrary() {
           </p>
         )}
         {visibleItems.map((item) => (
-          <div key={item.id} className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+          <div
+            key={item.id}
+            className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-card"
+          >
             <div className="flex aspect-square items-center justify-center bg-secondary">
               {item.fileType === "image" ? (
-                <img src={item.fileUrl} alt={item.altText ?? ""} className="h-full w-full object-cover" />
+                <img
+                  src={item.fileUrl}
+                  alt={item.altText ?? ""}
+                  className="h-full w-full object-cover"
+                />
               ) : (
                 <FileText className="h-10 w-10 text-muted-foreground" />
               )}
             </div>
             <div className="space-y-0.5 p-2.5">
-              <p className="truncate text-xs font-semibold text-foreground">{item.title || item.fileName}</p>
-              <p className="text-[11px] text-muted-foreground">{item.folder} · {formatBytes(item.fileSize)}</p>
-              {item.caption && <p className="truncate text-[11px] text-muted-foreground">{item.caption}</p>}
-              {item.altText && <p className="truncate text-[11px] italic text-muted-foreground">"{item.altText}"</p>}
+              <p className="truncate text-xs font-semibold text-foreground">
+                {item.title || item.fileName}
+              </p>
+              <p className="text-[11px] text-muted-foreground">
+                {item.folder} · {formatBytes(item.fileSize)}
+              </p>
+              {item.caption && (
+                <p className="truncate text-[11px] text-muted-foreground">{item.caption}</p>
+              )}
+              {item.altText && (
+                <p className="truncate text-[11px] italic text-muted-foreground">
+                  "{item.altText}"
+                </p>
+              )}
             </div>
             <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/60 opacity-0 transition group-hover:opacity-100">
               <button
@@ -196,7 +267,11 @@ function MediaLibrary() {
                 className="grid h-9 w-9 place-items-center rounded-lg bg-white text-foreground transition hover:opacity-90"
                 title="Copy URL"
               >
-                {copiedId === item.id ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
+                {copiedId === item.id ? (
+                  <Check className="h-4 w-4 text-emerald-600" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
               </button>
               <button
                 onClick={() => handleDelete(item)}
@@ -207,7 +282,13 @@ function MediaLibrary() {
               </button>
             </div>
 
-            {editingId === item.id && <MediaEditPanel item={item} onClose={() => setEditingId(null)} onSave={(patch) => handleSaveEdit(item, patch)} />}
+            {editingId === item.id && (
+              <MediaEditPanel
+                item={item}
+                onClose={() => setEditingId(null)}
+                onSave={(patch) => handleSaveEdit(item, patch)}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -222,7 +303,12 @@ function MediaEditPanel({
 }: {
   item: MediaItem;
   onClose: () => void;
-  onSave: (patch: { title: string; caption: string; altText: string; folder: string }) => Promise<void>;
+  onSave: (patch: {
+    title: string;
+    caption: string;
+    altText: string;
+    folder: string;
+  }) => Promise<void>;
 }) {
   const [title, setTitle] = useState(item.title ?? "");
   const [caption, setCaption] = useState(item.caption ?? "");
@@ -243,7 +329,9 @@ function MediaEditPanel({
     <div className="absolute inset-0 z-10 flex flex-col gap-2 overflow-y-auto bg-card p-3 text-left shadow-elegant">
       <div className="flex items-center justify-between">
         <p className="text-xs font-bold text-foreground">Edit Media</p>
-        <button onClick={onClose} className="text-muted-foreground hover:text-foreground"><X className="h-3.5 w-3.5" /></button>
+        <button onClick={onClose} className="text-muted-foreground hover:text-foreground">
+          <X className="h-3.5 w-3.5" />
+        </button>
       </div>
       <div className="space-y-1">
         <Label className="text-[10px]">Title</Label>
@@ -251,11 +339,20 @@ function MediaEditPanel({
       </div>
       <div className="space-y-1">
         <Label className="text-[10px]">Alt Text</Label>
-        <Input value={altText} onChange={(e) => setAltText(e.target.value)} className="h-7 text-xs" />
+        <Input
+          value={altText}
+          onChange={(e) => setAltText(e.target.value)}
+          className="h-7 text-xs"
+        />
       </div>
       <div className="space-y-1">
         <Label className="text-[10px]">Caption</Label>
-        <Textarea value={caption} onChange={(e) => setCaption(e.target.value)} rows={2} className="text-xs" />
+        <Textarea
+          value={caption}
+          onChange={(e) => setCaption(e.target.value)}
+          rows={2}
+          className="text-xs"
+        />
       </div>
       <div className="space-y-1">
         <Label className="text-[10px]">Folder</Label>

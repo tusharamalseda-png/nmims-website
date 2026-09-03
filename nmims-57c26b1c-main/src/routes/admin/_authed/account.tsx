@@ -1,7 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { UserCog, ShieldCheck, ShieldOff } from "lucide-react";
 import { useState } from "react";
-import { getTwoFactorStatusFn, generateTwoFactorSetupFn, confirmTwoFactorSetupFn, disableTwoFactorFn } from "@/backend/auth/actions";
+import {
+  getTwoFactorStatusFn,
+  generateTwoFactorSetupFn,
+  confirmTwoFactorSetupFn,
+  disableTwoFactorFn,
+} from "@/backend/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,7 +20,11 @@ function AccountPage() {
   const { admin } = Route.useRouteContext();
   const initial = Route.useLoaderData();
   const [enabled, setEnabled] = useState(initial.enabled);
-  const [setup, setSetup] = useState<{ secret: string; otpauthUri: string; qrDataUrl: string } | null>(null);
+  const [setup, setSetup] = useState<{
+    secret: string;
+    otpauthUri: string;
+    qrDataUrl: string;
+  } | null>(null);
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -67,12 +76,16 @@ function AccountPage() {
         </span>
         <div>
           <h1 className="text-lg font-extrabold text-foreground">My Account</h1>
-          <p className="text-sm text-muted-foreground">{admin?.email} · <span className="capitalize">{admin?.role}</span></p>
+          <p className="text-sm text-muted-foreground">
+            {admin?.email} · <span className="capitalize">{admin?.role}</span>
+          </p>
         </div>
       </div>
 
       <div className="mt-6 space-y-5 rounded-2xl border border-border bg-card p-6 shadow-card">
-        <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Two-Factor Authentication</p>
+        <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+          Two-Factor Authentication
+        </p>
 
         {enabled && !setup && (
           <div className="flex items-center justify-between rounded-lg border border-emerald-200 bg-emerald-50 p-4">
@@ -80,7 +93,9 @@ function AccountPage() {
               <ShieldCheck className="h-4 w-4" />
               <p className="text-sm font-semibold">Two-factor authentication is on.</p>
             </div>
-            <Button variant="outline" size="sm" onClick={handleDisable} disabled={busy}>Turn off</Button>
+            <Button variant="outline" size="sm" onClick={handleDisable} disabled={busy}>
+              Turn off
+            </Button>
           </div>
         )}
 
@@ -88,10 +103,17 @@ function AccountPage() {
           <div className="rounded-lg border border-border p-4">
             <div className="flex items-center gap-2 text-muted-foreground">
               <ShieldOff className="h-4 w-4" />
-              <p className="text-sm font-semibold text-foreground">Two-factor authentication is off.</p>
+              <p className="text-sm font-semibold text-foreground">
+                Two-factor authentication is off.
+              </p>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">Add a second step at login using any authenticator app (Google Authenticator, Authy, 1Password...).</p>
-            <Button size="sm" className="mt-3" onClick={startSetup} disabled={busy}>{busy ? "Starting..." : "Set Up 2FA"}</Button>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Add a second step at login using any authenticator app (Google Authenticator, Authy,
+              1Password...).
+            </p>
+            <Button size="sm" className="mt-3" onClick={startSetup} disabled={busy}>
+              {busy ? "Starting..." : "Set Up 2FA"}
+            </Button>
           </div>
         )}
 
@@ -99,12 +121,22 @@ function AccountPage() {
           <div className="space-y-4 rounded-lg border border-border p-4">
             <div>
               <p className="text-sm font-semibold text-foreground">1. Scan this QR code</p>
-              <p className="text-xs text-muted-foreground">Use your authenticator app's "scan QR code" option.</p>
-              <img src={setup.qrDataUrl} alt="Two-factor setup QR code" className="mt-3 h-40 w-40 rounded-lg border border-border" />
-              <p className="mt-2 break-all font-mono text-[10px] text-muted-foreground">Can't scan? Enter manually: {setup.secret}</p>
+              <p className="text-xs text-muted-foreground">
+                Use your authenticator app's "scan QR code" option.
+              </p>
+              <img
+                src={setup.qrDataUrl}
+                alt="Two-factor setup QR code"
+                className="mt-3 h-40 w-40 rounded-lg border border-border"
+              />
+              <p className="mt-2 break-all font-mono text-[10px] text-muted-foreground">
+                Can't scan? Enter manually: {setup.secret}
+              </p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-foreground">2. Enter the 6-digit code it shows</p>
+              <p className="text-sm font-semibold text-foreground">
+                2. Enter the 6-digit code it shows
+              </p>
               <div className="mt-2 flex items-center gap-2">
                 <Input
                   value={code}
@@ -113,8 +145,19 @@ function AccountPage() {
                   className="max-w-[140px] text-center font-mono tracking-[0.4em]"
                   placeholder="000000"
                 />
-                <Button size="sm" onClick={confirmSetup} disabled={busy || code.length !== 6}>{busy ? "Verifying..." : "Confirm & Enable"}</Button>
-                <Button size="sm" variant="ghost" onClick={() => { setSetup(null); setCode(""); }}>Cancel</Button>
+                <Button size="sm" onClick={confirmSetup} disabled={busy || code.length !== 6}>
+                  {busy ? "Verifying..." : "Confirm & Enable"}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setSetup(null);
+                    setCode("");
+                  }}
+                >
+                  Cancel
+                </Button>
               </div>
             </div>
           </div>
