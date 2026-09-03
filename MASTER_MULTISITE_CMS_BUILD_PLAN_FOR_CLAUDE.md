@@ -1218,7 +1218,9 @@ Can create Site A and Site B.
 Both exist independently.
 ```
 
-### [ ] Step 2.2 — Create `site_memberships`
+### [x] Step 2.2 — Create `site_memberships` — COMPLETED 2026-09-03
+
+Implemented `site_memberships` table (site_id, user_id, role, status, UNIQUE(site_id, user_id)) + CRUD in `src/backend/memberships/actions.ts`, plus a `userHasSiteAccess` helper for Step 2.3 to use. Migration `0002_add_site_memberships` tested on dev: User A granted access to Site A (true), User B denied on Site A with no membership (false), User A optionally also granted Site B (true), duplicate membership correctly rejected by the unique constraint. No UI yet.
 
 One user can belong to multiple sites.
 

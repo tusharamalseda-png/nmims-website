@@ -7,6 +7,7 @@ import {
   timestamp,
   jsonb,
   pgEnum,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 // JSON-safe value type — used instead of `unknown` on jsonb columns, since
@@ -21,6 +22,7 @@ export const adminRoleEnum = pgEnum("admin_role", ["admin", "editor"]);
 export const leadStatusEnum = pgEnum("lead_status", ["new", "contacted", "enrolled", "lost"]);
 export const redirectStatusEnum = pgEnum("redirect_status", ["301", "302"]);
 export const siteStatusEnum = pgEnum("site_status", ["active", "archived"]);
+export const membershipStatusEnum = pgEnum("membership_status", ["active", "revoked"]);
 
 // ---------- admin users (profile linked to Supabase Auth's auth.users) ----------
 export const adminUsers = pgTable("admin_users", {
@@ -44,6 +46,24 @@ export const sites = pgTable("sites", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+// ---------- site memberships (which admin users can access which sites) ----------
+export const siteMemberships = pgTable(
+  "site_memberships",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    siteId: uuid("site_id")
+      .notNull()
+      .references(() => sites.id),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => adminUsers.id),
+    role: adminRoleEnum("role").notNull().default("editor"),
+    status: membershipStatusEnum("status").notNull().default("active"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex("site_memberships_site_user_unique").on(table.siteId, table.userId)],
+);
 
 // ---------- pages (Home, About, Programs, Contact, landing pages, legal pages) ----------
 export const pages = pgTable("pages", {
