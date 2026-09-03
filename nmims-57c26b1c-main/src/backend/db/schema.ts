@@ -20,6 +20,7 @@ export const pageTypeEnum = pgEnum("page_type", ["page", "landing_page", "legal"
 export const adminRoleEnum = pgEnum("admin_role", ["admin", "editor"]);
 export const leadStatusEnum = pgEnum("lead_status", ["new", "contacted", "enrolled", "lost"]);
 export const redirectStatusEnum = pgEnum("redirect_status", ["301", "302"]);
+export const siteStatusEnum = pgEnum("site_status", ["active", "archived"]);
 
 // ---------- admin users (profile linked to Supabase Auth's auth.users) ----------
 export const adminUsers = pgTable("admin_users", {
@@ -30,6 +31,18 @@ export const adminUsers = pgTable("admin_users", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   twoFactorSecret: text("two_factor_secret"),
   twoFactorEnabled: boolean("two_factor_enabled").notNull().default(false),
+});
+
+// ---------- sites (platform-level: one row per managed website) ----------
+export const sites = pgTable("sites", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  primaryDomain: text("primary_domain"),
+  status: siteStatusEnum("status").notNull().default("active"),
+  createdBy: uuid("created_by").references(() => adminUsers.id),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
 // ---------- pages (Home, About, Programs, Contact, landing pages, legal pages) ----------

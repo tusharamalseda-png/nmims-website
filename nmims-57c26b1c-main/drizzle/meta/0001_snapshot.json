@@ -1,6 +1,6 @@
 {
-  "id": "69a9972f-c2a9-43f1-a7da-99c5734ad234",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "cd57ae69-a50b-4ca4-911d-f97b9496e25e",
+  "prevId": "69a9972f-c2a9-43f1-a7da-99c5734ad234",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -1235,6 +1235,88 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.sites": {
+      "name": "sites",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "primary_domain": {
+          "name": "primary_domain",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "site_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'active'"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sites_created_by_admin_users_id_fk": {
+          "name": "sites_created_by_admin_users_id_fk",
+          "tableFrom": "sites",
+          "tableTo": "admin_users",
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "sites_slug_unique": {
+          "name": "sites_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": ["slug"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.team_members": {
       "name": "team_members",
       "schema": "",
@@ -1414,6 +1496,11 @@
       "name": "redirect_status",
       "schema": "public",
       "values": ["301", "302"]
+    },
+    "public.site_status": {
+      "name": "site_status",
+      "schema": "public",
+      "values": ["active", "archived"]
     }
   },
   "schemas": {},
