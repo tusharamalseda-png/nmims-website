@@ -59,8 +59,12 @@
           "name": "activity_log_user_id_admin_users_id_fk",
           "tableFrom": "activity_log",
           "tableTo": "admin_users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -173,8 +177,12 @@
           "name": "backups_created_by_admin_users_id_fk",
           "tableFrom": "backups",
           "tableTo": "admin_users",
-          "columnsFrom": ["created_by"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -356,7 +364,9 @@
         "blog_posts_slug_unique": {
           "name": "blog_posts_slug_unique",
           "nullsNotDistinct": false,
-          "columns": ["slug"]
+          "columns": [
+            "slug"
+          ]
         }
       },
       "policies": {},
@@ -413,8 +423,12 @@
           "name": "data_requests_fulfilled_by_admin_users_id_fk",
           "tableFrom": "data_requests",
           "tableTo": "admin_users",
-          "columnsFrom": ["fulfilled_by"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "fulfilled_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -563,8 +577,12 @@
           "name": "inquiries_assigned_to_admin_users_id_fk",
           "tableFrom": "inquiries",
           "tableTo": "admin_users",
-          "columnsFrom": ["assigned_to"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "assigned_to"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -720,7 +738,9 @@
         "media_slug_unique": {
           "name": "media_slug_unique",
           "nullsNotDistinct": false,
-          "columns": ["slug"]
+          "columns": [
+            "slug"
+          ]
         }
       },
       "policies": {},
@@ -1011,8 +1031,12 @@
           "name": "pages_updated_by_admin_users_id_fk",
           "tableFrom": "pages",
           "tableTo": "admin_users",
-          "columnsFrom": ["updated_by"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "updated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1022,7 +1046,9 @@
         "pages_slug_unique": {
           "name": "pages_slug_unique",
           "nullsNotDistinct": false,
-          "columns": ["slug"]
+          "columns": [
+            "slug"
+          ]
         }
       },
       "policies": {},
@@ -1075,7 +1101,9 @@
         "redirects_from_path_unique": {
           "name": "redirects_from_path_unique",
           "nullsNotDistinct": false,
-          "columns": ["from_path"]
+          "columns": [
+            "from_path"
+          ]
         }
       },
       "policies": {},
@@ -1388,32 +1416,53 @@
     "public.admin_role": {
       "name": "admin_role",
       "schema": "public",
-      "values": ["admin", "editor"]
+      "values": [
+        "admin",
+        "editor"
+      ]
     },
     "public.data_request_type": {
       "name": "data_request_type",
       "schema": "public",
-      "values": ["export", "erase"]
+      "values": [
+        "export",
+        "erase"
+      ]
     },
     "public.lead_status": {
       "name": "lead_status",
       "schema": "public",
-      "values": ["new", "contacted", "enrolled", "lost"]
+      "values": [
+        "new",
+        "contacted",
+        "enrolled",
+        "lost"
+      ]
     },
     "public.page_status": {
       "name": "page_status",
       "schema": "public",
-      "values": ["draft", "published"]
+      "values": [
+        "draft",
+        "published"
+      ]
     },
     "public.page_type": {
       "name": "page_type",
       "schema": "public",
-      "values": ["page", "landing_page", "legal"]
+      "values": [
+        "page",
+        "landing_page",
+        "legal"
+      ]
     },
     "public.redirect_status": {
       "name": "redirect_status",
       "schema": "public",
-      "values": ["301", "302"]
+      "values": [
+        "301",
+        "302"
+      ]
     }
   },
   "schemas": {},
