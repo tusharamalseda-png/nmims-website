@@ -1232,9 +1232,7 @@ User A can optionally access Site B.
 User B cannot access Site A unless membership exists.
 ```
 
-### [x] Step 2.3 — Create verified Active Site context — COMPLETED 2026-09-03
-
-Implemented in `src/backend/sites/active-site.ts`: `setActiveSiteFn` (validates the site exists, checks `userHasSiteAccess`, sets a real HTTP 404/403 via `setResponseStatus` before throwing, only then stores `activeSiteId` in the session), `getActiveSiteFn` (re-verifies membership on every read, self-heals a stale/revoked `activeSiteId`), and `requireActiveSite()` — the reusable guard future site-scoped features (Phase 4+) must call. Added `activeSiteId?: string` to `AdminSessionData`. Tested the exact three acceptance scenarios against the dev database (bypassing only the session-cookie plumbing, which is identical to code already used everywhere else in this app): invalid site ID → rejected/404; valid site but no membership → rejected/403; valid site with active membership → accepted. Full HTTP-level exercise (real cookies, real 403 response) will happen naturally once Step 2.4's site switcher UI calls this through the browser.
+### [ ] Step 2.3 — Create verified Active Site context
 
 Implement one safe backend-supported concept:
 
