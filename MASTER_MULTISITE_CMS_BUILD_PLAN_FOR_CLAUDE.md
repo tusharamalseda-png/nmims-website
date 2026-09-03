@@ -1192,9 +1192,7 @@ One reversible migration can be created and applied in development.
 
 ## PHASE 2 — MULTI-SITE FOUNDATION (MUST COME BEFORE PAGE BUILDER)
 
-### [x] Step 2.1 — Create `sites` — COMPLETED 2026-09-03
-
-Implemented `sites` table + `listSitesFn`/`getSiteFn`/`createSiteFn`/`updateSiteFn` in `src/backend/sites/actions.ts`. Migration `0001_add_sites_table` generated and tested on the dev database (created two independent sites, confirmed duplicate-slug rejection, cleaned up test rows). No UI yet, no other tables touched.
+### [ ] Step 2.1 — Create `sites`
 
 Implement the Site model/table and CRUD service.
 
