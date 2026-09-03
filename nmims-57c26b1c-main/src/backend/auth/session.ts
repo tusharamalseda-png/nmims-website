@@ -12,6 +12,9 @@ export type AdminSessionData = {
   // userId stays unset until then, so every existing "not authenticated"
   // check keeps working without changes.
   pending2FAUserId?: string;
+  // Set only via setActiveSiteFn, which re-verifies membership server-side —
+  // never trust this value alone without re-checking (see requireActiveSite).
+  activeSiteId?: string;
 };
 
 export function getAdminSession() {
