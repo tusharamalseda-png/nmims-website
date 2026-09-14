@@ -13,10 +13,12 @@ export default defineConfig({
     server: { entry: "server" },
   },
   // Outside Lovable's sandbox, the nitro build plugin is off by default, so plain
-  // `vite build` (what Vercel runs) skips the server bundle entirely. Force it on
-  // and target Vercel's Build Output API instead of Lovable's Cloudflare default.
+  // `vite build` skips the server bundle entirely. Force it on and target Nitro's
+  // own node-server preset (plain `node .output/server/index.mjs`, listens on
+  // PORT) instead of Lovable's Cloudflare default — this is what generic Node
+  // hosts like Hostinger's Node.js hosting run directly.
   nitro: {
-    preset: "vercel",
+    preset: "node-server",
   },
   vite: {
     server: {
