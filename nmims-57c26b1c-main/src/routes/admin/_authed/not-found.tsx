@@ -1,7 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Radar, ArrowRightLeft, Check, Trash2, X } from "lucide-react";
 import { useState } from "react";
-import { listNotFoundHitsFn, dismissNotFoundHitFn, deleteNotFoundHitFn, convertNotFoundToRedirectFn } from "@/backend/health/not-found";
+import {
+  listNotFoundHitsFn,
+  dismissNotFoundHitFn,
+  deleteNotFoundHitFn,
+  convertNotFoundToRedirectFn,
+} from "@/backend/health/not-found";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatDate } from "@/lib/format-date";
@@ -62,7 +67,9 @@ function NotFoundMonitor() {
         </span>
         <div>
           <h1 className="text-lg font-extrabold text-foreground">404 Monitor</h1>
-          <p className="text-sm text-muted-foreground">Real visitor 404 hits, most frequent first — turn one into a redirect in one click.</p>
+          <p className="text-sm text-muted-foreground">
+            Real visitor 404 hits, most frequent first — turn one into a redirect in one click.
+          </p>
         </div>
       </div>
 
@@ -88,38 +95,78 @@ function NotFoundMonitor() {
           </p>
         )}
         {visible.map((hit) => (
-          <div key={hit.id} className={`rounded-xl border p-3 shadow-card ${hit.resolved ? "border-border bg-secondary/40 opacity-70" : "border-border bg-card"}`}>
+          <div
+            key={hit.id}
+            className={`rounded-xl border p-3 shadow-card ${hit.resolved ? "border-border bg-secondary/40 opacity-70" : "border-border bg-card"}`}
+          >
             <div className="flex flex-wrap items-center gap-3">
-              <span className="rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-bold text-destructive">{hit.hitCount}× hit</span>
-              <span className="flex-1 truncate font-mono text-xs font-semibold text-foreground">{hit.path}</span>
-              {hit.resolved && <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">Resolved</span>}
-              <span className="text-[11px] text-muted-foreground">Last seen {formatDate(hit.lastSeenAt)}</span>
+              <span className="rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-bold text-destructive">
+                {hit.hitCount}× hit
+              </span>
+              <span className="flex-1 truncate font-mono text-xs font-semibold text-foreground">
+                {hit.path}
+              </span>
+              {hit.resolved && (
+                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                  Resolved
+                </span>
+              )}
+              <span className="text-[11px] text-muted-foreground">
+                Last seen {formatDate(hit.lastSeenAt)}
+              </span>
               {!hit.resolved && (
                 <div className="flex items-center gap-1.5">
                   <button
-                    onClick={() => { setConvertingId(convertingId === hit.id ? null : hit.id); setError(null); }}
+                    onClick={() => {
+                      setConvertingId(convertingId === hit.id ? null : hit.id);
+                      setError(null);
+                    }}
                     className="grid h-8 w-8 place-items-center rounded-lg bg-secondary text-primary transition hover:opacity-80"
                     title="Convert to redirect"
                   >
                     <ArrowRightLeft className="h-3.5 w-3.5" />
                   </button>
-                  <button onClick={() => handleDismiss(hit.id)} className="grid h-8 w-8 place-items-center rounded-lg bg-secondary text-muted-foreground transition hover:opacity-80" title="Dismiss">
+                  <button
+                    onClick={() => handleDismiss(hit.id)}
+                    className="grid h-8 w-8 place-items-center rounded-lg bg-secondary text-muted-foreground transition hover:opacity-80"
+                    title="Dismiss"
+                  >
                     <Check className="h-3.5 w-3.5" />
                   </button>
                 </div>
               )}
-              <button onClick={() => handleDelete(hit.id)} className="grid h-8 w-8 place-items-center rounded-lg bg-destructive/10 text-destructive transition hover:bg-destructive/20" title="Delete">
+              <button
+                onClick={() => handleDelete(hit.id)}
+                className="grid h-8 w-8 place-items-center rounded-lg bg-destructive/10 text-destructive transition hover:bg-destructive/20"
+                title="Delete"
+              >
                 <Trash2 className="h-3.5 w-3.5" />
               </button>
             </div>
-            {hit.referrer && <p className="mt-1 truncate text-[11px] text-muted-foreground">Referred from: {hit.referrer}</p>}
+            {hit.referrer && (
+              <p className="mt-1 truncate text-[11px] text-muted-foreground">
+                Referred from: {hit.referrer}
+              </p>
+            )}
 
             {convertingId === hit.id && (
               <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border border-dashed border-border p-2.5">
                 <span className="font-mono text-xs text-muted-foreground">{hit.path} →</span>
-                <Input value={toPath} onChange={(e) => setToPath(e.target.value)} placeholder="/new-page" className="h-8 max-w-xs text-xs" />
-                <Button size="sm" onClick={() => handleConvert(hit)} disabled={!toPath}>Create Redirect</Button>
-                <button onClick={() => setConvertingId(null)} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
+                <Input
+                  value={toPath}
+                  onChange={(e) => setToPath(e.target.value)}
+                  placeholder="/new-page"
+                  className="h-8 max-w-xs text-xs"
+                />
+                <Button size="sm" onClick={() => handleConvert(hit)} disabled={!toPath}>
+                  Create Redirect
+                </Button>
+                <button
+                  onClick={() => setConvertingId(null)}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
               </div>
             )}
           </div>

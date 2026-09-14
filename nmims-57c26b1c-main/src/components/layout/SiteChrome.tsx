@@ -1,7 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLoaderData } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X, Phone, MessageCircle, ArrowRight, Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+import {
+  ChevronDown,
+  Menu,
+  X,
+  Phone,
+  MessageCircle,
+  ArrowRight,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Youtube,
+} from "lucide-react";
 
 /**
  * Shared site chrome (Header / Footer / floating WhatsApp / mobile CTA bar).
@@ -13,12 +24,16 @@ import { ChevronDown, Menu, X, Phone, MessageCircle, ArrowRight, Facebook, Insta
 export const PHONE = "+917069181188";
 export const PHONE_SECONDARY = "+919924266322";
 export const WA = "917069181188";
-export const waLink = (message: string) => `https://wa.me/${WA}?text=${encodeURIComponent(message)}`;
+// eslint-disable-next-line react-refresh/only-export-components -- shared helper, intentionally co-located with the components that use it
+export const waLink = (message: string) =>
+  `https://wa.me/${WA}?text=${encodeURIComponent(message)}`;
 export const telLink = `tel:${PHONE}`;
 // TODO: replace with the real Calendly event link once available
 export const CALENDLY_LINK = "https://calendly.com/nmims-online/counseling";
 export const EMAIL = "ncdoe-026@nmims.edu";
-export const OFFICE_ADDRESS = "503, Sukhsagar Complex, Next to hotel fortune landmark, Ashram road, Ahmedabad, 380013";
+export const OFFICE_ADDRESS =
+  "503, Sukhsagar Complex, Next to hotel fortune landmark, Ashram road, Ahmedabad, 380013";
+// eslint-disable-next-line react-refresh/only-export-components -- shared data, intentionally co-located with the components that use it
 export const OFFICE_HOURS = [
   ["Monday - Saturday", "9:30 AM - 7:00 PM"],
   ["Sunday", "By appointment only"],
@@ -26,11 +41,31 @@ export const OFFICE_HOURS = [
 
 // Cities we counsel students from — shared across every page that shows a
 // city list (About Us, Contact Us) so they never drift out of sync.
+// eslint-disable-next-line react-refresh/only-export-components -- shared data, intentionally co-located with the components that use it
 export const PRESENCE_CITIES = [
-  "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Gandhinagar", "Bhavnagar", "Jamnagar", "Anand",
-  "Mumbai", "Pune", "Bengaluru", "Hyderabad", "Delhi (NCR)", "Chennai", "Kolkata", "Jaipur", "Lucknow", "Chandigarh", "Indore", "Nagpur",
+  "Ahmedabad",
+  "Surat",
+  "Vadodara",
+  "Rajkot",
+  "Gandhinagar",
+  "Bhavnagar",
+  "Jamnagar",
+  "Anand",
+  "Mumbai",
+  "Pune",
+  "Bengaluru",
+  "Hyderabad",
+  "Delhi (NCR)",
+  "Chennai",
+  "Kolkata",
+  "Jaipur",
+  "Lucknow",
+  "Chandigarh",
+  "Indore",
+  "Nagpur",
 ];
 
+// eslint-disable-next-line react-refresh/only-export-components -- shared data, intentionally co-located with the components that use it
 export const programMenuItems = [
   { label: "Online MBA", href: "/programs/online-mba" },
   { label: "Online BBA", href: "/programs/online-bba" },
@@ -90,7 +125,9 @@ export function Header({ activeProgram }: { activeProgram?: string }) {
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all ${
-        scrolled ? "border-b border-border bg-background/95 backdrop-blur-lg shadow-card" : "border-b border-transparent bg-background/80 backdrop-blur"
+        scrolled
+          ? "border-b border-border bg-background/95 backdrop-blur-lg shadow-card"
+          : "border-b border-transparent bg-background/80 backdrop-blur"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -103,10 +140,16 @@ export function Header({ activeProgram }: { activeProgram?: string }) {
         </a>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          <a href="/" className="rounded-lg px-3 py-2 text-sm font-semibold text-foreground/80 transition hover:bg-secondary hover:text-foreground">
+          <a
+            href="/"
+            className="rounded-lg px-3 py-2 text-sm font-semibold text-foreground/80 transition hover:bg-secondary hover:text-foreground"
+          >
             Home
           </a>
-          <a href="/about" className="rounded-lg px-3 py-2 text-sm font-semibold text-foreground/80 transition hover:bg-secondary hover:text-foreground">
+          <a
+            href="/about"
+            className="rounded-lg px-3 py-2 text-sm font-semibold text-foreground/80 transition hover:bg-secondary hover:text-foreground"
+          >
             About us
           </a>
 
@@ -133,10 +176,16 @@ export function Header({ activeProgram }: { activeProgram?: string }) {
             </div>
           </div>
 
-          <a href="/blog" className="rounded-lg px-3 py-2 text-sm font-semibold text-foreground/80 transition hover:bg-secondary hover:text-foreground">
+          <a
+            href="/blog"
+            className="rounded-lg px-3 py-2 text-sm font-semibold text-foreground/80 transition hover:bg-secondary hover:text-foreground"
+          >
             Blog
           </a>
-          <a href="/contact-us" className="rounded-lg px-3 py-2 text-sm font-semibold text-foreground/80 transition hover:bg-secondary hover:text-foreground">
+          <a
+            href="/contact-us"
+            className="rounded-lg px-3 py-2 text-sm font-semibold text-foreground/80 transition hover:bg-secondary hover:text-foreground"
+          >
             Contact Us
           </a>
         </nav>
@@ -179,10 +228,16 @@ export function Header({ activeProgram }: { activeProgram?: string }) {
             className="overflow-hidden border-t border-border bg-background lg:hidden"
           >
             <nav className="flex flex-col gap-1 px-4 py-3">
-              <a href="/" className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/85 hover:bg-secondary">
+              <a
+                href="/"
+                className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/85 hover:bg-secondary"
+              >
                 Home
               </a>
-              <a href="/about" className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/85 hover:bg-secondary">
+              <a
+                href="/about"
+                className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/85 hover:bg-secondary"
+              >
                 About us
               </a>
 
@@ -193,7 +248,9 @@ export function Header({ activeProgram }: { activeProgram?: string }) {
                 className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/85 hover:bg-secondary"
               >
                 Programs
-                <ChevronDown className={`h-4 w-4 transition ${mobileProgramsOpen ? "rotate-180" : ""}`} />
+                <ChevronDown
+                  className={`h-4 w-4 transition ${mobileProgramsOpen ? "rotate-180" : ""}`}
+                />
               </button>
               {mobileProgramsOpen && (
                 <div className="ml-3 flex flex-col gap-0.5 border-l border-border pl-3">
@@ -202,7 +259,9 @@ export function Header({ activeProgram }: { activeProgram?: string }) {
                       key={p.label}
                       href={p.href}
                       className={`rounded-lg px-3 py-2 text-sm hover:bg-secondary ${
-                        activeProgram === p.label ? "font-semibold text-primary" : "text-foreground/70"
+                        activeProgram === p.label
+                          ? "font-semibold text-primary"
+                          : "text-foreground/70"
                       }`}
                     >
                       {p.label}
@@ -211,10 +270,16 @@ export function Header({ activeProgram }: { activeProgram?: string }) {
                 </div>
               )}
 
-              <a href="/blog" className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/85 hover:bg-secondary">
+              <a
+                href="/blog"
+                className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/85 hover:bg-secondary"
+              >
                 Blog
               </a>
-              <a href="/contact-us" className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/85 hover:bg-secondary">
+              <a
+                href="/contact-us"
+                className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/85 hover:bg-secondary"
+              >
                 Contact Us
               </a>
 
@@ -251,7 +316,9 @@ const SOCIAL_ICONS: Record<string, typeof Facebook> = {
 
 export function Footer() {
   const { logoUrl, phone, email, disclaimer, footerLinks, socialLinks } = useSiteChrome();
-  const socialEntries = Object.entries(socialLinks).filter(([platform, url]) => url && SOCIAL_ICONS[platform]);
+  const socialEntries = Object.entries(socialLinks).filter(
+    ([platform, url]) => url && SOCIAL_ICONS[platform],
+  );
   return (
     <footer className="bg-foreground pb-28 pt-16 text-white/80 sm:pb-16">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-5 lg:px-8">
@@ -264,19 +331,30 @@ export function Footer() {
             />
           </a>
           <p className="mt-4 max-w-md text-sm">
-            NMIMS Centre for Distance and Online Education (CDOE) is one of India's leading institutions for flexible, career-focused online education, offering UGC-entitled online degrees for working professionals.
+            NMIMS Centre for Distance and Online Education (CDOE) is one of India's leading
+            institutions for flexible, career-focused online education, offering UGC-entitled online
+            degrees for working professionals.
           </p>
           <div className="mt-5 space-y-2 text-sm">
             <p className="flex items-center gap-2">
               <Phone className="h-4 w-4 shrink-0 text-[color:var(--gold)]" />
-              <a href={`tel:${phone}`} className="transition hover:text-[color:var(--gold)]">{phone}</a>
+              <a href={`tel:${phone}`} className="transition hover:text-[color:var(--gold)]">
+                {phone}
+              </a>
               <span>,</span>
-              <a href={`tel:${PHONE_SECONDARY}`} className="transition hover:text-[color:var(--gold)]">{PHONE_SECONDARY}</a>
+              <a
+                href={`tel:${PHONE_SECONDARY}`}
+                className="transition hover:text-[color:var(--gold)]"
+              >
+                {PHONE_SECONDARY}
+              </a>
             </p>
             {email && (
               <p className="flex items-center gap-2">
                 <MessageCircle className="h-4 w-4 shrink-0 text-[color:var(--gold)]" />
-                <a href={`mailto:${email}`} className="transition hover:text-[color:var(--gold)]">{email}</a>
+                <a href={`mailto:${email}`} className="transition hover:text-[color:var(--gold)]">
+                  {email}
+                </a>
               </p>
             )}
           </div>
@@ -304,7 +382,11 @@ export function Footer() {
           <p className="text-sm font-bold text-white">Quick Links</p>
           <ul className="mt-3 space-y-2 text-sm">
             {footerLinks.map((l) => (
-              <li key={l.label}><a href={l.url} className="hover:text-[color:var(--gold)]">{l.label}</a></li>
+              <li key={l.label}>
+                <a href={l.url} className="hover:text-[color:var(--gold)]">
+                  {l.label}
+                </a>
+              </li>
             ))}
           </ul>
         </div>
@@ -312,17 +394,37 @@ export function Footer() {
           <p className="text-sm font-bold text-white">Programs</p>
           <ul className="mt-3 space-y-2 text-sm">
             {programMenuItems.map((p) => (
-              <li key={p.label}><a href={p.href} className="hover:text-[color:var(--gold)]">{p.label}</a></li>
+              <li key={p.label}>
+                <a href={p.href} className="hover:text-[color:var(--gold)]">
+                  {p.label}
+                </a>
+              </li>
             ))}
           </ul>
         </div>
         <div>
           <p className="text-sm font-bold text-white">Legal</p>
           <ul className="mt-3 space-y-2 text-sm">
-            <li><a href="/privacy-policy" className="hover:text-[color:var(--gold)]">Privacy Policy</a></li>
-            <li><a href="/terms-of-service" className="hover:text-[color:var(--gold)]">Terms of Service</a></li>
-            <li><a href="/disclaimer" className="hover:text-[color:var(--gold)]">Disclaimer</a></li>
-            <li><a href="/refund-policy" className="hover:text-[color:var(--gold)]">Refund Policy</a></li>
+            <li>
+              <a href="/privacy-policy" className="hover:text-[color:var(--gold)]">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="/terms-of-service" className="hover:text-[color:var(--gold)]">
+                Terms of Service
+              </a>
+            </li>
+            <li>
+              <a href="/disclaimer" className="hover:text-[color:var(--gold)]">
+                Disclaimer
+              </a>
+            </li>
+            <li>
+              <a href="/refund-policy" className="hover:text-[color:var(--gold)]">
+                Refund Policy
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -331,7 +433,11 @@ export function Footer() {
           <div className="disclaimer-ticker">
             <div className="disclaimer-ticker-track">
               {[0, 1].map((k) => (
-                <span key={k} className="whitespace-nowrap pr-[70px] text-xs leading-relaxed text-white/60" aria-hidden={k === 1}>
+                <span
+                  key={k}
+                  className="whitespace-nowrap pr-[70px] text-xs leading-relaxed text-white/60"
+                  aria-hidden={k === 1}
+                >
                   <strong className="text-white/80">Disclaimer:</strong> {disclaimer}
                 </span>
               ))}
@@ -419,27 +525,52 @@ export function FloatingWA({ message }: { message: string }) {
 export function MobileCTABar({ message }: { message: string }) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 gap-2 border-t border-border bg-card/95 p-3 shadow-elegant backdrop-blur sm:hidden">
-      <a href={telLink} className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card py-3 text-xs font-bold text-foreground">
+      <a
+        href={telLink}
+        className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card py-3 text-xs font-bold text-foreground"
+      >
         <Phone className="h-4 w-4" /> Call
       </a>
-      <a href={waLink(message)} target="_blank" rel="noopener" className="flex items-center justify-center gap-1.5 rounded-xl bg-[color:var(--whatsapp)] py-3 text-xs font-bold text-white">
+      <a
+        href={waLink(message)}
+        target="_blank"
+        rel="noopener"
+        className="flex items-center justify-center gap-1.5 rounded-xl bg-[color:var(--whatsapp)] py-3 text-xs font-bold text-white"
+      >
         <MessageCircle className="h-4 w-4" /> WhatsApp
       </a>
-      <a href="#enquire" className="flex items-center justify-center gap-1.5 rounded-xl gradient-primary py-3 text-xs font-bold text-primary-foreground">
+      <a
+        href="#enquire"
+        className="flex items-center justify-center gap-1.5 rounded-xl gradient-primary py-3 text-xs font-bold text-primary-foreground"
+      >
         Enquire <ArrowRight className="h-4 w-4" />
       </a>
     </div>
   );
 }
 
-export function SectionTitle({ eyebrow, title, subtitle, align = "center" }: { eyebrow: string; title: string; subtitle?: string; align?: "center" | "left" }) {
+export function SectionTitle({
+  eyebrow,
+  title,
+  subtitle,
+  align = "center",
+}: {
+  eyebrow: string;
+  title: string;
+  subtitle?: string;
+  align?: "center" | "left";
+}) {
   return (
     <div className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-xl"}>
-      <span className={`inline-flex items-center gap-2 rounded-full border border-[#e7d6ff] bg-[#F6EDFF] px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#3F3083] ${align === "left" ? "" : "mx-auto"}`}>
+      <span
+        className={`inline-flex items-center gap-2 rounded-full border border-[#e7d6ff] bg-[#F6EDFF] px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#3F3083] ${align === "left" ? "" : "mx-auto"}`}
+      >
         <span className="h-[7px] w-[7px] shrink-0 rounded-full bg-[#e0527a]" />
         {eyebrow}
       </span>
-      <h2 className="mt-3 text-balance font-serif text-2xl font-bold leading-tight text-foreground sm:text-[30px] lg:text-[34px]">{title}</h2>
+      <h2 className="mt-3 text-balance font-serif text-2xl font-bold leading-tight text-foreground sm:text-[30px] lg:text-[34px]">
+        {title}
+      </h2>
       {subtitle && <p className="mt-3 text-base text-muted-foreground">{subtitle}</p>}
     </div>
   );

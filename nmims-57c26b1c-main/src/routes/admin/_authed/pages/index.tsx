@@ -43,7 +43,11 @@ const LIVE_PATH: Record<string, string> = {
   "refund-policy": "/refund-policy",
 };
 
-function seoCompleteness(p: { metaTitle: string | null; metaDescription: string | null; canonicalUrl: string | null }) {
+function seoCompleteness(p: {
+  metaTitle: string | null;
+  metaDescription: string | null;
+  canonicalUrl: string | null;
+}) {
   const filled = [p.metaTitle, p.metaDescription, p.canonicalUrl].filter(Boolean).length;
   return filled; // 0-3
 }
@@ -168,7 +172,8 @@ function PagesList() {
                     <td colSpan={6} className="px-5 py-4">
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="text-xs text-muted-foreground">
-                          Copies this page's SEO fields as a draft under a new slug. You'll still need a developer to give it its own live URL/layout.
+                          Copies this page's SEO fields as a draft under a new slug. You'll still
+                          need a developer to give it its own live URL/layout.
                         </p>
                       </div>
                       <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -178,12 +183,20 @@ function PagesList() {
                           placeholder="lp-new-campaign"
                           className="w-64"
                         />
-                        <Button size="sm" onClick={() => handleDuplicate(p.slug)} disabled={duplicating || !newSlug}>
+                        <Button
+                          size="sm"
+                          onClick={() => handleDuplicate(p.slug)}
+                          disabled={duplicating || !newSlug}
+                        >
                           {duplicating ? "Duplicating..." : "Duplicate"}
                         </Button>
-                        <Button size="sm" variant="ghost" onClick={() => setDuplicatingSlug(null)}>Cancel</Button>
+                        <Button size="sm" variant="ghost" onClick={() => setDuplicatingSlug(null)}>
+                          Cancel
+                        </Button>
                       </div>
-                      {error && <p className="mt-1 text-xs font-medium text-destructive">{error}</p>}
+                      {error && (
+                        <p className="mt-1 text-xs font-medium text-destructive">{error}</p>
+                      )}
                     </td>
                   </tr>
                 )}

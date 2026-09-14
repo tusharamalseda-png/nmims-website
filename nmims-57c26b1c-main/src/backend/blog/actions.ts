@@ -54,7 +54,13 @@ export const createBlogPostFn = createServerFn({ method: "POST" })
       scheduledFor: data.scheduledFor ? new Date(data.scheduledFor) : null,
       publishedAt: data.status === "published" ? new Date() : null,
     });
-    logActivity({ userId: session.data.userId, action: "created", entity: "blog_post", entityId: data.slug, details: { title: data.title } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "blog_post",
+      entityId: data.slug,
+      details: { title: data.title },
+    });
     return { success: true };
   });
 
@@ -64,7 +70,11 @@ export const updateBlogPostFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
 
-    const [existing] = await db.select().from(blogPosts).where(eq(blogPosts.slug, data.originalSlug)).limit(1);
+    const [existing] = await db
+      .select()
+      .from(blogPosts)
+      .where(eq(blogPosts.slug, data.originalSlug))
+      .limit(1);
 
     await db
       .update(blogPosts)
@@ -79,7 +89,10 @@ export const updateBlogPostFn = createServerFn({ method: "POST" })
         metaDescription: data.metaDescription,
         status: data.status,
         scheduledFor: data.scheduledFor ? new Date(data.scheduledFor) : null,
-        publishedAt: data.status === "published" ? (existing?.publishedAt ?? new Date()) : existing?.publishedAt,
+        publishedAt:
+          data.status === "published"
+            ? (existing?.publishedAt ?? new Date())
+            : existing?.publishedAt,
         updatedAt: new Date(),
         ...(data.canonicalUrl !== undefined ? { canonicalUrl: data.canonicalUrl } : {}),
         ...(data.focusKeyword !== undefined ? { focusKeyword: data.focusKeyword } : {}),
@@ -87,7 +100,9 @@ export const updateBlogPostFn = createServerFn({ method: "POST" })
         ...(data.ogDescription !== undefined ? { ogDescription: data.ogDescription } : {}),
         ...(data.twitterCardType !== undefined ? { twitterCardType: data.twitterCardType } : {}),
         ...(data.twitterTitle !== undefined ? { twitterTitle: data.twitterTitle } : {}),
-        ...(data.twitterDescription !== undefined ? { twitterDescription: data.twitterDescription } : {}),
+        ...(data.twitterDescription !== undefined
+          ? { twitterDescription: data.twitterDescription }
+          : {}),
         ...(data.twitterImage !== undefined ? { twitterImage: data.twitterImage } : {}),
         ...(data.schemaType !== undefined ? { schemaType: data.schemaType } : {}),
         ...(data.breadcrumbLabel !== undefined ? { breadcrumbLabel: data.breadcrumbLabel } : {}),
@@ -96,7 +111,13 @@ export const updateBlogPostFn = createServerFn({ method: "POST" })
       })
       .where(eq(blogPosts.slug, data.originalSlug));
 
-    logActivity({ userId: session.data.userId, action: "updated", entity: "blog_post", entityId: data.slug, details: { title: data.title } });
+    logActivity({
+      userId: session.data.userId,
+      action: "updated",
+      entity: "blog_post",
+      entityId: data.slug,
+      details: { title: data.title },
+    });
     return { success: true };
   });
 
@@ -106,6 +127,11 @@ export const deleteBlogPostFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.delete(blogPosts).where(eq(blogPosts.slug, data.slug));
-    logActivity({ userId: session.data.userId, action: "deleted", entity: "blog_post", entityId: data.slug });
+    logActivity({
+      userId: session.data.userId,
+      action: "deleted",
+      entity: "blog_post",
+      entityId: data.slug,
+    });
     return { success: true };
   });

@@ -32,7 +32,11 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
             <motion.div
               key={it.id}
               initial={false}
-              animate={{ opacity: idx === i ? 1 : 0, x: idx === i ? 0 : 30, position: idx === i ? "relative" : "absolute" }}
+              animate={{
+                opacity: idx === i ? 1 : 0,
+                x: idx === i ? 0 : 30,
+                position: idx === i ? "relative" : "absolute",
+              }}
               transition={{ duration: 0.5 }}
               className="inset-0 grid items-center gap-8 rounded-3xl bg-card p-6 shadow-elegant sm:p-10 lg:grid-cols-[auto_1fr] lg:gap-12"
               style={{ display: idx === i ? "grid" : "none" }}
@@ -49,13 +53,17 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
               )}
               <div>
                 <div className="flex gap-1 text-[color:var(--gold)]">
-                  {Array.from({ length: it.rating ?? 5 }).map((_, k) => <Star key={k} className="h-4 w-4 fill-current" />)}
+                  {Array.from({ length: it.rating ?? 5 }).map((_, k) => (
+                    <Star key={k} className="h-4 w-4 fill-current" />
+                  ))}
                 </div>
                 <blockquote className="mt-3 text-lg font-medium leading-relaxed text-foreground sm:text-xl">
                   "{it.quote}"
                 </blockquote>
                 <p className="mt-4 font-extrabold text-foreground">{it.name}</p>
-                {it.designation && <p className="text-sm text-muted-foreground">{it.designation}</p>}
+                {it.designation && (
+                  <p className="text-sm text-muted-foreground">{it.designation}</p>
+                )}
               </div>
             </motion.div>
           ))}

@@ -46,7 +46,13 @@ export const createRedirectFn = createServerFn({ method: "POST" })
     if (!session.data.userId) throw new Error("Not authenticated.");
     const [row] = await db.insert(redirects).values(data).returning();
     cache = null;
-    logActivity({ userId: session.data.userId, action: "created", entity: "redirect", entityId: row.id, details: { fromPath: data.fromPath, toPath: data.toPath } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "redirect",
+      entityId: row.id,
+      details: { fromPath: data.fromPath, toPath: data.toPath },
+    });
     return row;
   });
 
@@ -57,6 +63,11 @@ export const deleteRedirectFn = createServerFn({ method: "POST" })
     if (!session.data.userId) throw new Error("Not authenticated.");
     await db.delete(redirects).where(eq(redirects.id, data.id));
     cache = null;
-    logActivity({ userId: session.data.userId, action: "deleted", entity: "redirect", entityId: data.id });
+    logActivity({
+      userId: session.data.userId,
+      action: "deleted",
+      entity: "redirect",
+      entityId: data.id,
+    });
     return { success: true };
   });

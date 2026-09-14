@@ -38,7 +38,10 @@ export function buildSeoHead(seo: SeoRow | null | undefined, fallback: SeoFallba
     meta: [
       { title },
       { name: "description", content: description },
-      { name: "robots", content: `${robotsIndex ? "index" : "noindex"}, ${robotsFollow ? "follow" : "nofollow"}` },
+      {
+        name: "robots",
+        content: `${robotsIndex ? "index" : "noindex"}, ${robotsFollow ? "follow" : "nofollow"}`,
+      },
       { property: "og:title", content: ogTitle },
       { property: "og:description", content: ogDescription },
       { property: "og:type", content: "website" },

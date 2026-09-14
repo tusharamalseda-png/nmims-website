@@ -3,13 +3,33 @@ import { desc, eq, or, ilike } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "../db/client";
 import {
-  pages, blogPosts, faqs, testimonials, teamMembers, logos, navigationItems, redirects, siteSettings,
-  backups, dataRequests, inquiries,
+  pages,
+  blogPosts,
+  faqs,
+  testimonials,
+  teamMembers,
+  logos,
+  navigationItems,
+  redirects,
+  siteSettings,
+  backups,
+  dataRequests,
+  inquiries,
 } from "../db/schema";
 import { getAdminSession } from "../auth/session";
 import { logActivity } from "../activity/log";
 
-const SNAPSHOT_TABLES = { pages, blogPosts, faqs, testimonials, teamMembers, logos, navigationItems, redirects, siteSettings } as const;
+const SNAPSHOT_TABLES = {
+  pages,
+  blogPosts,
+  faqs,
+  testimonials,
+  teamMembers,
+  logos,
+  navigationItems,
+  redirects,
+  siteSettings,
+} as const;
 type SnapshotKey = keyof typeof SNAPSHOT_TABLES;
 
 // Destructive/PII-touching tools (site-wide restore, GDPR erase) are
@@ -18,13 +38,16 @@ type SnapshotKey = keyof typeof SNAPSHOT_TABLES;
 async function requireAdmin() {
   const session = await getAdminSession();
   if (!session.data.userId) throw new Error("Not authenticated.");
-  if (session.data.role !== "admin") throw new Error("This action requires an administrator account.");
+  if (session.data.role !== "admin")
+    throw new Error("This action requires an administrator account.");
   return { userId: session.data.userId };
 }
 
 async function buildSnapshot() {
   const entries = await Promise.all(
-    (Object.keys(SNAPSHOT_TABLES) as SnapshotKey[]).map(async (key) => [key, await db.select().from(SNAPSHOT_TABLES[key])] as const),
+    (Object.keys(SNAPSHOT_TABLES) as SnapshotKey[]).map(
+      async (key) => [key, await db.select().from(SNAPSHOT_TABLES[key])] as const,
+    ),
   );
   // Round-trip through JSON so Date objects become ISO strings, matching the jsonb column's JsonValue type.
   return JSON.parse(JSON.stringify(Object.fromEntries(entries)));
@@ -54,7 +77,11 @@ export const importSiteDataFn = createServerFn({ method: "POST" })
       let count = 0;
       for (const row of data.data.pages as Record<string, unknown>[]) {
         if (typeof row.slug !== "string") continue;
-        const [existing] = await db.select({ id: pages.id }).from(pages).where(eq(pages.slug, row.slug)).limit(1);
+        const [existing] = await db
+          .select({ id: pages.id })
+          .from(pages)
+          .where(eq(pages.slug, row.slug))
+          .limit(1);
         if (!existing) {
           await db.insert(pages).values(row as typeof pages.$inferInsert);
           count++;
@@ -66,7 +93,11 @@ export const importSiteDataFn = createServerFn({ method: "POST" })
       let count = 0;
       for (const row of data.data.blogPosts as Record<string, unknown>[]) {
         if (typeof row.slug !== "string") continue;
-        const [existing] = await db.select({ id: blogPosts.id }).from(blogPosts).where(eq(blogPosts.slug, row.slug)).limit(1);
+        const [existing] = await db
+          .select({ id: blogPosts.id })
+          .from(blogPosts)
+          .where(eq(blogPosts.slug, row.slug))
+          .limit(1);
         if (!existing) {
           await db.insert(blogPosts).values(row as typeof blogPosts.$inferInsert);
           count++;
@@ -76,7 +107,14 @@ export const importSiteDataFn = createServerFn({ method: "POST" })
     }
 
     // Everything else: insert only rows whose id isn't already present, so importing the same file twice never duplicates.
-    const listTables = { faqs, testimonials, teamMembers, logos, navigationItems, redirects } as const;
+    const listTables = {
+      faqs,
+      testimonials,
+      teamMembers,
+      logos,
+      navigationItems,
+      redirects,
+    } as const;
     for (const key of Object.keys(listTables) as (keyof typeof listTables)[]) {
       const rows = data.data[key];
       if (!Array.isArray(rows)) continue;
@@ -84,7 +122,11 @@ export const importSiteDataFn = createServerFn({ method: "POST" })
       let count = 0;
       for (const row of rows as Record<string, unknown>[]) {
         if (typeof row.id !== "string") continue;
-        const [existing] = await db.select({ id: table.id }).from(table).where(eq(table.id, row.id)).limit(1);
+        const [existing] = await db
+          .select({ id: table.id })
+          .from(table)
+          .where(eq(table.id, row.id))
+          .limit(1);
         if (!existing) {
           await db.insert(table).values(row as never);
           count++;
@@ -93,7 +135,12 @@ export const importSiteDataFn = createServerFn({ method: "POST" })
       summary[key] = count;
     }
 
-    logActivity({ userId, action: "created", entity: "site_data", details: { source: "import", summary: summary as Record<string, number> } });
+    logActivity({
+      userId,
+      action: "created",
+      entity: "site_data",
+      details: { source: "import", summary: summary as Record<string, number> },
+    });
     return { success: true, summary };
   });
 
@@ -102,7 +149,10 @@ export const importSiteDataFn = createServerFn({ method: "POST" })
 export const listBackupsFn = createServerFn({ method: "GET" }).handler(async () => {
   const session = await getAdminSession();
   if (!session.data.userId) throw new Error("Not authenticated.");
-  return db.select({ id: backups.id, label: backups.label, createdAt: backups.createdAt }).from(backups).orderBy(desc(backups.createdAt));
+  return db
+    .select({ id: backups.id, label: backups.label, createdAt: backups.createdAt })
+    .from(backups)
+    .orderBy(desc(backups.createdAt));
 });
 
 export const createBackupFn = createServerFn({ method: "POST" })
@@ -112,9 +162,18 @@ export const createBackupFn = createServerFn({ method: "POST" })
     if (!session.data.userId) throw new Error("Not authenticated.");
 
     const snapshot = await buildSnapshot();
-    const [row] = await db.insert(backups).values({ label: data.label, snapshot, createdBy: session.data.userId }).returning({ id: backups.id, label: backups.label, createdAt: backups.createdAt });
+    const [row] = await db
+      .insert(backups)
+      .values({ label: data.label, snapshot, createdBy: session.data.userId })
+      .returning({ id: backups.id, label: backups.label, createdAt: backups.createdAt });
 
-    logActivity({ userId: session.data.userId, action: "created", entity: "backup", entityId: row.id, details: { label: data.label } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "backup",
+      entityId: row.id,
+      details: { label: data.label },
+    });
     return row;
   });
 
@@ -137,7 +196,12 @@ export const restoreBackupFn = createServerFn({ method: "POST" })
       }
     });
 
-    logActivity({ userId, action: "updated", entity: "site_data", details: { source: "restore", backupId: data.id, label: backup.label } });
+    logActivity({
+      userId,
+      action: "updated",
+      entity: "site_data",
+      details: { source: "restore", backupId: data.id, label: backup.label },
+    });
     return { success: true };
   });
 
@@ -160,38 +224,61 @@ export const searchPersonDataFn = createServerFn({ method: "GET" })
     const leads = await db
       .select()
       .from(inquiries)
-      .where(or(ilike(inquiries.email, term), ilike(inquiries.phone, term), ilike(inquiries.name, term)));
-    const matchingTestimonials = await db.select().from(testimonials).where(ilike(testimonials.name, term));
+      .where(
+        or(ilike(inquiries.email, term), ilike(inquiries.phone, term), ilike(inquiries.name, term)),
+      );
+    const matchingTestimonials = await db
+      .select()
+      .from(testimonials)
+      .where(ilike(testimonials.name, term));
 
     return { leads, testimonials: matchingTestimonials };
   });
 
 export const fulfillDataRequestFn = createServerFn({ method: "POST" })
-  .inputValidator(z.object({
-    requestType: z.enum(["export", "erase"]),
-    identifier: z.string().trim().min(2),
-    notes: z.string().nullable(),
-    eraseLeadIds: z.array(z.string()).default([]),
-    eraseTestimonialIds: z.array(z.string()).default([]),
-  }))
+  .inputValidator(
+    z.object({
+      requestType: z.enum(["export", "erase"]),
+      identifier: z.string().trim().min(2),
+      notes: z.string().nullable(),
+      eraseLeadIds: z.array(z.string()).default([]),
+      eraseTestimonialIds: z.array(z.string()).default([]),
+    }),
+  )
   .handler(async ({ data }) => {
     const { userId } = await requireAdmin();
 
     if (data.requestType === "erase") {
       for (const id of data.eraseLeadIds) {
-        await db.update(inquiries).set({ name: "[erased]", email: null, phone: null, message: null }).where(eq(inquiries.id, id));
+        await db
+          .update(inquiries)
+          .set({ name: "[erased]", email: null, phone: null, message: null })
+          .where(eq(inquiries.id, id));
       }
       for (const id of data.eraseTestimonialIds) {
-        await db.update(testimonials).set({ name: "[erased]", quote: null, designation: null, company: null }).where(eq(testimonials.id, id));
+        await db
+          .update(testimonials)
+          .set({ name: "[erased]", quote: null, designation: null, company: null })
+          .where(eq(testimonials.id, id));
       }
     }
 
     const [row] = await db
       .insert(dataRequests)
-      .values({ requestType: data.requestType, identifier: data.identifier, fulfilledBy: userId, notes: data.notes })
+      .values({
+        requestType: data.requestType,
+        identifier: data.identifier,
+        fulfilledBy: userId,
+        notes: data.notes,
+      })
       .returning();
 
-    logActivity({ userId, action: data.requestType === "erase" ? "deleted" : "updated", entity: "personal_data", details: { identifier: data.identifier, requestType: data.requestType } });
+    logActivity({
+      userId,
+      action: data.requestType === "erase" ? "deleted" : "updated",
+      entity: "personal_data",
+      details: { identifier: data.identifier, requestType: data.requestType },
+    });
     return row;
   });
 

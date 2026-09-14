@@ -73,8 +73,12 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
   const [ogSameAsMeta, setOgSameAsMeta] = useState(!post?.ogTitle && !post?.ogDescription);
   const [ogTitle, setOgTitle] = useState(post?.ogTitle ?? "");
   const [ogDescription, setOgDescription] = useState(post?.ogDescription ?? "");
-  const [twitterSameAsOg, setTwitterSameAsOg] = useState(!post?.twitterTitle && !post?.twitterDescription && !post?.twitterImage);
-  const [twitterCardType, setTwitterCardType] = useState(post?.twitterCardType ?? "summary_large_image");
+  const [twitterSameAsOg, setTwitterSameAsOg] = useState(
+    !post?.twitterTitle && !post?.twitterDescription && !post?.twitterImage,
+  );
+  const [twitterCardType, setTwitterCardType] = useState(
+    post?.twitterCardType ?? "summary_large_image",
+  );
   const [twitterTitle, setTwitterTitle] = useState(post?.twitterTitle ?? "");
   const [twitterDescription, setTwitterDescription] = useState(post?.twitterDescription ?? "");
   const [twitterImage, setTwitterImage] = useState(post?.twitterImage ?? "");
@@ -160,7 +164,14 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
 
             <div className="space-y-1.5">
               <Label htmlFor="slug">Slug (URL)</Label>
-              <Input id="slug" value={slug} onChange={(e) => { setSlug(e.target.value); setSlugTouched(true); }} />
+              <Input
+                id="slug"
+                value={slug}
+                onChange={(e) => {
+                  setSlug(e.target.value);
+                  setSlugTouched(true);
+                }}
+              />
               <p className="text-xs text-muted-foreground">/blog/{slug || "..."}</p>
             </div>
 
@@ -171,22 +182,42 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
 
             <div className="space-y-1.5">
               <Label htmlFor="excerpt">Excerpt</Label>
-              <Textarea id="excerpt" rows={2} value={excerpt} onChange={(e) => setExcerpt(e.target.value)} />
+              <Textarea
+                id="excerpt"
+                rows={2}
+                value={excerpt}
+                onChange={(e) => setExcerpt(e.target.value)}
+              />
             </div>
 
             <div className="space-y-1.5">
               <Label htmlFor="content">Content</Label>
-              <Textarea id="content" rows={12} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Write the post. Leave a blank line between paragraphs." />
+              <Textarea
+                id="content"
+                rows={12}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Write the post. Leave a blank line between paragraphs."
+              />
             </div>
 
             <div className="space-y-1.5">
               <Label htmlFor="featuredImage">Featured Image URL</Label>
-              <Input id="featuredImage" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
+              <Input
+                id="featuredImage"
+                value={featuredImage}
+                onChange={(e) => setFeaturedImage(e.target.value)}
+              />
             </div>
 
             <div className="space-y-1.5">
               <Label htmlFor="status">Status</Label>
-              <select id="status" value={status} onChange={(e) => setStatus(e.target.value as "draft" | "published")} className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
+              <select
+                id="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value as "draft" | "published")}
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm"
+              >
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
               </select>
@@ -194,8 +225,15 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
 
             <div className="space-y-1.5">
               <Label htmlFor="scheduledFor">Schedule for later (optional)</Label>
-              <Input id="scheduledFor" type="datetime-local" value={scheduledFor} onChange={(e) => setScheduledFor(e.target.value)} />
-              <p className="text-xs text-muted-foreground">If set to a future time and Status is Published, the post stays hidden until then.</p>
+              <Input
+                id="scheduledFor"
+                type="datetime-local"
+                value={scheduledFor}
+                onChange={(e) => setScheduledFor(e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground">
+                If set to a future time and Status is Published, the post stays hidden until then.
+              </p>
             </div>
           </>
         )}
@@ -204,23 +242,47 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
           <>
             <div className="space-y-1.5">
               <Label htmlFor="focusKeyword">Focus Keyword</Label>
-              <Input id="focusKeyword" value={focusKeyword} onChange={(e) => setFocusKeyword(e.target.value)} />
+              <Input
+                id="focusKeyword"
+                value={focusKeyword}
+                onChange={(e) => setFocusKeyword(e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="metaTitle" className="flex justify-between">
-                <span>Meta Title</span><span className="font-mono text-[10px] text-muted-foreground">{metaTitle.length} / 60</span>
+                <span>Meta Title</span>
+                <span className="font-mono text-[10px] text-muted-foreground">
+                  {metaTitle.length} / 60
+                </span>
               </Label>
-              <Input id="metaTitle" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} />
+              <Input
+                id="metaTitle"
+                value={metaTitle}
+                onChange={(e) => setMetaTitle(e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="metaDescription" className="flex justify-between">
-                <span>Meta Description</span><span className="font-mono text-[10px] text-muted-foreground">{metaDescription.length} / 160</span>
+                <span>Meta Description</span>
+                <span className="font-mono text-[10px] text-muted-foreground">
+                  {metaDescription.length} / 160
+                </span>
               </Label>
-              <Textarea id="metaDescription" rows={3} value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} />
+              <Textarea
+                id="metaDescription"
+                rows={3}
+                value={metaDescription}
+                onChange={(e) => setMetaDescription(e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="canonicalUrl">Canonical URL</Label>
-              <Input id="canonicalUrl" placeholder={`/blog/${slug}`} value={canonicalUrl} onChange={(e) => setCanonicalUrl(e.target.value)} />
+              <Input
+                id="canonicalUrl"
+                placeholder={`/blog/${slug}`}
+                value={canonicalUrl}
+                onChange={(e) => setCanonicalUrl(e.target.value)}
+              />
             </div>
 
             <div className="rounded-xl border border-border bg-secondary/40 p-4">
@@ -231,57 +293,132 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
 
             <hr className="border-border" />
             <div className="flex items-center justify-between rounded-lg border border-border p-3">
-              <div><p className="text-sm font-semibold text-foreground">Index this post</p><p className="text-xs text-muted-foreground">Allow it to appear in search results</p></div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Index this post</p>
+                <p className="text-xs text-muted-foreground">
+                  Allow it to appear in search results
+                </p>
+              </div>
               <Switch checked={robotsIndex} onCheckedChange={setRobotsIndex} />
             </div>
             <div className="flex items-center justify-between rounded-lg border border-border p-3">
-              <div><p className="text-sm font-semibold text-foreground">Follow links on this post</p></div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Follow links on this post</p>
+              </div>
               <Switch checked={robotsFollow} onCheckedChange={setRobotsFollow} />
             </div>
 
             <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Social Sharing</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Social Sharing
+            </p>
             <label className="flex items-center gap-2 text-xs text-muted-foreground">
-              <input type="checkbox" checked={ogSameAsMeta} onChange={(e) => setOgSameAsMeta(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={ogSameAsMeta}
+                onChange={(e) => setOgSameAsMeta(e.target.checked)}
+              />
               Open Graph title/description same as Meta Title/Description
             </label>
             {!ogSameAsMeta && (
               <div className="space-y-3 rounded-lg border border-border p-3">
-                <div className="space-y-1.5"><Label htmlFor="ogTitle">OG Title</Label><Input id="ogTitle" value={ogTitle} onChange={(e) => setOgTitle(e.target.value)} /></div>
-                <div className="space-y-1.5"><Label htmlFor="ogDescription">OG Description</Label><Textarea id="ogDescription" rows={2} value={ogDescription} onChange={(e) => setOgDescription(e.target.value)} /></div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="ogTitle">OG Title</Label>
+                  <Input
+                    id="ogTitle"
+                    value={ogTitle}
+                    onChange={(e) => setOgTitle(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="ogDescription">OG Description</Label>
+                  <Textarea
+                    id="ogDescription"
+                    rows={2}
+                    value={ogDescription}
+                    onChange={(e) => setOgDescription(e.target.value)}
+                  />
+                </div>
               </div>
             )}
             <label className="flex items-center gap-2 text-xs text-muted-foreground">
-              <input type="checkbox" checked={twitterSameAsOg} onChange={(e) => setTwitterSameAsOg(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={twitterSameAsOg}
+                onChange={(e) => setTwitterSameAsOg(e.target.checked)}
+              />
               Twitter Card same as Open Graph
             </label>
             {!twitterSameAsOg && (
               <div className="space-y-3 rounded-lg border border-border p-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="twitterCardType">Card Type</Label>
-                  <select id="twitterCardType" value={twitterCardType} onChange={(e) => setTwitterCardType(e.target.value)} className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
+                  <select
+                    id="twitterCardType"
+                    value={twitterCardType}
+                    onChange={(e) => setTwitterCardType(e.target.value)}
+                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm"
+                  >
                     <option value="summary_large_image">summary_large_image</option>
                     <option value="summary">summary</option>
                   </select>
                 </div>
-                <div className="space-y-1.5"><Label htmlFor="twitterTitle">Twitter Title</Label><Input id="twitterTitle" value={twitterTitle} onChange={(e) => setTwitterTitle(e.target.value)} /></div>
-                <div className="space-y-1.5"><Label htmlFor="twitterDescription">Twitter Description</Label><Textarea id="twitterDescription" rows={2} value={twitterDescription} onChange={(e) => setTwitterDescription(e.target.value)} /></div>
-                <div className="space-y-1.5"><Label htmlFor="twitterImage">Twitter Image URL</Label><Input id="twitterImage" value={twitterImage} onChange={(e) => setTwitterImage(e.target.value)} /></div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="twitterTitle">Twitter Title</Label>
+                  <Input
+                    id="twitterTitle"
+                    value={twitterTitle}
+                    onChange={(e) => setTwitterTitle(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="twitterDescription">Twitter Description</Label>
+                  <Textarea
+                    id="twitterDescription"
+                    rows={2}
+                    value={twitterDescription}
+                    onChange={(e) => setTwitterDescription(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="twitterImage">Twitter Image URL</Label>
+                  <Input
+                    id="twitterImage"
+                    value={twitterImage}
+                    onChange={(e) => setTwitterImage(e.target.value)}
+                  />
+                </div>
               </div>
             )}
 
             <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Structured Data</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Structured Data
+            </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <Label htmlFor="schemaType">Schema Type</Label>
-                <select id="schemaType" value={schemaType} onChange={(e) => setSchemaType(e.target.value)} className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
-                  {SCHEMA_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+                <select
+                  id="schemaType"
+                  value={schemaType}
+                  onChange={(e) => setSchemaType(e.target.value)}
+                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm"
+                >
+                  {SCHEMA_TYPES.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="breadcrumbLabel">Breadcrumb Label</Label>
-                <Input id="breadcrumbLabel" placeholder={title} value={breadcrumbLabel} onChange={(e) => setBreadcrumbLabel(e.target.value)} />
+                <Input
+                  id="breadcrumbLabel"
+                  placeholder={title}
+                  value={breadcrumbLabel}
+                  onChange={(e) => setBreadcrumbLabel(e.target.value)}
+                />
               </div>
             </div>
           </>

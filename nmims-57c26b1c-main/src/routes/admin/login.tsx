@@ -64,11 +64,25 @@ function AdminLoginPage() {
             <form onSubmit={handlePasswordSubmit} className="mt-6 space-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input
+                  id="email"
+                  type="email"
+                  autoComplete="username"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Input
+                  id="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
 
               {error && <p className="text-sm font-medium text-destructive">{error}</p>}
@@ -81,7 +95,9 @@ function AdminLoginPage() {
         ) : (
           <>
             <h1 className="text-xl font-extrabold text-foreground">Two-Factor Code</h1>
-            <p className="mt-1 text-sm text-muted-foreground">Enter the 6-digit code from your authenticator app.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Enter the 6-digit code from your authenticator app.
+            </p>
 
             <form onSubmit={handleCodeSubmit} className="mt-6 space-y-4">
               <div className="space-y-1.5">

@@ -3,8 +3,11 @@ import { Star, Trash2, Plus, Eye, EyeOff, Pencil, Check } from "lucide-react";
 import { useState } from "react";
 import { listPagesFn } from "@/backend/pages/actions";
 import {
-  listAllTestimonialsFn, createTestimonialFn, updateTestimonialFn,
-  deleteTestimonialFn, toggleTestimonialVisibilityFn,
+  listAllTestimonialsFn,
+  createTestimonialFn,
+  updateTestimonialFn,
+  deleteTestimonialFn,
+  toggleTestimonialVisibilityFn,
 } from "@/backend/testimonials/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -66,7 +69,9 @@ function TestimonialsAdmin() {
           </span>
           <div>
             <h1 className="text-lg font-extrabold text-foreground">Testimonials</h1>
-            <p className="text-sm text-muted-foreground">Student stories shown on the homepage and program pages.</p>
+            <p className="text-sm text-muted-foreground">
+              Student stories shown on the homepage and program pages.
+            </p>
           </div>
         </div>
         <Button size="sm" onClick={() => setShowNew((v) => !v)}>
@@ -143,7 +148,13 @@ function TestimonialsAdmin() {
             <div key={t.id} className="rounded-2xl border border-border bg-card p-5 shadow-card">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  {t.imageUrl && <img src={t.imageUrl} alt={t.name} className="h-10 w-10 rounded-full object-cover" />}
+                  {t.imageUrl && (
+                    <img
+                      src={t.imageUrl}
+                      alt={t.name}
+                      className="h-10 w-10 rounded-full object-cover"
+                    />
+                  )}
                   <div>
                     <p className="font-bold text-foreground">{t.name}</p>
                     <p className="text-xs text-muted-foreground">{t.designation}</p>
@@ -162,7 +173,11 @@ function TestimonialsAdmin() {
                     className={`grid h-8 w-8 place-items-center rounded-lg transition ${t.isVisible ? "bg-emerald-100 text-emerald-700" : "bg-secondary text-muted-foreground"}`}
                     title={t.isVisible ? "Visible — click to hide" : "Hidden — click to show"}
                   >
-                    {t.isVisible ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+                    {t.isVisible ? (
+                      <Eye className="h-3.5 w-3.5" />
+                    ) : (
+                      <EyeOff className="h-3.5 w-3.5" />
+                    )}
                   </button>
                   <button
                     onClick={() => handleDelete(t.id)}
@@ -186,7 +201,9 @@ function TestimonialsAdmin() {
 }
 
 function TestimonialForm({
-  pages, initial, onSaved,
+  pages,
+  initial,
+  onSaved,
 }: {
   pages: { slug: string; title: string }[];
   initial?: Testimonial;
@@ -201,7 +218,9 @@ function TestimonialForm({
   const [saving, setSaving] = useState(false);
 
   function togglePage(slug: string) {
-    setPageSlugs((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]));
+    setPageSlugs((prev) =>
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
+    );
   }
 
   async function handleSave() {
@@ -240,18 +259,33 @@ function TestimonialForm({
       </p>
       <div className="grid gap-3 sm:grid-cols-2">
         <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
-        <Input value={designation} onChange={(e) => setDesignation(e.target.value)} placeholder="Program / Designation" />
+        <Input
+          value={designation}
+          onChange={(e) => setDesignation(e.target.value)}
+          placeholder="Program / Designation"
+        />
       </div>
-      <Textarea rows={3} value={quote} onChange={(e) => setQuote(e.target.value)} placeholder="Quote" />
+      <Textarea
+        rows={3}
+        value={quote}
+        onChange={(e) => setQuote(e.target.value)}
+        placeholder="Quote"
+      />
       <div className="grid gap-3 sm:grid-cols-2">
-        <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="Photo URL" />
+        <Input
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="Photo URL"
+        />
         <select
           value={rating}
           onChange={(e) => setRating(Number(e.target.value))}
           className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm"
         >
           {[5, 4, 3, 2, 1].map((r) => (
-            <option key={r} value={r}>{r} stars</option>
+            <option key={r} value={r}>
+              {r} stars
+            </option>
           ))}
         </select>
       </div>
@@ -266,7 +300,9 @@ function TestimonialForm({
               type="button"
               onClick={() => togglePage(p.slug)}
               className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
-                pageSlugs.includes(p.slug) ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"
+                pageSlugs.includes(p.slug)
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-muted-foreground"
               }`}
             >
               {p.title}

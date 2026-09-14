@@ -9,7 +9,10 @@ import { createInquiryFn } from "@/backend/leads/actions";
 const schema = z.object({
   name: z.string().trim().min(2, "Enter your full name").max(80),
   email: z.string().trim().email("Enter a valid email").max(120),
-  mobile: z.string().trim().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit mobile"),
+  mobile: z
+    .string()
+    .trim()
+    .regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit mobile"),
   program: z.string().min(1, "Select a program"),
   state: z.string().min(1, "Select a state"),
   message: z.string().trim().max(1000, "Keep it under 1000 characters").optional(),
@@ -20,11 +23,36 @@ type FormData = z.infer<typeof schema>;
 const programs = ["Online MBA", "Online MCA", "Online BBA", "Online BCA", "Other"];
 
 const states = [
-  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
-  "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
-  "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
-  "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
-  "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi", "Puducherry",
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Delhi",
+  "Puducherry",
 ];
 
 /**
@@ -33,7 +61,13 @@ const states = [
  * .enquiry-body / .field / .agree / .btn-orange rules) pixel-for-pixel.
  * Default (non-compact) keeps the original, larger homepage/program-page sizing.
  */
-export function EnquiryForm({ compact = false, showMessage = false }: { compact?: boolean; showMessage?: boolean }) {
+export function EnquiryForm({
+  compact = false,
+  showMessage = false,
+}: {
+  compact?: boolean;
+  showMessage?: boolean;
+}) {
   const [submitted, setSubmitted] = useState(false);
   const {
     register,
@@ -71,18 +105,39 @@ export function EnquiryForm({ compact = false, showMessage = false }: { compact?
       }
       id="enquire"
     >
-      <div className={compact ? "bg-[linear-gradient(135deg,#FF6C4A,#ff8a5c)] px-6 py-5 text-white" : "bg-[linear-gradient(135deg,#FF6C4A,#ff8a5c)] px-7 py-6 text-white sm:px-9"}>
-        <h3 className={compact ? "text-[19px] font-extrabold tracking-tight" : "text-2xl font-extrabold tracking-tight"} style={compact ? { marginBottom: 2 } : undefined}>
+      <div
+        className={
+          compact
+            ? "bg-[linear-gradient(135deg,#FF6C4A,#ff8a5c)] px-6 py-5 text-white"
+            : "bg-[linear-gradient(135deg,#FF6C4A,#ff8a5c)] px-7 py-6 text-white sm:px-9"
+        }
+      >
+        <h3
+          className={
+            compact
+              ? "text-[19px] font-extrabold tracking-tight"
+              : "text-2xl font-extrabold tracking-tight"
+          }
+          style={compact ? { marginBottom: 2 } : undefined}
+        >
           Enquire Now
         </h3>
-        <p className={compact ? "text-[12.5px] font-semibold text-[#fff0ea]" : "mt-1 text-sm font-semibold text-white/95"}>
+        <p
+          className={
+            compact
+              ? "text-[12.5px] font-semibold text-[#fff0ea]"
+              : "mt-1 text-sm font-semibold text-white/95"
+          }
+        >
           Hurry Up &amp; Get Free Counselling.
         </p>
       </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={compact ? "bg-[#faf8fc] px-6 pb-6 pt-[22px]" : "space-y-4 bg-[#faf8fc] p-7 sm:p-9"}
+        className={
+          compact ? "bg-[#faf8fc] px-6 pb-6 pt-[22px]" : "space-y-4 bg-[#faf8fc] p-7 sm:p-9"
+        }
         noValidate
       >
         <Field label="Name" error={errors.name?.message} compact={compact}>
@@ -120,7 +175,9 @@ export function EnquiryForm({ compact = false, showMessage = false }: { compact?
         <div className={compact ? "grid grid-cols-2 gap-3 mb-[14px]" : "grid grid-cols-2 gap-3"}>
           <Field label="Select Program" error={errors.program?.message} compact={false} noMargin>
             <select {...register("program")} className="input" defaultValue="">
-              <option value="" disabled>Select Program</option>
+              <option value="" disabled>
+                Select Program
+              </option>
               {programs.map((p) => (
                 <option key={p}>{p}</option>
               ))}
@@ -128,7 +185,9 @@ export function EnquiryForm({ compact = false, showMessage = false }: { compact?
           </Field>
           <Field label="State" error={errors.state?.message} compact={false} noMargin>
             <select {...register("state")} className="input" defaultValue="">
-              <option value="" disabled>Select</option>
+              <option value="" disabled>
+                Select
+              </option>
               {states.map((s) => (
                 <option key={s}>{s}</option>
               ))}
@@ -147,9 +206,16 @@ export function EnquiryForm({ compact = false, showMessage = false }: { compact?
           </Field>
         )}
 
-        <label className={compact ? "flex items-center gap-2 text-[12.5px] text-[#777480]" : "flex items-center gap-2 text-xs text-muted-foreground"} style={compact ? { margin: "12px 0 16px" } : undefined}>
-          <input type="checkbox" className="h-[15px] w-[15px]" />
-          I agree to get updates from counsellor
+        <label
+          className={
+            compact
+              ? "flex items-center gap-2 text-[12.5px] text-[#777480]"
+              : "flex items-center gap-2 text-xs text-muted-foreground"
+          }
+          style={compact ? { margin: "12px 0 16px" } : undefined}
+        >
+          <input type="checkbox" className="h-[15px] w-[15px]" />I agree to get updates from
+          counsellor
         </label>
 
         <button
@@ -186,7 +252,8 @@ export function EnquiryForm({ compact = false, showMessage = false }: { compact?
               </div>
               <h4 className="text-2xl font-extrabold text-foreground">Thank you!</h4>
               <p className="mt-2 text-sm text-muted-foreground">
-                Your enquiry has been received. Our admission counsellor will reach out within the next 30 minutes.
+                Your enquiry has been received. Our admission counsellor will reach out within the
+                next 30 minutes.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
@@ -235,9 +302,7 @@ function Field({
 }) {
   return (
     <label className={`block ${compact && !noMargin ? "mb-[14px]" : ""}`}>
-      <span className="mb-[5px] block text-[12.5px] font-semibold text-[#6b6875]">
-        {label}
-      </span>
+      <span className="mb-[5px] block text-[12.5px] font-semibold text-[#6b6875]">{label}</span>
       {children}
       {error && <span className="mt-1 block text-xs font-medium text-destructive">{error}</span>}
     </label>

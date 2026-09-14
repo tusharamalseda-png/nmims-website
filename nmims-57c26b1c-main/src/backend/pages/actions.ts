@@ -11,7 +11,16 @@ export const listPagesFn = createServerFn({ method: "GET" }).handler(async () =>
 });
 
 export const duplicatePageFn = createServerFn({ method: "POST" })
-  .inputValidator(z.object({ sourceSlug: z.string(), newSlug: z.string().trim().min(1).regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers and dashes only") }))
+  .inputValidator(
+    z.object({
+      sourceSlug: z.string(),
+      newSlug: z
+        .string()
+        .trim()
+        .min(1)
+        .regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers and dashes only"),
+    }),
+  )
   .handler(async ({ data }) => {
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
@@ -19,7 +28,11 @@ export const duplicatePageFn = createServerFn({ method: "POST" })
     const [source] = await db.select().from(pages).where(eq(pages.slug, data.sourceSlug)).limit(1);
     if (!source) throw new Error("Source page not found.");
 
-    const [existing] = await db.select({ slug: pages.slug }).from(pages).where(eq(pages.slug, data.newSlug)).limit(1);
+    const [existing] = await db
+      .select({ slug: pages.slug })
+      .from(pages)
+      .where(eq(pages.slug, data.newSlug))
+      .limit(1);
     if (existing) throw new Error("That slug is already in use.");
 
     const [row] = await db
@@ -38,7 +51,13 @@ export const duplicatePageFn = createServerFn({ method: "POST" })
       })
       .returning();
 
-    logActivity({ userId: session.data.userId, action: "created", entity: "page", entityId: row.slug, details: { duplicatedFrom: data.sourceSlug } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "page",
+      entityId: row.slug,
+      details: { duplicatedFrom: data.sourceSlug },
+    });
     return row;
   });
 
@@ -51,7 +70,12 @@ export const getPageFn = createServerFn({ method: "GET" })
 
 const updatePageSchema = z.object({
   slug: z.string(),
-  newSlug: z.string().trim().min(1).regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers and dashes only").optional(),
+  newSlug: z
+    .string()
+    .trim()
+    .min(1)
+    .regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers and dashes only")
+    .optional(),
   title: z.string().min(1),
   metaTitle: z.string().nullable(),
   metaDescription: z.string().nullable(),
@@ -80,7 +104,11 @@ export const updatePageFn = createServerFn({ method: "POST" })
     if (!session.data.userId) throw new Error("Not authenticated.");
 
     if (data.newSlug && data.newSlug !== data.slug) {
-      const [existing] = await db.select({ slug: pages.slug }).from(pages).where(eq(pages.slug, data.newSlug)).limit(1);
+      const [existing] = await db
+        .select({ slug: pages.slug })
+        .from(pages)
+        .where(eq(pages.slug, data.newSlug))
+        .limit(1);
       if (existing) throw new Error("That slug is already in use.");
     }
 
@@ -100,7 +128,9 @@ export const updatePageFn = createServerFn({ method: "POST" })
         ...(data.ogDescription !== undefined ? { ogDescription: data.ogDescription } : {}),
         ...(data.twitterCardType !== undefined ? { twitterCardType: data.twitterCardType } : {}),
         ...(data.twitterTitle !== undefined ? { twitterTitle: data.twitterTitle } : {}),
-        ...(data.twitterDescription !== undefined ? { twitterDescription: data.twitterDescription } : {}),
+        ...(data.twitterDescription !== undefined
+          ? { twitterDescription: data.twitterDescription }
+          : {}),
         ...(data.twitterImage !== undefined ? { twitterImage: data.twitterImage } : {}),
         ...(data.schemaType !== undefined ? { schemaType: data.schemaType } : {}),
         ...(data.breadcrumbLabel !== undefined ? { breadcrumbLabel: data.breadcrumbLabel } : {}),
@@ -111,6 +141,12 @@ export const updatePageFn = createServerFn({ method: "POST" })
       })
       .where(eq(pages.slug, data.slug));
 
-    logActivity({ userId: session.data.userId, action: "updated", entity: "page", entityId: data.newSlug ?? data.slug, details: { title: data.title } });
+    logActivity({
+      userId: session.data.userId,
+      action: "updated",
+      entity: "page",
+      entityId: data.newSlug ?? data.slug,
+      details: { title: data.title },
+    });
     return { success: true, slug: data.newSlug ?? data.slug };
   });

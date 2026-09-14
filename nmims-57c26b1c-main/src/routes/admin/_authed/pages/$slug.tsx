@@ -18,7 +18,15 @@ export const Route = createFileRoute("/admin/_authed/pages/$slug")({
   component: PageEdit,
 });
 
-const SCHEMA_TYPES = ["WebPage", "Article", "FAQPage", "Course", "Product", "LocalBusiness", "None"];
+const SCHEMA_TYPES = [
+  "WebPage",
+  "Article",
+  "FAQPage",
+  "Course",
+  "Product",
+  "LocalBusiness",
+  "None",
+];
 
 function PageEdit() {
   const page = Route.useLoaderData();
@@ -41,8 +49,12 @@ function PageEdit() {
   const [ogSameAsMeta, setOgSameAsMeta] = useState(!page.ogTitle && !page.ogDescription);
   const [ogTitle, setOgTitle] = useState(page.ogTitle ?? "");
   const [ogDescription, setOgDescription] = useState(page.ogDescription ?? "");
-  const [twitterSameAsOg, setTwitterSameAsOg] = useState(!page.twitterTitle && !page.twitterDescription && !page.twitterImage);
-  const [twitterCardType, setTwitterCardType] = useState(page.twitterCardType ?? "summary_large_image");
+  const [twitterSameAsOg, setTwitterSameAsOg] = useState(
+    !page.twitterTitle && !page.twitterDescription && !page.twitterImage,
+  );
+  const [twitterCardType, setTwitterCardType] = useState(
+    page.twitterCardType ?? "summary_large_image",
+  );
   const [twitterTitle, setTwitterTitle] = useState(page.twitterTitle ?? "");
   const [twitterDescription, setTwitterDescription] = useState(page.twitterDescription ?? "");
   const [twitterImage, setTwitterImage] = useState(page.twitterImage ?? "");
@@ -101,7 +113,10 @@ function PageEdit() {
 
   return (
     <div className="max-w-2xl">
-      <Link to="/admin/pages" className="mb-4 flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground">
+      <Link
+        to="/admin/pages"
+        className="mb-4 flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground"
+      >
         <ArrowLeft className="h-4 w-4" /> Back to Pages
       </Link>
 
@@ -147,17 +162,30 @@ function PageEdit() {
             {isLegal ? (
               <>
                 <hr className="border-border" />
-                <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Page Content</p>
+                <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                  Page Content
+                </p>
                 <div className="space-y-1.5">
                   <Label htmlFor="body">Body Text</Label>
-                  <Textarea id="body" rows={16} className="font-mono text-xs" value={body} onChange={(e) => setBody(e.target.value)} />
-                  <p className="text-xs text-muted-foreground">Separate paragraphs with a blank line. Wrap text in **double asterisks** for bold headings.</p>
+                  <Textarea
+                    id="body"
+                    rows={16}
+                    className="font-mono text-xs"
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Separate paragraphs with a blank line. Wrap text in **double asterisks** for
+                    bold headings.
+                  </p>
                 </div>
               </>
             ) : (
               <div className="rounded-xl border border-dashed border-border bg-secondary/40 p-4 text-xs text-muted-foreground">
-                This page's layout and body content are defined in code, not the database — a developer needs to add a section here before it becomes editable.
-                In the meantime, use the "Edit This Page" button on the live page for anything already database-driven (SEO fields, images, testimonials, FAQs).
+                This page's layout and body content are defined in code, not the database — a
+                developer needs to add a section here before it becomes editable. In the meantime,
+                use the "Edit This Page" button on the live page for anything already
+                database-driven (SEO fields, images, testimonials, FAQs).
               </div>
             )}
 
@@ -166,7 +194,10 @@ function PageEdit() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <Label>Published</Label>
-                <Input disabled value={page.publishedAt ? formatDateTime(page.publishedAt) : "Not published yet"} />
+                <Input
+                  disabled
+                  value={page.publishedAt ? formatDateTime(page.publishedAt) : "Not published yet"}
+                />
               </div>
               <div className="space-y-1.5">
                 <Label>Last Updated</Label>
@@ -178,31 +209,64 @@ function PageEdit() {
 
         {tab === "seo" && (
           <>
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Search Appearance</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Search Appearance
+            </p>
             <div className="space-y-1.5">
               <Label htmlFor="focusKeyword">Focus Keyword</Label>
-              <Input id="focusKeyword" placeholder="e.g. NMIMS online MBA" value={focusKeyword} onChange={(e) => setFocusKeyword(e.target.value)} />
+              <Input
+                id="focusKeyword"
+                placeholder="e.g. NMIMS online MBA"
+                value={focusKeyword}
+                onChange={(e) => setFocusKeyword(e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="metaTitle" className="flex justify-between">
-                <span>Meta Title</span><span className="font-mono text-[10px] text-muted-foreground">{metaTitle.length} / 60</span>
+                <span>Meta Title</span>
+                <span className="font-mono text-[10px] text-muted-foreground">
+                  {metaTitle.length} / 60
+                </span>
               </Label>
-              <Input id="metaTitle" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} />
+              <Input
+                id="metaTitle"
+                value={metaTitle}
+                onChange={(e) => setMetaTitle(e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="metaDescription" className="flex justify-between">
-                <span>Meta Description</span><span className="font-mono text-[10px] text-muted-foreground">{metaDescription.length} / 160</span>
+                <span>Meta Description</span>
+                <span className="font-mono text-[10px] text-muted-foreground">
+                  {metaDescription.length} / 160
+                </span>
               </Label>
-              <Textarea id="metaDescription" rows={3} value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} />
+              <Textarea
+                id="metaDescription"
+                rows={3}
+                value={metaDescription}
+                onChange={(e) => setMetaDescription(e.target.value)}
+              />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <Label htmlFor="slug">URL Slug</Label>
-                <Input id="slug" value={slug} onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))} />
+                <Input
+                  id="slug"
+                  value={slug}
+                  onChange={(e) =>
+                    setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))
+                  }
+                />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="canonicalUrl">Canonical URL</Label>
-                <Input id="canonicalUrl" placeholder="/about" value={canonicalUrl} onChange={(e) => setCanonicalUrl(e.target.value)} />
+                <Input
+                  id="canonicalUrl"
+                  placeholder="/about"
+                  value={canonicalUrl}
+                  onChange={(e) => setCanonicalUrl(e.target.value)}
+                />
               </div>
             </div>
 
@@ -213,69 +277,143 @@ function PageEdit() {
             </div>
 
             <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Indexing &amp; Robots</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Indexing &amp; Robots
+            </p>
             <div className="flex items-center justify-between rounded-lg border border-border p-3">
               <div>
                 <p className="text-sm font-semibold text-foreground">Index this page</p>
-                <p className="text-xs text-muted-foreground">Allow it to appear in search results</p>
+                <p className="text-xs text-muted-foreground">
+                  Allow it to appear in search results
+                </p>
               </div>
               <Switch checked={robotsIndex} onCheckedChange={setRobotsIndex} />
             </div>
             <div className="flex items-center justify-between rounded-lg border border-border p-3">
               <div>
                 <p className="text-sm font-semibold text-foreground">Follow links on this page</p>
-                <p className="text-xs text-muted-foreground">Let link-equity pass through outbound links</p>
+                <p className="text-xs text-muted-foreground">
+                  Let link-equity pass through outbound links
+                </p>
               </div>
               <Switch checked={robotsFollow} onCheckedChange={setRobotsFollow} />
             </div>
 
             <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Social Sharing</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Social Sharing
+            </p>
             <div className="space-y-1.5">
               <Label htmlFor="ogImage">Featured / OG Image URL</Label>
               <Input id="ogImage" value={ogImage} onChange={(e) => setOgImage(e.target.value)} />
             </div>
             <label className="flex items-center gap-2 text-xs text-muted-foreground">
-              <input type="checkbox" checked={ogSameAsMeta} onChange={(e) => setOgSameAsMeta(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={ogSameAsMeta}
+                onChange={(e) => setOgSameAsMeta(e.target.checked)}
+              />
               Open Graph title/description same as Meta Title/Description above
             </label>
             {!ogSameAsMeta && (
               <div className="space-y-3 rounded-lg border border-border p-3">
-                <div className="space-y-1.5"><Label htmlFor="ogTitle">OG Title</Label><Input id="ogTitle" value={ogTitle} onChange={(e) => setOgTitle(e.target.value)} /></div>
-                <div className="space-y-1.5"><Label htmlFor="ogDescription">OG Description</Label><Textarea id="ogDescription" rows={2} value={ogDescription} onChange={(e) => setOgDescription(e.target.value)} /></div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="ogTitle">OG Title</Label>
+                  <Input
+                    id="ogTitle"
+                    value={ogTitle}
+                    onChange={(e) => setOgTitle(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="ogDescription">OG Description</Label>
+                  <Textarea
+                    id="ogDescription"
+                    rows={2}
+                    value={ogDescription}
+                    onChange={(e) => setOgDescription(e.target.value)}
+                  />
+                </div>
               </div>
             )}
             <label className="flex items-center gap-2 text-xs text-muted-foreground">
-              <input type="checkbox" checked={twitterSameAsOg} onChange={(e) => setTwitterSameAsOg(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={twitterSameAsOg}
+                onChange={(e) => setTwitterSameAsOg(e.target.checked)}
+              />
               Twitter Card same as Open Graph
             </label>
             {!twitterSameAsOg && (
               <div className="space-y-3 rounded-lg border border-border p-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="twitterCardType">Card Type</Label>
-                  <select id="twitterCardType" value={twitterCardType} onChange={(e) => setTwitterCardType(e.target.value)} className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
+                  <select
+                    id="twitterCardType"
+                    value={twitterCardType}
+                    onChange={(e) => setTwitterCardType(e.target.value)}
+                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm"
+                  >
                     <option value="summary_large_image">summary_large_image</option>
                     <option value="summary">summary</option>
                   </select>
                 </div>
-                <div className="space-y-1.5"><Label htmlFor="twitterTitle">Twitter Title</Label><Input id="twitterTitle" value={twitterTitle} onChange={(e) => setTwitterTitle(e.target.value)} /></div>
-                <div className="space-y-1.5"><Label htmlFor="twitterDescription">Twitter Description</Label><Textarea id="twitterDescription" rows={2} value={twitterDescription} onChange={(e) => setTwitterDescription(e.target.value)} /></div>
-                <div className="space-y-1.5"><Label htmlFor="twitterImage">Twitter Image URL</Label><Input id="twitterImage" value={twitterImage} onChange={(e) => setTwitterImage(e.target.value)} /></div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="twitterTitle">Twitter Title</Label>
+                  <Input
+                    id="twitterTitle"
+                    value={twitterTitle}
+                    onChange={(e) => setTwitterTitle(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="twitterDescription">Twitter Description</Label>
+                  <Textarea
+                    id="twitterDescription"
+                    rows={2}
+                    value={twitterDescription}
+                    onChange={(e) => setTwitterDescription(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="twitterImage">Twitter Image URL</Label>
+                  <Input
+                    id="twitterImage"
+                    value={twitterImage}
+                    onChange={(e) => setTwitterImage(e.target.value)}
+                  />
+                </div>
               </div>
             )}
 
             <hr className="border-border" />
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Structured Data</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Structured Data
+            </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <Label htmlFor="schemaType">Schema Type</Label>
-                <select id="schemaType" value={schemaType} onChange={(e) => setSchemaType(e.target.value)} className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
-                  {SCHEMA_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+                <select
+                  id="schemaType"
+                  value={schemaType}
+                  onChange={(e) => setSchemaType(e.target.value)}
+                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-sm"
+                >
+                  {SCHEMA_TYPES.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="breadcrumbLabel">Breadcrumb Label</Label>
-                <Input id="breadcrumbLabel" placeholder={title} value={breadcrumbLabel} onChange={(e) => setBreadcrumbLabel(e.target.value)} />
+                <Input
+                  id="breadcrumbLabel"
+                  placeholder={title}
+                  value={breadcrumbLabel}
+                  onChange={(e) => setBreadcrumbLabel(e.target.value)}
+                />
               </div>
             </div>
           </>

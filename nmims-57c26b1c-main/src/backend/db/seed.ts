@@ -20,7 +20,8 @@ const seedPages: (typeof pages.$inferInsert)[] = [
     type: "page",
     title: "About Us",
     content: {},
-    metaTitle: "About Us | NMIMS Online - Authorized NMIMS CDOE Enquiry Partner in Gujarat Since 2018",
+    metaTitle:
+      "About Us | NMIMS Online - Authorized NMIMS CDOE Enquiry Partner in Gujarat Since 2018",
     metaDescription:
       "NMIMS Online is an Authorized NMIMS CDOE Enquiry Partner (AEP) counselling students and working professionals across Gujarat since 2018. Free, transparent guidance from enquiry to graduation - learn our story, our role, and how we work with NMIMS CDOE.",
     status: "published",
@@ -100,7 +101,8 @@ const seedPages: (typeof pages.$inferInsert)[] = [
     type: "legal",
     title: "Privacy Policy",
     metaTitle: "Privacy Policy | RH Academy - NMIMS CDOE Enquiry Partner",
-    metaDescription: "How RH Academy collects, uses and protects the personal information you share through cdoe.info.",
+    metaDescription:
+      "How RH Academy collects, uses and protects the personal information you share through cdoe.info.",
     status: "published",
     content: {
       body: `Last updated: August 2026
@@ -171,7 +173,8 @@ Questions about these terms can be sent to us via our Contact Us page.`,
     type: "legal",
     title: "Disclaimer",
     metaTitle: "Disclaimer | RH Academy - NMIMS CDOE Enquiry Partner",
-    metaDescription: "Our relationship to NMIMS CDOE and the limits of the information provided on this site.",
+    metaDescription:
+      "Our relationship to NMIMS CDOE and the limits of the information provided on this site.",
     status: "published",
     content: {
       body: `Last updated: August 2026
@@ -200,7 +203,8 @@ If you notice information on this site that appears outdated or incorrect, pleas
     type: "legal",
     title: "Refund Policy",
     metaTitle: "Refund Policy | RH Academy - NMIMS CDOE Enquiry Partner",
-    metaDescription: "RH Academy does not collect tuition or admission fees — here's how refunds work for NMIMS CDOE programs.",
+    metaDescription:
+      "RH Academy does not collect tuition or admission fees — here's how refunds work for NMIMS CDOE programs.",
     status: "published",
     content: {
       body: `Last updated: August 2026
@@ -220,8 +224,15 @@ If you have any questions about payments you've made as part of your NMIMS CDOE 
   },
 ];
 
-const inserted = await db.insert(pages).values(seedPages).onConflictDoNothing({ target: pages.slug }).returning({ slug: pages.slug });
-console.log(`Seeded ${inserted.length} new page(s):`, inserted.map((p) => p.slug).join(", ") || "(none — already seeded)");
+const inserted = await db
+  .insert(pages)
+  .values(seedPages)
+  .onConflictDoNothing({ target: pages.slug })
+  .returning({ slug: pages.slug });
+console.log(
+  `Seeded ${inserted.length} new page(s):`,
+  inserted.map((p) => p.slug).join(", ") || "(none — already seeded)",
+);
 
 // The 3 existing blog posts are hand-coded pages (custom layouts), so only
 // their metadata lives here — content stays empty and their /blog/<slug>
@@ -268,8 +279,15 @@ const seedPosts: (typeof blogPosts.$inferInsert)[] = [
   },
 ];
 
-const insertedPosts = await db.insert(blogPosts).values(seedPosts).onConflictDoNothing({ target: blogPosts.slug }).returning({ slug: blogPosts.slug });
-console.log(`Seeded ${insertedPosts.length} new blog post(s):`, insertedPosts.map((p) => p.slug).join(", ") || "(none — already seeded)");
+const insertedPosts = await db
+  .insert(blogPosts)
+  .values(seedPosts)
+  .onConflictDoNothing({ target: blogPosts.slug })
+  .returning({ slug: blogPosts.slug });
+console.log(
+  `Seeded ${insertedPosts.length} new blog post(s):`,
+  insertedPosts.map((p) => p.slug).join(", ") || "(none — already seeded)",
+);
 
 // ---------- site settings (single row, id=1) ----------
 const insertedSettings = await db
@@ -281,7 +299,8 @@ const insertedSettings = await db
     faviconUrl: null,
     contactPhone: "+917069181188",
     contactEmail: "ncdoe-026@nmims.edu",
-    contactAddress: "503, Sukhsagar Complex, Next to hotel fortune landmark, Ashram road, Ahmedabad, 380013",
+    contactAddress:
+      "503, Sukhsagar Complex, Next to hotel fortune landmark, Ashram road, Ahmedabad, 380013",
     socialLinks: {},
     disclaimerText:
       "cdoe.info is owned and operated by RH Academy, an Affiliate Enquiry Partner (AEP) for NMIMS Centre for Distance and Online Education (NMIMS CDOE). We provide enquiry assistance only. Admissions, fee collection, academics, examinations, results, and certification are solely managed by NMIMS CDOE.",
@@ -303,7 +322,10 @@ const seedNavItems: (typeof navigationItems.$inferInsert)[] = [
 ];
 const existingNavCount = await db.select({ id: navigationItems.id }).from(navigationItems).limit(1);
 if (existingNavCount.length === 0) {
-  const insertedNav = await db.insert(navigationItems).values(seedNavItems).returning({ label: navigationItems.label });
+  const insertedNav = await db
+    .insert(navigationItems)
+    .values(seedNavItems)
+    .returning({ label: navigationItems.label });
   console.log(`Seeded ${insertedNav.length} nav item(s).`);
 } else {
   console.log("Seeded nav items: (already exists)");
@@ -311,33 +333,237 @@ if (existingNavCount.length === 0) {
 
 // ---------- testimonials, migrated from the 6 hardcoded page copies ----------
 const seedTestimonials: (typeof testimonials.$inferInsert)[] = [
-  { name: "Rohit Sharma", designation: "Online MBA - Marketing", quote: "The live mentor sessions changed how I approach my role. I got promoted to Marketing Manager within 8 months of joining the program.", rating: 5, imageUrl: "/images/testimonials/testimonial-1.jpg", isVideo: false, isVisible: true, sortOrder: 0, pageSlugs: ["home"] },
-  { name: "Priya Menon", designation: "Online MCA", quote: "Flexible classes meant I could keep my full-time job. With help from career services on my resume and interview prep, I moved into a senior developer role with a 70% hike.", rating: 5, imageUrl: "/images/testimonials/testimonial-2.jpg", isVideo: false, isVisible: true, sortOrder: 1, pageSlugs: ["home"] },
-  { name: "Amit Kulkarni", designation: "Online MBA - Finance", quote: "Faculty quality is on par with top B-schools. The capstone project gave me confidence to lead my own FP&A team.", rating: 5, imageUrl: "/images/testimonials/testimonial-3.jpg", isVideo: false, isVisible: true, sortOrder: 2, pageSlugs: ["home"] },
+  {
+    name: "Rohit Sharma",
+    designation: "Online MBA - Marketing",
+    quote:
+      "The live mentor sessions changed how I approach my role. I got promoted to Marketing Manager within 8 months of joining the program.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-1.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 0,
+    pageSlugs: ["home"],
+  },
+  {
+    name: "Priya Menon",
+    designation: "Online MCA",
+    quote:
+      "Flexible classes meant I could keep my full-time job. With help from career services on my resume and interview prep, I moved into a senior developer role with a 70% hike.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-2.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 1,
+    pageSlugs: ["home"],
+  },
+  {
+    name: "Amit Kulkarni",
+    designation: "Online MBA - Finance",
+    quote:
+      "Faculty quality is on par with top B-schools. The capstone project gave me confidence to lead my own FP&A team.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-3.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 2,
+    pageSlugs: ["home"],
+  },
 
-  { name: "Rohit Sharma", designation: "Online MBA - Marketing Management", quote: "The live mentor sessions changed how I approach my role. I was able to take on a bigger team within a year of starting the program.", rating: 5, imageUrl: "/images/testimonials/testimonial-1.jpg", isVideo: false, isVisible: true, sortOrder: 0, pageSlugs: ["online-mba"] },
-  { name: "Priya Menon", designation: "Online MBA - Business Analytics", quote: "Flexible weekend classes meant I could keep my full-time job. The career services team helped me prep for a senior role interview.", rating: 5, imageUrl: "/images/testimonials/testimonial-2.jpg", isVideo: false, isVisible: true, sortOrder: 1, pageSlugs: ["online-mba"] },
-  { name: "Amit Kulkarni", designation: "Online MBA - Financial Management", quote: "Faculty quality is excellent, and the capstone project gave me the confidence to lead my own finance function.", rating: 5, imageUrl: "/images/testimonials/testimonial-3.jpg", isVideo: false, isVisible: true, sortOrder: 2, pageSlugs: ["online-mba"] },
+  {
+    name: "Rohit Sharma",
+    designation: "Online MBA - Marketing Management",
+    quote:
+      "The live mentor sessions changed how I approach my role. I was able to take on a bigger team within a year of starting the program.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-1.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 0,
+    pageSlugs: ["online-mba"],
+  },
+  {
+    name: "Priya Menon",
+    designation: "Online MBA - Business Analytics",
+    quote:
+      "Flexible weekend classes meant I could keep my full-time job. The career services team helped me prep for a senior role interview.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-2.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 1,
+    pageSlugs: ["online-mba"],
+  },
+  {
+    name: "Amit Kulkarni",
+    designation: "Online MBA - Financial Management",
+    quote:
+      "Faculty quality is excellent, and the capstone project gave me the confidence to lead my own finance function.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-3.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 2,
+    pageSlugs: ["online-mba"],
+  },
 
-  { name: "Aditya Rane", designation: "Online BBA - Marketing", quote: "Doing my BBA online meant I could work part-time and still keep up with live classes. The faculty made even the toughest subjects easy to follow.", rating: 5, imageUrl: "/images/testimonials/testimonial-1.jpg", isVideo: false, isVisible: true, sortOrder: 0, pageSlugs: ["online-bba"] },
-  { name: "Sanya Kapoor", designation: "Online BBA - Business Analytics", quote: "The Python and Tableau electives gave me a real head-start - I landed an analyst internship before I'd even graduated.", rating: 5, imageUrl: "/images/testimonials/testimonial-2.jpg", isVideo: false, isVisible: true, sortOrder: 1, pageSlugs: ["online-bba"] },
-  { name: "Karan Desai", designation: "Online BBA - Finance", quote: "The finance electives in the final year were genuinely practical. I walked into my first job already knowing how to read a balance sheet.", rating: 5, imageUrl: "/images/testimonials/testimonial-3.jpg", isVideo: false, isVisible: true, sortOrder: 2, pageSlugs: ["online-bba"] },
+  {
+    name: "Aditya Rane",
+    designation: "Online BBA - Marketing",
+    quote:
+      "Doing my BBA online meant I could work part-time and still keep up with live classes. The faculty made even the toughest subjects easy to follow.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-1.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 0,
+    pageSlugs: ["online-bba"],
+  },
+  {
+    name: "Sanya Kapoor",
+    designation: "Online BBA - Business Analytics",
+    quote:
+      "The Python and Tableau electives gave me a real head-start - I landed an analyst internship before I'd even graduated.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-2.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 1,
+    pageSlugs: ["online-bba"],
+  },
+  {
+    name: "Karan Desai",
+    designation: "Online BBA - Finance",
+    quote:
+      "The finance electives in the final year were genuinely practical. I walked into my first job already knowing how to read a balance sheet.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-3.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 2,
+    pageSlugs: ["online-bba"],
+  },
 
-  { name: "Priya Nair", designation: "Online B.Com", quote: "Studying my B.Com online let me prep for my CA foundation alongside my degree. The accounting and taxation subjects lined up perfectly with what I needed.", rating: 5, imageUrl: "/images/testimonials/testimonial-1.jpg", isVideo: false, isVisible: true, sortOrder: 0, pageSlugs: ["online-bcom"] },
-  { name: "Rohan Mehta", designation: "Online B.Com", quote: "The live faculty sessions on financial statement analysis and audit made concepts click that I'd struggled with in textbooks alone.", rating: 5, imageUrl: "/images/testimonials/testimonial-2.jpg", isVideo: false, isVisible: true, sortOrder: 1, pageSlugs: ["online-bcom"] },
-  { name: "Ishita Sharma", designation: "Online B.Com", quote: "I could keep a part-time internship at a CA firm going while finishing my semesters - the flexibility of the recorded lectures made that possible.", rating: 5, imageUrl: "/images/testimonials/testimonial-3.jpg", isVideo: false, isVisible: true, sortOrder: 2, pageSlugs: ["online-bcom"] },
+  {
+    name: "Priya Nair",
+    designation: "Online B.Com",
+    quote:
+      "Studying my B.Com online let me prep for my CA foundation alongside my degree. The accounting and taxation subjects lined up perfectly with what I needed.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-1.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 0,
+    pageSlugs: ["online-bcom"],
+  },
+  {
+    name: "Rohan Mehta",
+    designation: "Online B.Com",
+    quote:
+      "The live faculty sessions on financial statement analysis and audit made concepts click that I'd struggled with in textbooks alone.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-2.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 1,
+    pageSlugs: ["online-bcom"],
+  },
+  {
+    name: "Ishita Sharma",
+    designation: "Online B.Com",
+    quote:
+      "I could keep a part-time internship at a CA firm going while finishing my semesters - the flexibility of the recorded lectures made that possible.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-3.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 2,
+    pageSlugs: ["online-bcom"],
+  },
 
-  { name: "Aditi Rao", designation: "Diploma in Finance Management", quote: "A full MBA wasn't the right fit for my timeline, but this diploma gave me exactly the corporate finance and portfolio management skills I needed for my role - in just a year.", rating: 5, imageUrl: "/images/testimonials/testimonial-1.jpg", isVideo: false, isVisible: true, sortOrder: 0, pageSlugs: ["online-diploma"] },
-  { name: "Karan Desai", designation: "Diploma in Operations Management", quote: "The project management and supply chain subjects were directly applicable at work within weeks. Being able to finish in one year while working full-time made all the difference.", rating: 5, imageUrl: "/images/testimonials/testimonial-2.jpg", isVideo: false, isVisible: true, sortOrder: 1, pageSlugs: ["online-diploma"] },
-  { name: "Simran Kaur", designation: "Diploma in Human Resource Management", quote: "The recruitment, performance management and manpower planning modules gave me the confidence to move into an HR generalist role right after completing the programme.", rating: 5, imageUrl: "/images/testimonials/testimonial-3.jpg", isVideo: false, isVisible: true, sortOrder: 2, pageSlugs: ["online-diploma"] },
+  {
+    name: "Aditi Rao",
+    designation: "Diploma in Finance Management",
+    quote:
+      "A full MBA wasn't the right fit for my timeline, but this diploma gave me exactly the corporate finance and portfolio management skills I needed for my role - in just a year.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-1.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 0,
+    pageSlugs: ["online-diploma"],
+  },
+  {
+    name: "Karan Desai",
+    designation: "Diploma in Operations Management",
+    quote:
+      "The project management and supply chain subjects were directly applicable at work within weeks. Being able to finish in one year while working full-time made all the difference.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-2.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 1,
+    pageSlugs: ["online-diploma"],
+  },
+  {
+    name: "Simran Kaur",
+    designation: "Diploma in Human Resource Management",
+    quote:
+      "The recruitment, performance management and manpower planning modules gave me the confidence to move into an HR generalist role right after completing the programme.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-3.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 2,
+    pageSlugs: ["online-diploma"],
+  },
 
-  { name: "Neha Kulkarni", designation: "Certificate in Business Management", quote: "I wanted a quick, credible refresher on business fundamentals before switching teams internally - six months and I had exactly the grounding I needed.", rating: 5, imageUrl: "/images/testimonials/testimonial-1.jpg", isVideo: false, isVisible: true, sortOrder: 0, pageSlugs: ["online-certificate"] },
-  { name: "Arjun Bhatt", designation: "Certificate in Business Management", quote: "The marketing and financial accounting modules were directly useful at work almost immediately. A great low-commitment way to test if I wanted to go further with a diploma or degree.", rating: 5, imageUrl: "/images/testimonials/testimonial-2.jpg", isVideo: false, isVisible: true, sortOrder: 1, pageSlugs: ["online-certificate"] },
-  { name: "Divya Menon", designation: "Certificate in Business Management", quote: "Balancing this alongside a full-time job was easy with the recorded lectures. It gave me the confidence to take on more business-facing responsibilities.", rating: 5, imageUrl: "/images/testimonials/testimonial-3.jpg", isVideo: false, isVisible: true, sortOrder: 2, pageSlugs: ["online-certificate"] },
+  {
+    name: "Neha Kulkarni",
+    designation: "Certificate in Business Management",
+    quote:
+      "I wanted a quick, credible refresher on business fundamentals before switching teams internally - six months and I had exactly the grounding I needed.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-1.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 0,
+    pageSlugs: ["online-certificate"],
+  },
+  {
+    name: "Arjun Bhatt",
+    designation: "Certificate in Business Management",
+    quote:
+      "The marketing and financial accounting modules were directly useful at work almost immediately. A great low-commitment way to test if I wanted to go further with a diploma or degree.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-2.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 1,
+    pageSlugs: ["online-certificate"],
+  },
+  {
+    name: "Divya Menon",
+    designation: "Certificate in Business Management",
+    quote:
+      "Balancing this alongside a full-time job was easy with the recorded lectures. It gave me the confidence to take on more business-facing responsibilities.",
+    rating: 5,
+    imageUrl: "/images/testimonials/testimonial-3.jpg",
+    isVideo: false,
+    isVisible: true,
+    sortOrder: 2,
+    pageSlugs: ["online-certificate"],
+  },
 ];
-const existingTestimonialCount = await db.select({ id: testimonials.id }).from(testimonials).limit(1);
+const existingTestimonialCount = await db
+  .select({ id: testimonials.id })
+  .from(testimonials)
+  .limit(1);
 if (existingTestimonialCount.length === 0) {
-  const insertedTestimonials = await db.insert(testimonials).values(seedTestimonials).returning({ id: testimonials.id });
+  const insertedTestimonials = await db
+    .insert(testimonials)
+    .values(seedTestimonials)
+    .returning({ id: testimonials.id });
   console.log(`Seeded ${insertedTestimonials.length} testimonial(s).`);
 } else {
   console.log("Seeded testimonials: (already exist)");

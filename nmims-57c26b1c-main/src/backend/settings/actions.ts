@@ -21,7 +21,8 @@ export const getEmailConfigFn = createServerFn({ method: "GET" }).handler(async 
     notifyEmail: process.env.NOTIFY_EMAIL ?? null,
     fromEmail: process.env.RESEND_FROM_EMAIL ?? null,
     apiKeyConfigured: !!process.env.RESEND_API_KEY,
-    domainVerified: (process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev") !== "onboarding@resend.dev",
+    domainVerified:
+      (process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev") !== "onboarding@resend.dev",
   };
 });
 

@@ -51,7 +51,10 @@ function BlogList() {
               </tr>
             )}
             {posts.map((p) => (
-              <tr key={p.slug} className="border-b border-border last:border-0 hover:bg-secondary/50">
+              <tr
+                key={p.slug}
+                className="border-b border-border last:border-0 hover:bg-secondary/50"
+              >
                 <td className="max-w-md px-5 py-3 font-semibold text-foreground">{p.title}</td>
                 <td className="px-5 py-3 text-xs text-muted-foreground">{p.category ?? "—"}</td>
                 <td className="px-5 py-3">

@@ -8,7 +8,8 @@ const FALLBACK_SEO = {
   title: "Privacy Policy",
   content: { body: "" } as Record<string, unknown>,
   metaTitle: "Privacy Policy | RH Academy - NMIMS CDOE Enquiry Partner",
-  metaDescription: "How RH Academy collects, uses and protects the personal information you share through cdoe.info.",
+  metaDescription:
+    "How RH Academy collects, uses and protects the personal information you share through cdoe.info.",
   canonicalUrl: "/privacy-policy",
   ogImage: null as string | null,
   status: "published" as const,
@@ -20,7 +21,11 @@ export const Route = createFileRoute("/privacy-policy")({
     const seo = loaderData ?? FALLBACK_SEO;
     return buildSeoHead(
       { ...seo, robotsIndex: "robotsIndex" in seo ? seo.robotsIndex : false },
-      { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: FALLBACK_SEO.canonicalUrl },
+      {
+        title: FALLBACK_SEO.metaTitle,
+        description: FALLBACK_SEO.metaDescription,
+        canonicalUrl: FALLBACK_SEO.canonicalUrl,
+      },
     );
   },
   component: PrivacyPolicyPage,

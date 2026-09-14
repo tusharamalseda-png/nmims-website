@@ -1,4 +1,8 @@
-import { useSession } from "@tanstack/react-start/server";
+// Aliased on import: this is TanStack Start's server-side session store, not
+// a React hook, but its name starts with "use" so eslint-plugin-react-hooks
+// misreads any wrapper around it as a hook call unless the local name doesn't
+// match the /^use/ pattern.
+import { useSession as getSessionStore } from "@tanstack/react-start/server";
 
 export type AdminSessionData = {
   userId: string;
@@ -11,7 +15,7 @@ export type AdminSessionData = {
 };
 
 export function getAdminSession() {
-  return useSession<AdminSessionData>({
+  return getSessionStore<AdminSessionData>({
     password: process.env.SESSION_SECRET!,
     name: "admin_session",
     cookie: { secure: true, sameSite: "lax", path: "/" },

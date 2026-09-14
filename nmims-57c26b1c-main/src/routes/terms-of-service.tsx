@@ -20,7 +20,11 @@ export const Route = createFileRoute("/terms-of-service")({
     const seo = loaderData ?? FALLBACK_SEO;
     return buildSeoHead(
       { ...seo, robotsIndex: "robotsIndex" in seo ? seo.robotsIndex : false },
-      { title: FALLBACK_SEO.metaTitle, description: FALLBACK_SEO.metaDescription, canonicalUrl: FALLBACK_SEO.canonicalUrl },
+      {
+        title: FALLBACK_SEO.metaTitle,
+        description: FALLBACK_SEO.metaDescription,
+        canonicalUrl: FALLBACK_SEO.canonicalUrl,
+      },
     );
   },
   component: TermsOfServicePage,

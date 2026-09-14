@@ -10,7 +10,11 @@ import { logActivity } from "../activity/log";
 export const logNotFoundHitFn = createServerFn({ method: "POST" })
   .inputValidator(z.object({ path: z.string().min(1), referrer: z.string().nullable() }))
   .handler(async ({ data }) => {
-    const [existing] = await db.select().from(notFoundHits).where(eq(notFoundHits.path, data.path)).limit(1);
+    const [existing] = await db
+      .select()
+      .from(notFoundHits)
+      .where(eq(notFoundHits.path, data.path))
+      .limit(1);
     if (existing) {
       await db
         .update(notFoundHits)
@@ -54,11 +58,22 @@ export const convertNotFoundToRedirectFn = createServerFn({ method: "POST" })
     const session = await getAdminSession();
     if (!session.data.userId) throw new Error("Not authenticated.");
 
-    const [existing] = await db.select({ id: redirects.id }).from(redirects).where(eq(redirects.fromPath, data.fromPath)).limit(1);
+    const [existing] = await db
+      .select({ id: redirects.id })
+      .from(redirects)
+      .where(eq(redirects.fromPath, data.fromPath))
+      .limit(1);
     if (existing) throw new Error("A redirect from this path already exists.");
 
-    await db.insert(redirects).values({ fromPath: data.fromPath, toPath: data.toPath, statusCode: "301" });
+    await db
+      .insert(redirects)
+      .values({ fromPath: data.fromPath, toPath: data.toPath, statusCode: "301" });
     await db.update(notFoundHits).set({ resolved: true }).where(eq(notFoundHits.id, data.id));
-    logActivity({ userId: session.data.userId, action: "created", entity: "redirect", details: { fromPath: data.fromPath, toPath: data.toPath, source: "404_monitor" } });
+    logActivity({
+      userId: session.data.userId,
+      action: "created",
+      entity: "redirect",
+      details: { fromPath: data.fromPath, toPath: data.toPath, source: "404_monitor" },
+    });
     return { success: true };
   });

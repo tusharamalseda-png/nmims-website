@@ -39,7 +39,9 @@ function ActivityLog() {
         </span>
         <div>
           <h1 className="text-lg font-extrabold text-foreground">Activity Log</h1>
-          <p className="text-sm text-muted-foreground">Who changed what, and when. Last 200 changes.</p>
+          <p className="text-sm text-muted-foreground">
+            Who changed what, and when. Last 200 changes.
+          </p>
         </div>
       </div>
 
@@ -64,14 +66,22 @@ function ActivityLog() {
             )}
             {entries.map((e) => (
               <tr key={e.id} className="border-b border-border last:border-0 hover:bg-secondary/50">
-                <td className="px-5 py-3 text-xs text-muted-foreground">{formatDateTime(e.createdAt)}</td>
-                <td className="px-5 py-3 text-xs font-semibold text-foreground">{e.userEmail ?? "—"}</td>
+                <td className="px-5 py-3 text-xs text-muted-foreground">
+                  {formatDateTime(e.createdAt)}
+                </td>
+                <td className="px-5 py-3 text-xs font-semibold text-foreground">
+                  {e.userEmail ?? "—"}
+                </td>
                 <td className="px-5 py-3">
-                  <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${ACTION_STYLE[e.action] ?? "bg-secondary text-muted-foreground"}`}>
+                  <span
+                    className={`rounded-full px-2.5 py-1 text-xs font-bold ${ACTION_STYLE[e.action] ?? "bg-secondary text-muted-foreground"}`}
+                  >
                     {e.action}
                   </span>
                 </td>
-                <td className="px-5 py-3 text-xs text-foreground">{ENTITY_LABEL[e.entity] ?? e.entity}</td>
+                <td className="px-5 py-3 text-xs text-foreground">
+                  {ENTITY_LABEL[e.entity] ?? e.entity}
+                </td>
                 <td className="px-5 py-3 font-mono text-xs text-muted-foreground">
                   {e.details ? JSON.stringify(e.details) : ""}
                 </td>

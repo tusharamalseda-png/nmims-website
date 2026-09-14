@@ -21,11 +21,14 @@ import { AnnouncementBar } from "@/components/site/AnnouncementBar";
 import { logNotFoundHitFn } from "@/backend/health/not-found";
 
 const DEFAULT_TITLE = "NMIMS Online | UGC-Entitled Online Degrees";
-const DEFAULT_DESCRIPTION = "Earn a UGC-entitled online degree from NMIMS CDOE. Free admission counselling, transparent fees, and flexible learning for working professionals.";
+const DEFAULT_DESCRIPTION =
+  "Earn a UGC-entitled online degree from NMIMS CDOE. Free admission counselling, transparent fees, and flexible learning for working professionals.";
 
 function NotFoundComponent() {
   useEffect(() => {
-    logNotFoundHitFn({ data: { path: window.location.pathname, referrer: document.referrer || null } }).catch(() => {});
+    logNotFoundHitFn({
+      data: { path: window.location.pathname, referrer: document.referrer || null },
+    }).catch(() => {});
   }, []);
 
   return (
@@ -91,7 +94,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   beforeLoad: async ({ location }) => {
     const settings = await getSiteSettingsFn();
 
-    if (settings?.maintenanceMode && location.pathname !== "/maintenance" && !location.pathname.startsWith("/admin")) {
+    if (
+      settings?.maintenanceMode &&
+      location.pathname !== "/maintenance" &&
+      !location.pathname.startsWith("/admin")
+    ) {
       const admin = await getCurrentAdminFn();
       if (!admin) throw redirect({ href: "/maintenance" });
     }
@@ -127,7 +134,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { property: "og:description", content: DEFAULT_DESCRIPTION },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary" },
-        ...(googleVerification ? [{ name: "google-site-verification", content: googleVerification }] : []),
+        ...(googleVerification
+          ? [{ name: "google-site-verification", content: googleVerification }]
+          : []),
         ...(bingVerification ? [{ name: "msvalidate.01", content: bingVerification }] : []),
       ],
       links: [
@@ -137,7 +146,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-        { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap",
+        },
         ...(favicon ? [{ rel: "icon", href: favicon }] : []),
       ],
       scripts: [

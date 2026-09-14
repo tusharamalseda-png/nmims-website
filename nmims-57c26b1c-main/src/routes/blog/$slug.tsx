@@ -8,7 +8,8 @@ import { formatDate } from "@/lib/format-date";
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
     const post = await getBlogPostFn({ data: { slug: params.slug } });
-    const isScheduledForFuture = post?.scheduledFor && new Date(post.scheduledFor).getTime() > Date.now();
+    const isScheduledForFuture =
+      post?.scheduledFor && new Date(post.scheduledFor).getTime() > Date.now();
     if (!post || post.status !== "published" || isScheduledForFuture) throw notFound();
     return post;
   },
@@ -29,7 +30,10 @@ function BlogPostPage() {
       <Header />
       <main>
         <header className="relative overflow-hidden bg-[linear-gradient(135deg,#1f1b2e_0%,#2a2440_55%,#3a2f55_100%)] py-14 sm:py-20">
-          <div className="pointer-events-none absolute -left-32 top-10 h-96 w-96 rounded-full bg-[#ef4444]/20 blur-3xl" aria-hidden />
+          <div
+            className="pointer-events-none absolute -left-32 top-10 h-96 w-96 rounded-full bg-[#ef4444]/20 blur-3xl"
+            aria-hidden
+          />
           <div className="relative mx-auto max-w-3xl px-4 text-white sm:px-6 lg:px-8">
             {post.category && (
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wide backdrop-blur ring-1 ring-white/20">
@@ -51,7 +55,11 @@ function BlogPostPage() {
 
         <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
           {post.featuredImage && (
-            <img src={post.featuredImage} alt={post.title} className="mb-8 w-full rounded-2xl object-cover" />
+            <img
+              src={post.featuredImage}
+              alt={post.title}
+              className="mb-8 w-full rounded-2xl object-cover"
+            />
           )}
           <div className="prose-content space-y-4 text-muted-foreground">
             {post.content.split("\n\n").map((paragraph, i) => (

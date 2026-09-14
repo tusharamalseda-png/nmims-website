@@ -8,7 +8,10 @@ export const Route = createFileRoute("/share-your-story")({
   head: () => ({
     meta: [
       { title: "Share Your Story | NMIMS Online" },
-      { name: "description", content: "Tell other students about your experience with NMIMS CDOE admissions." },
+      {
+        name: "description",
+        content: "Tell other students about your experience with NMIMS CDOE admissions.",
+      },
       { name: "robots", content: "noindex, follow" },
     ],
   }),
@@ -48,12 +51,19 @@ function ShareStoryPage() {
           <div className="mt-8 flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-8 text-center shadow-card">
             <CheckCircle2 className="h-10 w-10 text-emerald-600" />
             <p className="font-bold text-foreground">Thank you!</p>
-            <p className="text-sm text-muted-foreground">Your story has been submitted for review.</p>
+            <p className="text-sm text-muted-foreground">
+              Your story has been submitted for review.
+            </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="mt-8 space-y-4 rounded-2xl border border-border bg-card p-6 shadow-card">
+          <form
+            onSubmit={handleSubmit}
+            className="mt-8 space-y-4 rounded-2xl border border-border bg-card p-6 shadow-card"
+          >
             <div>
-              <label className="mb-1 block text-xs font-semibold text-muted-foreground">Your Name</label>
+              <label className="mb-1 block text-xs font-semibold text-muted-foreground">
+                Your Name
+              </label>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -62,7 +72,9 @@ function ShareStoryPage() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold text-muted-foreground">Program (e.g. Online MBA - Finance)</label>
+              <label className="mb-1 block text-xs font-semibold text-muted-foreground">
+                Program (e.g. Online MBA - Finance)
+              </label>
               <input
                 value={designation}
                 onChange={(e) => setDesignation(e.target.value)}
@@ -70,17 +82,28 @@ function ShareStoryPage() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold text-muted-foreground">Rating</label>
+              <label className="mb-1 block text-xs font-semibold text-muted-foreground">
+                Rating
+              </label>
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((r) => (
-                  <button key={r} type="button" onClick={() => setRating(r)} aria-label={`${r} stars`}>
-                    <Star className={`h-6 w-6 ${r <= rating ? "fill-[color:var(--gold)] text-[color:var(--gold)]" : "text-muted"}`} />
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => setRating(r)}
+                    aria-label={`${r} stars`}
+                  >
+                    <Star
+                      className={`h-6 w-6 ${r <= rating ? "fill-[color:var(--gold)] text-[color:var(--gold)]" : "text-muted"}`}
+                    />
                   </button>
                 ))}
               </div>
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold text-muted-foreground">Your Story</label>
+              <label className="mb-1 block text-xs font-semibold text-muted-foreground">
+                Your Story
+              </label>
               <textarea
                 value={quote}
                 onChange={(e) => setQuote(e.target.value)}
