@@ -306,7 +306,7 @@ function SettingsPage() {
               <div>
                 <p className="text-sm font-semibold text-foreground">XML Sitemap</p>
                 <p className="text-xs text-muted-foreground">
-                  Auto-generated at /sitemap_index.xml from published pages &amp; posts.
+                  Auto-generated at /sitemap.xml from published pages &amp; posts.
                 </p>
               </div>
               <Switch
