@@ -55,7 +55,10 @@ export const Route = createFileRoute("/sitemap.xsl")({
     handlers: {
       GET: async () =>
         new Response(XSL, {
-          headers: { "Content-Type": "application/xslt+xml; charset=utf-8" },
+          headers: {
+            "Content-Type": "application/xslt+xml; charset=utf-8",
+            "Cache-Control": "no-cache, must-revalidate",
+          },
         }),
     },
   },
