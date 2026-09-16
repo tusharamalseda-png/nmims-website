@@ -18,6 +18,7 @@ import { listNavItemsFn } from "@/backend/navigation/actions";
 import { getRedirectFn } from "@/backend/redirects/actions";
 import { CookieConsent } from "@/components/site/CookieConsent";
 import { AnnouncementBar } from "@/components/site/AnnouncementBar";
+import { GtmNoscript } from "@/components/site/GtmNoscript";
 import { logNotFoundHitFn } from "@/backend/health/not-found";
 
 const DEFAULT_TITLE = "NMIMS Online | UGC-Entitled Online Degrees";
@@ -203,6 +204,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <GtmNoscript />
       <AnnouncementBar />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
