@@ -51,7 +51,10 @@ ${u.image ? `<image:image>\n<image:loc>${xmlEscape(u.image)}</image:loc>\n</imag
 </urlset>`;
 
         return new Response(body, {
-          headers: { "Content-Type": "application/xml; charset=utf-8" },
+          headers: {
+            "Content-Type": "application/xml; charset=utf-8",
+            "Cache-Control": "no-cache, must-revalidate",
+          },
         });
       },
     },

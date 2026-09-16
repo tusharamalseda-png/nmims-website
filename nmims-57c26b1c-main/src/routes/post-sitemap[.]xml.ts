@@ -40,7 +40,10 @@ ${p.featuredImage ? `<image:image>\n<image:loc>${xmlEscape(p.featuredImage)}</im
 </urlset>`;
 
         return new Response(body, {
-          headers: { "Content-Type": "application/xml; charset=utf-8" },
+          headers: {
+            "Content-Type": "application/xml; charset=utf-8",
+            "Cache-Control": "no-cache, must-revalidate",
+          },
         });
       },
     },
