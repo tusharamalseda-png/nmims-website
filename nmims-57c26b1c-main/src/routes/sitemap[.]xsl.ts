@@ -19,7 +19,7 @@ const XSL = `<?xml version="1.0" encoding="UTF-8"?>
   p { margin: 0 0 8px; line-height: 16px; }
   a.brand { color: #b3382c; font-weight: 700; text-decoration: none; }
   a.brand:hover { text-decoration: underline; }
-  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: inherit; font-family: inherit; }
   th { text-align: left; padding: 0 8px 6px 0; border-bottom: 1px solid #333; font-weight: 700; color: #333; }
   td { padding: 8px 8px 8px 0; }
   tr:nth-child(even) td { background: #f0f0f0; }
