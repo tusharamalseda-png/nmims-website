@@ -4,6 +4,7 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 
 const FROM = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL;
+const NOTIFY_EMAIL_CC = process.env.NOTIFY_EMAIL_CC;
 
 export async function sendNewLeadNotification(lead: {
   name: string;
@@ -18,6 +19,7 @@ export async function sendNewLeadNotification(lead: {
   return resend.emails.send({
     from: FROM,
     to: NOTIFY_EMAIL,
+    ...(NOTIFY_EMAIL_CC ? { cc: NOTIFY_EMAIL_CC } : {}),
     subject: `New enquiry: ${lead.name}${lead.program ? ` — ${lead.program}` : ""}`,
     html: `
       <h2>New website enquiry</h2>
