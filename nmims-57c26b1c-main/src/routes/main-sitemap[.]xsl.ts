@@ -12,17 +12,17 @@ const XSL = `<?xml version="1.0" encoding="UTF-8"?>
 <head>
 <title>XML Sitemap</title>
 <style>
-  body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #222; margin: 30px; background: #fff; }
+  body { font-family: Helvetica, Arial, sans-serif; font-size: 11px; color: #000; margin: 30px; background: #fff; }
   #sitemap { max-width: 1000px; margin: 0 auto; }
   h1 { font-size: 32px; font-weight: 700; margin: 0 0 20px; }
   p { margin: 0 0 10px; }
   a.brand { color: #b3382c; font-weight: 700; text-decoration: none; }
   a.brand:hover { text-decoration: underline; }
-  table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 16px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 24px; }
   th { text-align: left; padding: 12px 14px; border-bottom: 2px solid #333; font-weight: 700; }
   td { padding: 10px 14px; }
   tr:nth-child(even) td { background: #f0f0f0; }
-  td a { color: #333; text-decoration: none; }
+  td a { color: #000; text-decoration: none; }
   td a:hover { text-decoration: underline; }
 </style>
 </head>
