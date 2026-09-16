@@ -28,8 +28,7 @@ export const WA = "917069181188";
 export const waLink = (message: string) =>
   `https://wa.me/${WA}?text=${encodeURIComponent(message)}`;
 export const telLink = `tel:${PHONE}`;
-// TODO: replace with the real Calendly event link once available
-export const CALENDLY_LINK = "https://calendly.com/nmims-online/counseling";
+export const CALENDLY_LINK = "https://calendly.com/cdoe-info/30min";
 export const EMAIL = "ncdoe-026@nmims.edu";
 export const OFFICE_ADDRESS =
   "503, Sukhsagar Complex, Next to hotel fortune landmark, Ashram road, Ahmedabad, 380013";
