@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getSiteSettingsFn } from "@/backend/settings/actions";
 
-const DEFAULT_ROBOTS = "User-agent: *\nAllow: /\n\nSitemap: https://cdoe.info/sitemap.xml";
+const DEFAULT_ROBOTS = "User-agent: *\nAllow: /\n\nSitemap: https://cdoe.info/sitemap_index.xml";
 
 export const Route = createFileRoute("/robots.txt")({
   server: {

@@ -10,12 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as Sitemap_indexDotxmlRouteImport } from './routes/sitemap_index[.]xml'
+import { Route as SitemapDotxslRouteImport } from './routes/sitemap[.]xsl'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShareYourStoryRouteImport } from './routes/share-your-story'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as PostSitemapDotxmlRouteImport } from './routes/post-sitemap[.]xml'
+import { Route as PageSitemapDotxmlRouteImport } from './routes/page-sitemap[.]xml'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
+import { Route as MainSitemapDotxslRouteImport } from './routes/main-sitemap[.]xsl'
 import { Route as LpOnlineMbaRouteImport } from './routes/lp-online-mba'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as ContactUsRouteImport } from './routes/contact-us'
@@ -63,6 +68,16 @@ const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
   path: '/terms-of-service',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Sitemap_indexDotxmlRoute = Sitemap_indexDotxmlRouteImport.update({
+  id: '/sitemap_index.xml',
+  path: '/sitemap_index.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxslRoute = SitemapDotxslRouteImport.update({
+  id: '/sitemap.xsl',
+  path: '/sitemap.xsl',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -88,9 +103,24 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PostSitemapDotxmlRoute = PostSitemapDotxmlRouteImport.update({
+  id: '/post-sitemap.xml',
+  path: '/post-sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PageSitemapDotxmlRoute = PageSitemapDotxmlRouteImport.update({
+  id: '/page-sitemap.xml',
+  path: '/page-sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MaintenanceRoute = MaintenanceRouteImport.update({
   id: '/maintenance',
   path: '/maintenance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MainSitemapDotxslRoute = MainSitemapDotxslRouteImport.update({
+  id: '/main-sitemap.xsl',
+  path: '/main-sitemap.xsl',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LpOnlineMbaRoute = LpOnlineMbaRouteImport.update({
@@ -309,12 +339,17 @@ export interface FileRoutesByFullPath {
   '/contact-us': typeof ContactUsRoute
   '/disclaimer': typeof DisclaimerRoute
   '/lp-online-mba': typeof LpOnlineMbaRoute
+  '/main-sitemap.xsl': typeof MainSitemapDotxslRoute
   '/maintenance': typeof MaintenanceRoute
+  '/page-sitemap.xml': typeof PageSitemapDotxmlRoute
+  '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/share-your-story': typeof ShareYourStoryRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sitemap.xsl': typeof SitemapDotxslRoute
+  '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/admin': typeof AdminAuthedRouteRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
@@ -359,12 +394,17 @@ export interface FileRoutesByTo {
   '/contact-us': typeof ContactUsRoute
   '/disclaimer': typeof DisclaimerRoute
   '/lp-online-mba': typeof LpOnlineMbaRoute
+  '/main-sitemap.xsl': typeof MainSitemapDotxslRoute
   '/maintenance': typeof MaintenanceRoute
+  '/page-sitemap.xml': typeof PageSitemapDotxmlRoute
+  '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/share-your-story': typeof ShareYourStoryRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sitemap.xsl': typeof SitemapDotxslRoute
+  '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/inquiries': typeof ApiInquiriesRoute
@@ -409,12 +449,17 @@ export interface FileRoutesById {
   '/contact-us': typeof ContactUsRoute
   '/disclaimer': typeof DisclaimerRoute
   '/lp-online-mba': typeof LpOnlineMbaRoute
+  '/main-sitemap.xsl': typeof MainSitemapDotxslRoute
   '/maintenance': typeof MaintenanceRoute
+  '/page-sitemap.xml': typeof PageSitemapDotxmlRoute
+  '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/share-your-story': typeof ShareYourStoryRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sitemap.xsl': typeof SitemapDotxslRoute
+  '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/admin/_authed': typeof AdminAuthedRouteRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
@@ -461,12 +506,17 @@ export interface FileRouteTypes {
     | '/contact-us'
     | '/disclaimer'
     | '/lp-online-mba'
+    | '/main-sitemap.xsl'
     | '/maintenance'
+    | '/page-sitemap.xml'
+    | '/post-sitemap.xml'
     | '/privacy-policy'
     | '/refund-policy'
     | '/robots.txt'
     | '/share-your-story'
     | '/sitemap.xml'
+    | '/sitemap.xsl'
+    | '/sitemap_index.xml'
     | '/terms-of-service'
     | '/admin'
     | '/admin/login'
@@ -511,12 +561,17 @@ export interface FileRouteTypes {
     | '/contact-us'
     | '/disclaimer'
     | '/lp-online-mba'
+    | '/main-sitemap.xsl'
     | '/maintenance'
+    | '/page-sitemap.xml'
+    | '/post-sitemap.xml'
     | '/privacy-policy'
     | '/refund-policy'
     | '/robots.txt'
     | '/share-your-story'
     | '/sitemap.xml'
+    | '/sitemap.xsl'
+    | '/sitemap_index.xml'
     | '/terms-of-service'
     | '/admin/login'
     | '/api/inquiries'
@@ -560,12 +615,17 @@ export interface FileRouteTypes {
     | '/contact-us'
     | '/disclaimer'
     | '/lp-online-mba'
+    | '/main-sitemap.xsl'
     | '/maintenance'
+    | '/page-sitemap.xml'
+    | '/post-sitemap.xml'
     | '/privacy-policy'
     | '/refund-policy'
     | '/robots.txt'
     | '/share-your-story'
     | '/sitemap.xml'
+    | '/sitemap.xsl'
+    | '/sitemap_index.xml'
     | '/terms-of-service'
     | '/admin/_authed'
     | '/admin/login'
@@ -611,12 +671,17 @@ export interface RootRouteChildren {
   ContactUsRoute: typeof ContactUsRoute
   DisclaimerRoute: typeof DisclaimerRoute
   LpOnlineMbaRoute: typeof LpOnlineMbaRoute
+  MainSitemapDotxslRoute: typeof MainSitemapDotxslRoute
   MaintenanceRoute: typeof MaintenanceRoute
+  PageSitemapDotxmlRoute: typeof PageSitemapDotxmlRoute
+  PostSitemapDotxmlRoute: typeof PostSitemapDotxmlRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   ShareYourStoryRoute: typeof ShareYourStoryRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SitemapDotxslRoute: typeof SitemapDotxslRoute
+  Sitemap_indexDotxmlRoute: typeof Sitemap_indexDotxmlRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
   AdminAuthedRouteRoute: typeof AdminAuthedRouteRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
@@ -643,6 +708,20 @@ declare module '@tanstack/react-router' {
       path: '/terms-of-service'
       fullPath: '/terms-of-service'
       preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap_index.xml': {
+      id: '/sitemap_index.xml'
+      path: '/sitemap_index.xml'
+      fullPath: '/sitemap_index.xml'
+      preLoaderRoute: typeof Sitemap_indexDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xsl': {
+      id: '/sitemap.xsl'
+      path: '/sitemap.xsl'
+      fullPath: '/sitemap.xsl'
+      preLoaderRoute: typeof SitemapDotxslRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -680,11 +759,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/post-sitemap.xml': {
+      id: '/post-sitemap.xml'
+      path: '/post-sitemap.xml'
+      fullPath: '/post-sitemap.xml'
+      preLoaderRoute: typeof PostSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/page-sitemap.xml': {
+      id: '/page-sitemap.xml'
+      path: '/page-sitemap.xml'
+      fullPath: '/page-sitemap.xml'
+      preLoaderRoute: typeof PageSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/maintenance': {
       id: '/maintenance'
       path: '/maintenance'
       fullPath: '/maintenance'
       preLoaderRoute: typeof MaintenanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/main-sitemap.xsl': {
+      id: '/main-sitemap.xsl'
+      path: '/main-sitemap.xsl'
+      fullPath: '/main-sitemap.xsl'
+      preLoaderRoute: typeof MainSitemapDotxslRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lp-online-mba': {
@@ -1032,12 +1132,17 @@ const rootRouteChildren: RootRouteChildren = {
   ContactUsRoute: ContactUsRoute,
   DisclaimerRoute: DisclaimerRoute,
   LpOnlineMbaRoute: LpOnlineMbaRoute,
+  MainSitemapDotxslRoute: MainSitemapDotxslRoute,
   MaintenanceRoute: MaintenanceRoute,
+  PageSitemapDotxmlRoute: PageSitemapDotxmlRoute,
+  PostSitemapDotxmlRoute: PostSitemapDotxmlRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RefundPolicyRoute: RefundPolicyRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   ShareYourStoryRoute: ShareYourStoryRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SitemapDotxslRoute: SitemapDotxslRoute,
+  Sitemap_indexDotxmlRoute: Sitemap_indexDotxmlRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,
   AdminAuthedRouteRoute: AdminAuthedRouteRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,

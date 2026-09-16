@@ -304,7 +304,7 @@ const insertedSettings = await db
     socialLinks: {},
     disclaimerText:
       "cdoe.info is owned and operated by RH Academy, an Affiliate Enquiry Partner (AEP) for NMIMS Centre for Distance and Online Education (NMIMS CDOE). We provide enquiry assistance only. Admissions, fee collection, academics, examinations, results, and certification are solely managed by NMIMS CDOE.",
-    robotsTxt: "User-agent: *\nAllow: /\n\nSitemap: https://cdoe.info/sitemap.xml",
+    robotsTxt: "User-agent: *\nAllow: /\n\nSitemap: https://cdoe.info/sitemap_index.xml",
     analyticsIds: {},
     maintenanceMode: false,
   })
