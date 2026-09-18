@@ -57,13 +57,13 @@ export const Route = createFileRoute("/blog/abc-id-deb-id-guide-nmims-cdoe")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-              { "@type": "ListItem", position: 2, name: "Blog", item: "/blog" },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://cdoe.info/" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://cdoe.info/blog" },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: "ABC ID and DEB ID Guide",
-                item: "/blog/abc-id-deb-id-guide-nmims-cdoe",
+                item: "https://cdoe.info/blog/abc-id-deb-id-guide-nmims-cdoe",
               },
             ],
           }),

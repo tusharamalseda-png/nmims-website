@@ -57,13 +57,13 @@ export const Route = createFileRoute("/blog/is-online-mba-valid-ugc-equivalence"
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-              { "@type": "ListItem", position: 2, name: "Blog", item: "/blog" },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://cdoe.info/" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://cdoe.info/blog" },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: "Is an Online MBA Valid in India?",
-                item: "/blog/is-online-mba-valid-ugc-equivalence",
+                item: "https://cdoe.info/blog/is-online-mba-valid-ugc-equivalence",
               },
             ],
           }),

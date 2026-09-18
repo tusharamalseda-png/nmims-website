@@ -99,13 +99,18 @@ export const Route = createFileRoute("/programs/online-bcom")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-              { "@type": "ListItem", position: 2, name: "Programs", item: "/programs" },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://cdoe.info/" },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Programs",
+                item: "https://cdoe.info/programs",
+              },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: "Online B.Com",
-                item: "/programs/online-bcom",
+                item: "https://cdoe.info/programs/online-bcom",
               },
             ],
           }),

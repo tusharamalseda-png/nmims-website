@@ -55,13 +55,13 @@ export const Route = createFileRoute("/blog/nmims-online-mba-fees-emi-guide")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-              { "@type": "ListItem", position: 2, name: "Blog", item: "/blog" },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://cdoe.info/" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://cdoe.info/blog" },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: "NMIMS Online MBA Fees & EMI Guide",
-                item: "/blog/nmims-online-mba-fees-emi-guide",
+                item: "https://cdoe.info/blog/nmims-online-mba-fees-emi-guide",
               },
             ],
           }),

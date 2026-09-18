@@ -87,13 +87,18 @@ export const Route = createFileRoute("/programs/online-certificate")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-              { "@type": "ListItem", position: 2, name: "Programs", item: "/programs" },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://cdoe.info/" },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Programs",
+                item: "https://cdoe.info/programs",
+              },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: "Certificate Course",
-                item: "/programs/online-certificate",
+                item: "https://cdoe.info/programs/online-certificate",
               },
             ],
           }),
