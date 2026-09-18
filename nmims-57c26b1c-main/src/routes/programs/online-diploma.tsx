@@ -194,13 +194,14 @@ const curriculum = [
   },
   {
     track: "Marketing Management",
-    sem1: [...COMMON_SEM1, "Brand Management"],
+    sem1: COMMON_SEM1,
     sem2: [
       "Business Analytics",
       "Consumer Behaviour",
       "Legal Aspect of Business",
       "Sales Management",
       "Strategic Management",
+      "Brand Management",
     ],
   },
   {
@@ -229,13 +230,14 @@ const curriculum = [
   },
   {
     track: "Human Resource Management",
-    sem1: [...COMMON_SEM1, "Human Resource Management"],
+    sem1: COMMON_SEM1,
     sem2: [
       "Business Analytics",
       "Manpower Planning, Recruitment and Selection",
       "Legal Aspect of Business",
       "Performance Management System",
       "Strategic Management",
+      "Human Resource Management",
     ],
   },
 ];
